@@ -79,13 +79,31 @@ int main(void)
     }
 
     /* Game Loop */
+	int Data;
+	int paint_background = 0;
+
     while (1) {
         if (game_mode == 0) {
         /* Game Logic */
+			if (is_button1_pushed == 1){
+				game_mode = 1;
+			}
 
         /* text lcd Display */
 
         /* tft lcd Display */
+			if(paint_background == 0){
+				for (i = 0; i < 272; i++){
+					for (j = 0; j < 480; j++){ // make default background white
+						R = 0x0000001f;
+						G = 0x000007E0;
+						B = 0x0000001f;
+						Data = (B<<11)| G | R;
+						Xil_Out32(XPAR_TFTLCD_0_S00_AXI_BASEADDR + (j + 480*i)*4, Data);
+					}
+				}
+				paint_background = 1;
+			}
         }
         else if (game_mode == 1) {
         /* Game Logic */
@@ -101,8 +119,14 @@ int main(void)
 
         /* tft lcd Display */
         }
+		
+		is_button1_pushed = 0;
+		is_button2_pushed = 0;
+		is_button3_pushed = 0;
+		is_button4_pushed = 0;
 
         usleep(330000);
+
     }
 
     return 0;

@@ -54,6 +54,13 @@ struct game{
 
 game_t games[4];
 
+/* game functions */
+void game_check(game_t *game){
+// 가시 닿았냐(game_t *game)
+// 공 위치 변화하기(game_t *game)
+}
+
+
 int main(void)
 {
     /* buttion initlization */
@@ -90,22 +97,7 @@ int main(void)
         background_color[i].B = 63;
     }
 
-    /* Game initlization */
 
-    for (int i=0; i < 4; i++){
-        games[i].is_game_exist = 0;
-
-        games[i].ball_y_position = 0;
-        games[i].ball_y_speed = 0;
-        games[i].is_ball_jumping = 0;
-
-        games[i].is_spike_exist = 0;
-        games[i].spike_x_position = 0;
-        games[i].spike_x_speed = 0;
-
-        games[i].game_number = i;
-        games[i].game_background_color = background_color[i];
-    }
 
     /* Game Loop */
 	int Data;
@@ -115,6 +107,25 @@ int main(void)
         if (game_mode == 0) {
         /* Game Logic */
 			if (is_button1_pushed == 1){
+                /* Variable init */
+
+                
+                for (int i=0; i < 4; i++){
+                    games[i].is_game_exist = 0;
+
+                    games[i].ball_y_position = 0;
+                    games[i].ball_y_speed = 0;
+                    games[i].is_ball_jumping = 0;
+
+                    games[i].is_spike_exist = 0;
+                    games[i].spike_x_position = 0;
+                    games[i].spike_x_speed = 0;
+
+                    games[i].game_number = i;
+                    games[i].game_background_color = background_color[i];
+                }
+
+
 				game_mode = 1;
 			}
 
@@ -135,19 +146,25 @@ int main(void)
 			}
         }
         else if (game_mode == 1) {
-        /* Game Logic */
-        
+            /* Game Logic */
+            game_score++;
+            
+            for (int i = 0; i < 4; i++){
+                /* functions */
+                game_check(games[i])
+            }
+            
 
-        /* text lcd Display */
+            /* text lcd Display */
 
-        /* tft lcd Display */
+            /* tft lcd Display */
         }
         else {  // game_mode == 2
-        /* Game Logic */
+            /* Game Logic */
 
-        /* text lcd Display */
+            /* text lcd Display */
 
-        /* tft lcd Display */
+            /* tft lcd Display */
         }
 		
 		is_button1_pushed = 0;

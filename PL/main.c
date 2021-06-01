@@ -122,13 +122,13 @@ int main(void)
 
         /* tft lcd Display */
 			if(paint_background == 0){
+				rgb_t main_background_color;
+				main_background_color.R = 0;
+				main_background_color.G = 0;
+				main_background_color.B = 0;
 				for (i = 0; i < 272; i++){
 					for (j = 0; j < 480; j++){ // make default background white
-						R = 0x0000001f;
-						G = 0x000007E0;
-						B = 0x0000001f;
-						Data = (B<<11)| G | R;
-						Xil_Out32(XPAR_TFTLCD_0_S00_AXI_BASEADDR + (j + 480*i)*4, Data);
+						Xil_Out32(XPAR_TFTLCD_0_S00_AXI_BASEADDR + (j + 480*i)*4, complie_rgb(main_background_color));
 					}
 				}
 				paint_background = 1;

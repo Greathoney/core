@@ -26,7 +26,6 @@ int game_count = 0;  // how many game
 
 int ball_color = 0x0000000000000000;
 int stage_color = 0x0000000000000000;
-game_t games[4];
 
 struct game{
     int is_game_exist;
@@ -43,6 +42,7 @@ struct game{
     int game_background_color; // TODO: change 16bit
 } game_t;
 
+game_t games[4];
 
 int main(void)
 {
@@ -73,19 +73,36 @@ int main(void)
         games[i].is_spike_exist = 0;
         games[i].spike_x_position = 0;
         games[i].spike_x_speed = 0;
-        
+
         games[i].game_number = i;
         games[i].game_background_color = 0x1111111111111111;
     }
 
     /* Game Loop */
     while (1) {
+        if (game_mode == 0) {
         /* Game Logic */
 
         /* text lcd Display */
 
         /* tft lcd Display */
+        }
+        else if (game_mode == 1) {
+        /* Game Logic */
 
+        /* text lcd Display */
+
+        /* tft lcd Display */
+        }
+        else {  // game_mode == 2
+        /* Game Logic */
+
+        /* text lcd Display */
+
+        /* tft lcd Display */
+        }
+
+        usleep(330000);
     }
 
     return 0;

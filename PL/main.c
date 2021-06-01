@@ -24,8 +24,18 @@ int game_mode = 0;  // 0: game ready, 1: game playing 2: game over
 int game_score = 0;  // unit: 1/30 second
 int game_count = 0;  // how many game
 
-int ball_color = 0x0000000000000000;
-int stage_color = 0x0000000000000000;
+/* Customizable Parameter */
+const fps_delay = 330000;  // unit: ms
+
+struct rgb{
+    int R;
+    int G;
+    int B;
+}rgb_t;
+
+short short int complie_rgb(rgb_t rgb_data){
+    return (B < 11 | G | R);
+}
 
 struct game{
     int is_game_exist;
@@ -61,6 +71,25 @@ int main(void)
 
     /* tft lcd initlization */
 
+
+    /* Customizable Local Parameter */
+    rgb_t ball_color;
+    ball_color.R = 0;
+    ball_color.G = 0;
+    ball_color.B = 0;
+
+    rgb_t stage_color;
+    stage_color.R = 0;
+    stage_color.G = 0;
+    stage_color.B = 0;
+
+    rgb_t background_color[4];
+    for (int i = 0; i < 4; i++){
+        background_color[i].R = 63;
+        background_color[i].G = 127;
+        background_color[i].B = 63;
+    }
+
     /* Game initlization */
 
     for (int i=0; i < 4; i++){
@@ -75,7 +104,7 @@ int main(void)
         games[i].spike_x_speed = 0;
 
         games[i].game_number = i;
-        games[i].game_background_color = 0x1111111111111111;
+        games[i].game_background_color = background_color[i];
     }
 
     /* Game Loop */
@@ -107,6 +136,7 @@ int main(void)
         }
         else if (game_mode == 1) {
         /* Game Logic */
+        
 
         /* text lcd Display */
 
@@ -125,10 +155,7 @@ int main(void)
 		is_button3_pushed = 0;
 		is_button4_pushed = 0;
 
-        usleep(330000);
-
-    }
-
+        usleep(fps_delay);
     return 0;
 }
 

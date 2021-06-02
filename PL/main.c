@@ -25,7 +25,7 @@ int game_score = 0;  // unit: 1/30 second
 int game_count = 0;  // how many game
 
 /* Customizable Parameter */
-const fps_delay = 330000;  // unit: ms
+const fps_delay = 330000;  // unit: micro second
 
 struct rgb{
     int R;

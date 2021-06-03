@@ -14,11 +14,15 @@
 
 #include "sleep.h"
 
+/* Fixed Parameter */
 #define DISPLAY_WIDTH = 480;
 #define DISPLAY_HEIGHT = 272;
 #define STAGE_WIDTH = 100;
 #define STAGE_HEIGHT = 10;
 #define BALL_SIZE = 10;
+
+/* Customizable Parameter */
+const fps_delay = 330000;  // unit: micro second
 
 /* Global Variables */
 int is_button1_pushed = 0;
@@ -29,9 +33,6 @@ int is_button4_pushed = 0;
 int game_mode = 0;  // 0: game ready, 1: game playing 2: game over
 int game_score = 0;  // unit: 1/30 second
 int game_count = 0;  // how many game
-
-/* Customizable Parameter */
-const fps_delay = 330000;  // unit: micro second
 
 struct rgb{
     int R;

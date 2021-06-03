@@ -190,7 +190,7 @@ int main(void)
 				default:
 					break;
 			}
-
+			
             /* text lcd Display */
 
             /* tft lcd Display */

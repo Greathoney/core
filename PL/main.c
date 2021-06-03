@@ -33,7 +33,7 @@ struct rgb{
     int B;
 }rgb_t;
 
-short short int complie_rgb(rgb_t rgb_data){
+short short int compile_rgb(rgb_t rgb_data){
     return (B < 11 | G | R);
 }
 
@@ -139,7 +139,7 @@ int main(void)
 				main_background_color.B = 0;
 				for (i = 0; i < 272; i++){
 					for (j = 0; j < 480; j++){ // make default background white
-						Xil_Out32(XPAR_TFTLCD_0_S00_AXI_BASEADDR + (j + 480*i)*4, complie_rgb(main_background_color));
+						Xil_Out32(XPAR_TFTLCD_0_S00_AXI_BASEADDR + (j + 480*i)*4, compile_rgb(main_background_color));
 					}
 				}
 				paint_background = 1;

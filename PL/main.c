@@ -14,6 +14,12 @@
 
 #include "sleep.h"
 
+#define DISPLAY_WIDTH = 480;
+#define DISPLAY_HEIGHT = 272;
+#define STAGE_WIDTH = 100;
+#define STAGE_HEIGHT = 10;
+#define BALL_SIZE = 10;
+
 /* Global Variables */
 int is_button1_pushed = 0;
 int is_button2_pushed = 0;
@@ -39,6 +45,9 @@ short short int compile_rgb(rgb_t rgb_data){
 
 struct game{
     int is_game_exist;
+
+	int stage_x_position;
+	int stage_y_position;
 
     double ball_y_position;
     double ball_y_speed;
@@ -113,6 +122,9 @@ int main(void)
                 for (int i=0; i < 4; i++){
                     games[i].is_game_exist = 0;
 
+					games[i].stage_x_position = 0;
+					games[i].stage_y_position = 0;
+
                     games[i].ball_y_position = 0;
                     games[i].ball_y_speed = 0;
                     games[i].is_ball_jumping = 0;
@@ -155,9 +167,35 @@ int main(void)
             }
             
 
+			switch (game_count){	// stage position for total game number
+				case 1:
+					games[0].stage_x_position = (DISPLAY_WIDTH - STAGE_WIDTH) / 2;
+					games[0].stage_y_position = (DISPLAY_HEIGHT - STAGE_HEIGHT) / 2;
+					break;
+				case 2:
+					games[0].stage_x_position = ((DISPLAY_WIDTH / 2) - STAGE_WIDTH)) / 2;
+					games[1].stage_x_position = (DISPLAY_WIDTH - (DISPLAY_WIDTH / 4)) - (STAGE_WIDTH / 2);
+					games[1].stage_y_position = (DISPLAY_HEIGHT - STAGE_HEIGHT) / 2;
+					break;
+				case 3:
+					games[0].stage_y_position = (DISPLAY_HEIGHT / 4) - (STAGE_HEIGHT / 2);
+					games[2].stage_x_position = (DISPLAY_WIDTH - STAGE_WIDTH) / 2;
+					games[2].stage_y_position = (DISPLAY_HEIGHT - (DISPLAY_HEIGHT / 4)) - (STAGE_HEIGHT / 2);
+					break;
+				case 4:
+					games[1].stage_y_position = (DISPLAY_HEIGHT / 4) - (STAGE_HEIGHT / 2);
+					games[3].stage_x_position = (DISPLAY_WIDTH - (DISPLAY_WIDTH / 4)) - (STAGE_WIDTH / 2);
+					games[3].stage_y_position = (DISPLAY_HEIGHT - (DISPLAY_HEIGHT / 4)) - (STAGE_HEIGHT / 2);
+					break;
+				default:
+					break;
+			}
+
             /* text lcd Display */
 
             /* tft lcd Display */
+			
+
         }
         else {  // game_mode == 2
             /* Game Logic */
@@ -172,7 +210,7 @@ int main(void)
 		is_button3_pushed = 0;
 		is_button4_pushed = 0;
 
-        usleep(fps_delay);
+        usleep(fps_delay);     // 1/30 sec (=33msec)
     return 0;
 }
 

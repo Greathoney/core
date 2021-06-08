@@ -80,7 +80,7 @@ void game_check(game_t *game){
 	if(!game.is_spike_exist){
 		game.is_spike_exist = ((rand()%2) == 1));
 		game.spike_x_position = game.stage_x_position + STAGE_WIDTH - SPIKE_SIZE;
-		game.spike_x_speed = 2;
+		game.spike_x_speed = 2; // 소수 변환 필요 
 	}
 	// 가시 위치
 	if(game.is_spike_exist){

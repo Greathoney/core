@@ -67,20 +67,19 @@ game_t games[4];
 
 /* game functions */
 void game_check(game_t *game){
-	// 가시 닿았냐(game_t *game)
+
 	if(game.is_game_exist){
 		if( ((game.stage_x_position BALL_OFFSET - BALL_SIZE) <= game.spike_x_position < (game.stage_x_position + BALL_OFFSET + BALL_SIZE))
 			&& (game.ball_y_position + BALL_SIZE) > (game.stage_y_position - BALL_SIZE)){
 			game_mode = 2;
 		}
 	}
-	// 공 위치 변화하기(game_t *game)
-	// 가시 생성
+
 	if(!game.is_spike_exist){
 		game.is_spike_exist = ((rand()%2) == 1));
 		
 	}
-	// 가시 위치
+
 }
 
 
@@ -283,11 +282,11 @@ int GicConfigure(u16 DeviceId)
 
 void ServiceRoutine(void *CallbackRef)
 {
-	char pb; //푸占쏙옙占쏙옙튼
+	char pb;
 
-	pb = PUSHBUTTON_mReadReg(XPAR_PUSHBUTTON_0_S00_AXI_BASEADDR, 0); //푸占쏙옙占쏙옙튼 占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙 占싻깍옙
+	pb = PUSHBUTTON_mReadReg(XPAR_PUSHBUTTON_0_S00_AXI_BASEADDR, 0);
 
-	PUSHBUTTON_mWriteReg(XPAR_PUSHBUTTON_0_S00_AXI_BASEADDR, 0, 0); //푸占쏙옙占쏙옙튼 占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙 0占쏙옙占쏙옙 占십깍옙화 (占쏙옙占쏙옙占쌉쇽옙占쏙옙 占쏙옙占싣곤옙占쏙옙 占쏙옙占쏙옙)
+	PUSHBUTTON_mWriteReg(XPAR_PUSHBUTTON_0_S00_AXI_BASEADDR, 0, 0);
 
 	if ((pb & 1) == 1){
         is_button1_pushed = 1;

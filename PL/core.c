@@ -36,9 +36,9 @@ int game_score = 0;  // unit: 1/30 second
 int game_count = 0;  // how many game
 
 struct rgb{
-    int R;
-    int G;
-    int B;
+    int R; // 0 ~ 31
+    int G; // 0 ~ 63
+    int B; // 0 ~ 31
 }rgb_t;
 
 short short int compile_rgb(rgb_t rgb_data){

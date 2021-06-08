@@ -108,6 +108,7 @@ void ball_jump_check(game_t *);
 void is_spike_touched(game_t *);
 void change_ball_position(game_t *);
 void generate_spike(game_t *);
+void remove_spike(game_t *);
 void change_spike_position(game_t *);
 
 int main(void)

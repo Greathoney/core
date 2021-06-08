@@ -23,7 +23,7 @@
 #define STAGE_WIDTH = 100;
 #define STAGE_HEIGHT = 10;
 #define BALL_SIZE = 10;
-#define SPIKE_SIZE = 10;
+#define SPIKE_SIZE = 5;
 #define BALL_OFFSET = 10;
 
 int GicConfigure(u16 DeviceId);
@@ -77,18 +77,37 @@ game_t games[4];
 
 /* game functions */
 void game_check(game_t *game){
-
-	if(game.is_game_exist){
-		if( ((game.stage_x_position + BALL_OFFSET - BALL_SIZE) <= game.spike_x_position < (game.stage_x_position + BALL_OFFSET + BALL_SIZE))
-			&& (game.ball_y_position + BALL_SIZE) > (game.stage_y_position - SPIKE_SIZE)){
+	//가시 닿았냐(game_t *game)
+	if(game->is_game_exist){
+		if( ((game->stage_x_position + BALL_OFFSET - BALL_SIZE) <= game->spike_x_position < (game->stage_x_position + BALL_OFFSET + BALL_SIZE))
+			&& (game->ball_y_position + BALL_SIZE) > (game->stage_y_position - SPIKE_SIZE)){
 			game_mode = 2;
 		}
 	}
-
-	if(!game.is_spike_exist){
-		game.is_spike_exist = ((rand()%2) == 1));
-		game.spike_x_position = game.stage_x_position + STAGE_WIDTH - SPIKE_SIZE;
-		game.spike_x_speed = 2; // �냼�닔 蹂��솚 �븘�슂
+	// 공 위치 변화하기(game_t *game)
+	if(game->is_ball_jumping){
+		game->ball_y_position -= game->ball_y_speed;
+		game->ball_y_speed -= 0.1;
+		if(game->ball_y_position <= (game->stage_y_position - 15)){
+			game->ball_y_speed *= (-1);
+		};
+		else if(game->ball_y_position >= game->stage_y_position){
+			game->ball_y_position = game->stage_y_position
+			game->is_ball_jumping = 0;
+		}
+	}
+	// 가시 생성
+	if(!game->is_spike_exist){
+		game->is_spike_exist = ((rand()%2) == 1));
+		game->spike_x_position = game->stage_x_position + STAGE_WIDTH - SPIKE_SIZE;
+		game->spike_x_speed = 0.7;
+	}
+	// 가시 위치
+	if(game->is_spike_exist){
+		game->spike_x_position -= game->spike_x_speed;
+		if(game->spike_x_position < game->stage_x_position){
+			game->is_spike_exist = 0;
+		}
 	}
 }
 
@@ -186,8 +205,9 @@ int main(void)
         else if (game_mode == 1) {
             /* Game Logic */
             game_score++;
-
-			switch (game_count){	// stage position for total game number
+            
+			// stage position for total game number
+			switch (game_count){	
 				case 1:
 					games[0].stage_x_position = (DISPLAY_WIDTH - STAGE_WIDTH) / 2;
 					games[0].stage_y_position = (DISPLAY_HEIGHT - STAGE_HEIGHT) / 2;
@@ -209,6 +229,24 @@ int main(void)
 					break;
 				default:
 					break;
+			}	
+			
+			// button check
+			if(is_button1_pushed = 1){
+				games[0].is_ball_jumping = 1;
+				games[0].ball_y_speed = 2;
+			}
+			if(is_button2_pushed = 1){
+				games[1].is_ball_jumping = 1;
+				games[1].ball_y_speed = 2;
+			}
+			if(is_button3_pushed = 1){
+				games[2].is_ball_jumping = 1;
+				games[2].ball_y_speed = 2;
+			}
+			if(is_button4_pushed = 1){
+				games[3].is_ball_jumping = 1;
+				games[3].ball_y_speed = 2;
 			}
 
 			for (int i = 0; i < 4; i++){

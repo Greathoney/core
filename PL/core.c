@@ -78,35 +78,35 @@ game_t games[4];
 /* game functions */
 void game_check(game_t *game){
 	//가시 닿았냐(game_t *game)
-	if(game.is_game_exist){
-		if( ((game.stage_x_position + BALL_OFFSET - BALL_SIZE) <= game.spike_x_position < (game.stage_x_position + BALL_OFFSET + BALL_SIZE))
-			&& (game.ball_y_position + BALL_SIZE) > (game.stage_y_position - SPIKE_SIZE)){
+	if(game->is_game_exist){
+		if( ((game->stage_x_position + BALL_OFFSET - BALL_SIZE) <= game->spike_x_position < (game->stage_x_position + BALL_OFFSET + BALL_SIZE))
+			&& (game->ball_y_position + BALL_SIZE) > (game->stage_y_position - SPIKE_SIZE)){
 			game_mode = 2;
 		}
 	}
 	// 공 위치 변화하기(game_t *game)
-	if(game.is_ball_jumping){
-		game.ball_y_position -= game.ball_y_speed;
-		game.ball_y_speed -= 0.1;
-		if(game.ball_y_position <= (game.stage_y_position - 15)){
-			game.ball_y_speed *= (-1);
+	if(game->is_ball_jumping){
+		game->ball_y_position -= game->ball_y_speed;
+		game->ball_y_speed -= 0.1;
+		if(game->ball_y_position <= (game->stage_y_position - 15)){
+			game->ball_y_speed *= (-1);
 		};
-		else if(game.ball_y_position >= game.stage_y_position){
-			game.ball_y_position = game.stage_y_position
-			game.is_ball_jumping = 0;
+		else if(game->ball_y_position >= game->stage_y_position){
+			game->ball_y_position = game->stage_y_position
+			game->is_ball_jumping = 0;
 		}
 	}
 	// 가시 생성
-	if(!game.is_spike_exist){
-		game.is_spike_exist = ((rand()%2) == 1));
-		game.spike_x_position = game.stage_x_position + STAGE_WIDTH - SPIKE_SIZE;
-		game.spike_x_speed = 0.7;
+	if(!game->is_spike_exist){
+		game->is_spike_exist = ((rand()%2) == 1));
+		game->spike_x_position = game->stage_x_position + STAGE_WIDTH - SPIKE_SIZE;
+		game->spike_x_speed = 0.7;
 	}
 	// 가시 위치
-	if(game.is_spike_exist){
-		game.spike_x_position -= game.spike_x_speed;
-		if(game.spike_x_position < game.stage_x_position){
-			game.is_spike_exist = 0;
+	if(game->is_spike_exist){
+		game->spike_x_position -= game->spike_x_speed;
+		if(game->spike_x_position < game->stage_x_position){
+			game->is_spike_exist = 0;
 		}
 	}
 }

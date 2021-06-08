@@ -23,7 +23,7 @@
 #define STAGE_WIDTH = 100;
 #define STAGE_HEIGHT = 10;
 #define BALL_SIZE = 10;
-#define SPIKE_SIZE = 5;
+#define SPIKE_SIZE = 10;
 #define BALL_OFFSET = 10;
 
 int GicConfigure(u16 DeviceId);
@@ -33,7 +33,7 @@ XScuGic InterruptController; 	     // Instance of the Interrupt Controller
 static XScuGic_Config *GicConfig;    // The configuration parameters of the controller
 
 /* Customizable Parameter */
-const int fps_delay = 33000;  // unit: micro second
+const fps_delay = 33000;  // unit: micro second
 
 /* Global Variables */
 int is_button1_pushed = 0;
@@ -77,38 +77,19 @@ game_t games[4];
 
 /* game functions */
 void game_check(game_t *game){
-	//가시 닿았냐(game_t *game)
-	if(game.is_game_exist){
-		if( ((game.stage_x_position + BALL_OFFSET - BALL_SIZE) <= game.spike_x_position < (game.stage_x_position + BALL_OFFSET + BALL_SIZE))
-			&& (game.ball_y_position + BALL_SIZE) > (game.stage_y_position - SPIKE_SIZE)){
-			game_mode = 2;
-		}
-	}
-	// 공 위치 변화하기(game_t *game)
-	if(game.is_ball_jumping){
-		game.ball_y_position -= game.ball_y_speed;
-		game.ball_y_speed -= 0.1;
-		if(game.ball_y_position <= (game.stage_y_position - 15)){
-			game.ball_y_speed *= (-1);
-		};
-		else if(game.ball_y_position >= game.stage_y_position){
-			game.ball_y_position = game.stage_y_position
-			game.is_ball_jumping = 0;
-		}
-	}
-	// 가시 생성
-	if(!game.is_spike_exist){
-		game.is_spike_exist = ((rand()%2) == 1));
-		game.spike_x_position = game.stage_x_position + STAGE_WIDTH - SPIKE_SIZE;
-		game.spike_x_speed = 0.7;
-	}
-	// 가시 위치
-	if(game.is_spike_exist){
-		game.spike_x_position -= game.spike_x_speed;
-		if(game.spike_x_position < game.stage_x_position){
-			game.is_spike_exist = 0;
-		}
-	}
+
+//	if(game.is_game_exist){
+//		if( ((game.stage_x_position + BALL_OFFSET - BALL_SIZE) <= game.spike_x_position < (game.stage_x_position + BALL_OFFSET + BALL_SIZE))
+//			&& (game.ball_y_position + BALL_SIZE) > (game.stage_y_position - SPIKE_SIZE)){
+//			game_mode = 2;
+//		}
+//	}
+//
+//	if(!game.is_spike_exist){
+//		game.is_spike_exist = ((rand()%2) == 1));
+//		game.spike_x_position = game.stage_x_position + STAGE_WIDTH - SPIKE_SIZE;
+//		game.spike_x_speed = 2; // �냼�닔 蹂��솚 �븘�슂
+//	}
 }
 
 
@@ -159,7 +140,7 @@ int main(void)
         /* Game Logic */
 			if (is_button1_pushed == 1){
                 /* Variable init */
-				//xil_printf("button pushed\r\n");
+
 
                 for (int i=0; i < 4; i++){
                     games[i].is_game_exist = 0;
@@ -188,7 +169,7 @@ int main(void)
         /* tft lcd Display */
 			if(paint_background == 0){
 				rgb_t main_background_color;
-				main_background_color.R = 31;
+				main_background_color.R = 0;
 				main_background_color.G = 0;
 				main_background_color.B = 0;
 				for (int i = 0; i < 272; i++){
@@ -202,48 +183,29 @@ int main(void)
         else if (game_mode == 1) {
             /* Game Logic */
             game_score++;
-            
-			// stage position for total game number
-			switch (game_count){	
-				case 1:
-					games[0].stage_x_position = (DISPLAY_WIDTH - STAGE_WIDTH) / 2;
-					games[0].stage_y_position = (DISPLAY_HEIGHT - STAGE_HEIGHT) / 2;
-					break;
-				case 2:
-					games[0].stage_x_position = ((DISPLAY_WIDTH / 2) - STAGE_WIDTH)) / 2;
-					games[1].stage_x_position = (DISPLAY_WIDTH - (DISPLAY_WIDTH / 4)) - (STAGE_WIDTH / 2);
-					games[1].stage_y_position = (DISPLAY_HEIGHT - STAGE_HEIGHT) / 2;
-					break;
-				case 3:
-					games[0].stage_y_position = (DISPLAY_HEIGHT / 4) - (STAGE_HEIGHT / 2);
-					games[2].stage_x_position = (DISPLAY_WIDTH - STAGE_WIDTH) / 2;
-					games[2].stage_y_position = (DISPLAY_HEIGHT - (DISPLAY_HEIGHT / 4)) - (STAGE_HEIGHT / 2);
-					break;
-				case 4:
-					games[1].stage_y_position = (DISPLAY_HEIGHT / 4) - (STAGE_HEIGHT / 2);
-					games[3].stage_x_position = (DISPLAY_WIDTH - (DISPLAY_WIDTH / 4)) - (STAGE_WIDTH / 2);
-					games[3].stage_y_position = (DISPLAY_HEIGHT - (DISPLAY_HEIGHT / 4)) - (STAGE_HEIGHT / 2);
-					break;
+
+			switch (game_count){	// stage position for total game number
+//				case 1:
+//					games[0].stage_x_position = (DISPLAY_WIDTH - STAGE_WIDTH) / 2;
+//					games[0].stage_y_position = (DISPLAY_HEIGHT - STAGE_HEIGHT) / 2;
+//					break;
+//				case 2:
+//					games[0].stage_x_position = ((DISPLAY_WIDTH / 2) - STAGE_WIDTH)) / 2;
+//					games[1].stage_x_position = (DISPLAY_WIDTH - (DISPLAY_WIDTH / 4)) - (STAGE_WIDTH / 2);
+//					games[1].stage_y_position = (DISPLAY_HEIGHT - STAGE_HEIGHT) / 2;
+//					break;
+//				case 3:
+//					games[0].stage_y_position = (DISPLAY_HEIGHT / 4) - (STAGE_HEIGHT / 2);
+//					games[2].stage_x_position = (DISPLAY_WIDTH - STAGE_WIDTH) / 2;
+//					games[2].stage_y_position = (DISPLAY_HEIGHT - (DISPLAY_HEIGHT / 4)) - (STAGE_HEIGHT / 2);
+//					break;
+//				case 4:
+//					games[1].stage_y_position = (DISPLAY_HEIGHT / 4) - (STAGE_HEIGHT / 2);
+//					games[3].stage_x_position = (DISPLAY_WIDTH - (DISPLAY_WIDTH / 4)) - (STAGE_WIDTH / 2);
+//					games[3].stage_y_position = (DISPLAY_HEIGHT - (DISPLAY_HEIGHT / 4)) - (STAGE_HEIGHT / 2);
+//					break;
 				default:
 					break;
-			}	
-			
-			// button check
-			if(is_button1_pushed = 1){
-				games[0].is_ball_jumping = 1;
-				games[0].ball_y_speed = 2;
-			}
-			if(is_button2_pushed = 1){
-				games[1].is_ball_jumping = 1;
-				games[1].ball_y_speed = 2;
-			}
-			if(is_button3_pushed = 1){
-				games[2].is_ball_jumping = 1;
-				games[2].ball_y_speed = 2;
-			}
-			if(is_button4_pushed = 1){
-				games[3].is_ball_jumping = 1;
-				games[3].ball_y_speed = 2;
 			}
 
 			for (int i = 0; i < 4; i++){
@@ -271,7 +233,6 @@ int main(void)
 		is_button4_pushed = 0;
 
         usleep(fps_delay);     // 1/30 sec (=33msec)
-    }
     return 0;
 }
 

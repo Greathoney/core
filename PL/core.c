@@ -42,7 +42,7 @@ int is_button3_pushed = 0;
 int is_button4_pushed = 0;
 
 int game_mode = 0;  // 0: game ready, 1: game playing 2: game over
-int game_score = 0;  // unit: 1/30 second
+int playtime ;
 int game_count = 0;  // how many game
 
 typedef struct rgb{
@@ -111,7 +111,6 @@ void game_check(game_t *game){
 	}
 }
 
-
 int main(void)
 {
     /* buttion initlization */
@@ -164,6 +163,7 @@ int main(void)
 				TEXTLCD_2_mWriteReg(XPAR_TEXTLCD_2_0_S00_AXI_BASEADDR, 0, 0x00000005);
 				TEXTLCD_2_mWriteReg(XPAR_TEXTLCD_2_0_S00_AXI_BASEADDR, 0, 0x00000001);
 
+
                 for (int i=0; i < 4; i++){
                     games[i].is_game_exist = 0;
 
@@ -204,10 +204,13 @@ int main(void)
         }
         else if (game_mode == 1) {
             /* Game Logic */
-            game_score++;
-            
-			// stage position for total game number
-			switch (game_count){	
+            playtime = TEXTLCD_2_mReadReg(XPAR_TEXTLCD_2_0_S00_AXI_BASEADDR, 4);
+            playtime = ( (playtime & 0x00000F00) >> 8 )*60 +( (playtime & 0x000000F0) >> 4 )*10 +(playtime & 0x0000000F);
+            xil_printf("playtime : (16 radix)%xsec (10 radix)%dsec \r\n",playtime);
+
+
+
+			switch (game_count){	// stage position for total game number
 				case 1:
 					games[0].stage_x_position = (DISPLAY_WIDTH - STAGE_WIDTH) / 2;
 					games[0].stage_y_position = (DISPLAY_HEIGHT - STAGE_HEIGHT) / 2;
@@ -229,8 +232,8 @@ int main(void)
 					break;
 				default:
 					break;
-			}	
-			
+			}
+
 			// button check
 			if(is_button1_pushed = 1){
 				games[0].is_ball_jumping = 1;
@@ -248,6 +251,7 @@ int main(void)
 				games[3].is_ball_jumping = 1;
 				games[3].ball_y_speed = 2;
 			}
+
 
 			for (int i = 0; i < 4; i++){
                 /* functions */

@@ -140,7 +140,10 @@ int main(void)
         /* Game Logic */
 			if (is_button1_pushed == 1){
                 /* Variable init */
-				//xil_printf("button pushed\r\n");
+				//Text lcd game play
+				xil_printf("\r\nS1 Switch is pushed\r\n");
+				TEXTLCD_2_mWriteReg(XPAR_TEXTLCD_2_0_S00_AXI_BASEADDR, 0, 0x00000005);
+				TEXTLCD_2_mWriteReg(XPAR_TEXTLCD_2_0_S00_AXI_BASEADDR, 0, 0x00000001);
 
                 for (int i=0; i < 4; i++){
                     games[i].is_game_exist = 0;

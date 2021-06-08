@@ -23,7 +23,7 @@
 #define BALL_OFFSET = 10;
 
 /* Customizable Parameter */
-const fps_delay = 330000;  // unit: micro second
+const fps_delay = 33000;  // unit: micro second
 
 /* Global Variables */
 int is_button1_pushed = 0;

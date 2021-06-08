@@ -42,7 +42,7 @@ struct rgb{
 }rgb_t;
 
 short short int compile_rgb(rgb_t rgb_data){
-    return (B < 11 | G | R);
+    return (B << 11 | G << 5 | R);
 }
 
 struct game{
@@ -283,11 +283,11 @@ int GicConfigure(u16 DeviceId)
 
 void ServiceRoutine(void *CallbackRef)
 {
-	char pb; //Ǫ����ư
+	char pb; //푸占쏙옙占쏙옙튼
 
-	pb = PUSHBUTTON_mReadReg(XPAR_PUSHBUTTON_0_S00_AXI_BASEADDR, 0); //Ǫ����ư �������� �� �б�
+	pb = PUSHBUTTON_mReadReg(XPAR_PUSHBUTTON_0_S00_AXI_BASEADDR, 0); //푸占쏙옙占쏙옙튼 占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙 占싻깍옙
 
-	PUSHBUTTON_mWriteReg(XPAR_PUSHBUTTON_0_S00_AXI_BASEADDR, 0, 0); //Ǫ����ư �������� �� 0���� �ʱ�ȭ (�����Լ��� ���ư��� ����)
+	PUSHBUTTON_mWriteReg(XPAR_PUSHBUTTON_0_S00_AXI_BASEADDR, 0, 0); //푸占쏙옙占쏙옙튼 占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙 0占쏙옙占쏙옙 占십깍옙화 (占쏙옙占쏙옙占쌉쇽옙占쏙옙 占쏙옙占싣곤옙占쏙옙 占쏙옙占쏙옙)
 
 	if ((pb & 1) == 1){
         is_button1_pushed = 1;

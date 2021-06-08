@@ -20,6 +20,7 @@
 #define STAGE_WIDTH = 100;
 #define STAGE_HEIGHT = 10;
 #define BALL_SIZE = 10;
+#define BALL_OFFSET = 10;
 
 /* Customizable Parameter */
 const fps_delay = 330000;  // unit: micro second
@@ -66,8 +67,20 @@ game_t games[4];
 
 /* game functions */
 void game_check(game_t *game){
-// 가시 닿았냐(game_t *game)
-// 공 위치 변화하기(game_t *game)
+	// 가시 닿았냐(game_t *game)
+	if(game.is_game_exist){
+		if( ((game.stage_x_position BALL_OFFSET - BALL_SIZE) <= game.spike_x_position < (game.stage_x_position + BALL_OFFSET + BALL_SIZE))
+			&& (game.ball_y_position + BALL_SIZE) > (game.stage_y_position - BALL_SIZE)){
+			game_mode = 2;
+		}
+	}
+	// 공 위치 변화하기(game_t *game)
+	// 가시 생성
+	if(!game.is_spike_exist){
+		game.is_spike_exist = ((rand()%2) == 1));
+		
+	}
+	// 가시 위치
 }
 
 
@@ -162,12 +175,6 @@ int main(void)
             /* Game Logic */
             game_score++;
             
-            for (int i = 0; i < 4; i++){
-                /* functions */
-                game_check(games[i])
-            }
-            
-
 			switch (game_count){	// stage position for total game number
 				case 1:
 					games[0].stage_x_position = (DISPLAY_WIDTH - STAGE_WIDTH) / 2;
@@ -191,6 +198,11 @@ int main(void)
 				default:
 					break;
 			}
+
+			for (int i = 0; i < 4; i++){
+                /* functions */
+                game_check(games[i])
+            }
 			
             /* text lcd Display */
 

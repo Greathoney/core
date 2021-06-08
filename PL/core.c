@@ -20,10 +20,11 @@
 #define STAGE_WIDTH = 100;
 #define STAGE_HEIGHT = 10;
 #define BALL_SIZE = 10;
+#define SPIKE_SIZE = 10;
 #define BALL_OFFSET = 10;
 
 /* Customizable Parameter */
-const fps_delay = 330000;  // unit: micro second
+const fps_delay = 33000;  // unit: micro second
 
 /* Global Variables */
 int is_button1_pushed = 0;
@@ -36,9 +37,9 @@ int game_score = 0;  // unit: 1/30 second
 int game_count = 0;  // how many game
 
 struct rgb{
-    int R;
-    int G;
-    int B;
+    int R; // 0 ~ 31
+    int G; // 0 ~ 63
+    int B; // 0 ~ 31
 }rgb_t;
 
 short short int compile_rgb(rgb_t rgb_data){
@@ -69,17 +70,28 @@ game_t games[4];
 void game_check(game_t *game){
 
 	if(game.is_game_exist){
-		if( ((game.stage_x_position BALL_OFFSET - BALL_SIZE) <= game.spike_x_position < (game.stage_x_position + BALL_OFFSET + BALL_SIZE))
-			&& (game.ball_y_position + BALL_SIZE) > (game.stage_y_position - BALL_SIZE)){
+		if( ((game.stage_x_position + BALL_OFFSET - BALL_SIZE) <= game.spike_x_position < (game.stage_x_position + BALL_OFFSET + BALL_SIZE))
+			&& (game.ball_y_position + BALL_SIZE) > (game.stage_y_position - SPIKE_SIZE)){
 			game_mode = 2;
 		}
 	}
 
 	if(!game.is_spike_exist){
 		game.is_spike_exist = ((rand()%2) == 1));
-		
+		game.spike_x_position = game.stage_x_position + STAGE_WIDTH - SPIKE_SIZE;
+		game.spike_x_speed = 2; // 소수 변환 필요 
 	}
+<<<<<<< HEAD
 
+=======
+	// 가시 위치
+	if(game.is_spike_exist){
+		game.spike_x_position -= game.spike_x_speed;
+		if(game.spike_x_position < game.stage_x_position){
+			game.is_spike_exist = 0;
+		}
+	}
+>>>>>>> e979709c165219d297ae0f39bdb1c2cb937acfe3
 }
 
 

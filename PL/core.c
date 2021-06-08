@@ -7,12 +7,15 @@
 #include "xparameters.h"
 
 #include "xscugic.h"
-#include "ff.h"
+
 
 #include "pushbutton.h"
 #include "textlcd_2.h"
 
 #include "sleep.h"
+
+#define INTC_DEVICE_ID		XPAR_SCUGIC_0_DEVICE_ID
+#define INTC_DEVICE_INT_ID	31
 
 /* Fixed Parameter */
 #define DISPLAY_WIDTH = 480;
@@ -23,8 +26,14 @@
 #define SPIKE_SIZE = 10;
 #define BALL_OFFSET = 10;
 
+int GicConfigure(u16 DeviceId);
+void ServiceRoutine(void *CallbackRef); //
+
+XScuGic InterruptController; 	     // Instance of the Interrupt Controller
+static XScuGic_Config *GicConfig;    // The configuration parameters of the controller
+
 /* Customizable Parameter */
-const fps_delay = 33000;  // unit: micro second
+const int fps_delay = 33000;  // unit: micro second
 
 /* Global Variables */
 int is_button1_pushed = 0;
@@ -36,17 +45,17 @@ int game_mode = 0;  // 0: game ready, 1: game playing 2: game over
 int game_score = 0;  // unit: 1/30 second
 int game_count = 0;  // how many game
 
-struct rgb{
+typedef struct rgb{
     int R; // 0 ~ 31
     int G; // 0 ~ 63
     int B; // 0 ~ 31
 }rgb_t;
 
-short short int compile_rgb(rgb_t rgb_data){
-    return (B << 11 | G << 5 | R);
+short int compile_rgb(rgb_t rgb_data){
+    return (rgb_data.B << 11 | rgb_data.G << 5 | rgb_data.R);
 }
 
-struct game{
+typedef struct game{
     int is_game_exist;
 
 	int stage_x_position;
@@ -55,13 +64,13 @@ struct game{
     double ball_y_position;
     double ball_y_speed;
     int is_ball_jumping;
-    
+
     int is_spike_exist;
     double spike_x_position;
     double spike_x_speed;
 
     int game_number;
-    int game_background_color; // TODO: change 16bit
+    rgb_t game_background_color; // TODO: change 16bit
 } game_t;
 
 game_t games[4];
@@ -79,7 +88,7 @@ void game_check(game_t *game){
 	if(!game.is_spike_exist){
 		game.is_spike_exist = ((rand()%2) == 1));
 		game.spike_x_position = game.stage_x_position + STAGE_WIDTH - SPIKE_SIZE;
-		game.spike_x_speed = 2; // 소수 변환 필요 
+		game.spike_x_speed = 2; // �냼�닔 蹂��솚 �븘�슂
 	}
 }
 
@@ -131,8 +140,8 @@ int main(void)
         /* Game Logic */
 			if (is_button1_pushed == 1){
                 /* Variable init */
+				//xil_printf("button pushed\r\n");
 
-                
                 for (int i=0; i < 4; i++){
                     games[i].is_game_exist = 0;
 
@@ -160,11 +169,11 @@ int main(void)
         /* tft lcd Display */
 			if(paint_background == 0){
 				rgb_t main_background_color;
-				main_background_color.R = 0;
+				main_background_color.R = 31;
 				main_background_color.G = 0;
 				main_background_color.B = 0;
-				for (i = 0; i < 272; i++){
-					for (j = 0; j < 480; j++){ // make default background white
+				for (int i = 0; i < 272; i++){
+					for (int j = 0; j < 480; j++){ // make default background white
 						Xil_Out32(XPAR_TFTLCD_0_S00_AXI_BASEADDR + (j + 480*i)*4, compile_rgb(main_background_color));
 					}
 				}
@@ -174,7 +183,7 @@ int main(void)
         else if (game_mode == 1) {
             /* Game Logic */
             game_score++;
-            
+
 			switch (game_count){	// stage position for total game number
 				case 1:
 					games[0].stage_x_position = (DISPLAY_WIDTH - STAGE_WIDTH) / 2;
@@ -201,13 +210,13 @@ int main(void)
 
 			for (int i = 0; i < 4; i++){
                 /* functions */
-                game_check(games[i])
+                game_check(&games[i]);
             }
-			
+
             /* text lcd Display */
 
             /* tft lcd Display */
-			
+
 
         }
         else {  // game_mode == 2
@@ -217,13 +226,14 @@ int main(void)
 
             /* tft lcd Display */
         }
-		
+
 		is_button1_pushed = 0;
 		is_button2_pushed = 0;
 		is_button3_pushed = 0;
 		is_button4_pushed = 0;
 
         usleep(fps_delay);     // 1/30 sec (=33msec)
+    }
     return 0;
 }
 
@@ -302,3 +312,4 @@ void ServiceRoutine(void *CallbackRef)
         is_button4_pushed = 1;
 	}
 }
+

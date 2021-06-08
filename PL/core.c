@@ -20,10 +20,10 @@
 /* Fixed Parameter */
 #define DISPLAY_WIDTH = 480;
 #define DISPLAY_HEIGHT = 272;
-#define STAGE_WIDTH = 100;
-#define STAGE_HEIGHT = 10;
+#define STAGE_WIDTH = 160;
+#define STAGE_HEIGHT = 20;
 #define BALL_SIZE = 10;
-#define SPIKE_SIZE = 5;
+#define SPIKE_SIZE = 10;
 #define BALL_OFFSET = 10;
 
 int GicConfigure(u16 DeviceId);

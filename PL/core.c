@@ -1,13 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "xil_printf.h"
 
+#include "xil_printf.h"
 #include "xil_exception.h"
 #include "xil_io.h"
 #include "xparameters.h"
-
 #include "xscugic.h"
-
 
 #include "pushbutton.h"
 #include "textlcd_2.h"
@@ -81,7 +79,7 @@ const int ball_size[2] = { 10, 10 };
 const int spike_position[2] = { 190, 86 };
 const int spike_size[2] = { 10, 10 };
 const int spike_path_length = 150;
-
+ 
 double jump_ball_speed = 2;
 double ball_gravity = 0.1
 

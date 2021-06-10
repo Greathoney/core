@@ -48,8 +48,8 @@ typedef struct game{
 } game_t;
 
 /* Fixed Parameter */
-#define DISPLAY_WIDTH = 480;
-#define DISPLAY_HEIGHT = 272;
+#define DISPLAY_WIDTH 480;
+#define DISPLAY_HEIGHT 272;
 
 /* Customizable Parameter */
 const int fps_delay = 33000;  // unit: micro second
@@ -339,7 +339,7 @@ void redraw_square(int draw_start_pos_X, int draw_draw_start_pos_Y, int draw_len
 				   int delete_start_pos_X, int delete_draw_start_pos_Y, int delete_length_X, int delete_length_Y, rgb_t background_color){  // 이미 그려져서 배경화면 색으로 덮을 사각형
 
 	draw_square(delete_start_pos_X, delete_draw_start_pos_Y, delete_length_X, delete_length_Y, rgb_t background_color);
-	draw_square(draw_start_pos_X, draw_draw_start_pos_Y, draw_length_X, draw_length_Y, rgb_t draw_color)
+	draw_square(draw_start_pos_X, draw_draw_start_pos_Y, draw_length_X, draw_length_Y, rgb_t draw_color);
 
 }
 
@@ -380,10 +380,10 @@ void change_ball_position(game_t *game){
 		game->ball_y_position += game->ball_y_speed;
 		// 만일 ball position이 한 픽셀 움직이게 될 경우 해당 구역만 지우고 다시 그린다.
 		// TODO: 조건문과 입력 변수 채워 넣기
-		if (0) {
-			redraw_sqaure()
-		}
 		game->ball_y_speed -= ball_gravity;
+		if (0) {
+			redraw_sqaure();
+		}
 
 		else if(game->ball_y_position >= game->stage_y_position){
 			game->ball_y_position = game->stage_y_position

@@ -48,8 +48,6 @@ typedef struct game{
 } game_t;
 
 /* Fixed Parameter */
-#define DISPLAY_WIDTH 480
-#define DISPLAY_HEIGHT 272
 
 /* Customizable Parameter */
 const int fps_delay = 33000;  // unit: micro second
@@ -61,25 +59,25 @@ const rgb_t background_color_mode_0 = { 31, 63, 31};
 const rgb_t background_color_mode_1[4] = { {31, 0,0}, {0, 63, 0}, {0, 0, 31}, {0, 0, 0}};
 const rgb_t background_color_mode_2 = {0, 0, 0};
 
-const int background_position[4][4][2][2] = { { { { 0, 0 }, { DISPLAY_WIDTH, DISPLAY_HEIGHT } },
+const int background_position[4][4][2][2] = { { { { 0, 0 }, { 480, 272 } },
 												  { { -1, -1 }, { -1, -1 } },
 												  { { -1, -1 }, { -1, -1 } },
 												  { { -1, -1 }, { -1, -1 } } },
 
-										      { { { 0, 0 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT } },
-											    { { DISPLAY_WIDTH / 2, 0 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT } },
+										      { { { 0, 0 }, { 240, 272 } },
+											    { { 240, 0 }, { 240, 272 } },
 											    { { -1, -1 }, { -1, -1 } },
 											    { { -1, -1 }, { -1, -1 } } },
 
-											  { { { 0, 0 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } },
-											    { { DISPLAY_WIDTH / 2, 0 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT } },
-												{ { 0, DISPLAY_HEIGHT / 2 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } },
+											  { { { 0, 0 }, { 240, 136 } },
+											    { { 240, 0 }, { 240, 272 } },
+												{ { 0, 136 }, { 240, 136 } },
 												{ { -1, -1 }, { -1, -1 } } },
 
-											  { { { 0, 0 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } },
-											    { { DISPLAY_WIDTH / 2, 0 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } },
-												{ { 0, DISPLAY_HEIGHT / 2 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } },
-												{ { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } } }
+											  { { { 0, 0 }, { 240, 136 } },
+											    { { 240, 0 }, { 240, 136 } },
+												{ { 0, 136 }, { 240, 136 } },
+												{ { 240, 136 }, { 240, 136 } } }
 
 
 											};
@@ -95,11 +93,11 @@ const int background_position[4][4][2][2] = { { { { 0, 0 }, { DISPLAY_WIDTH, DIS
 // const int background_color_mode_2[3] = { 0, 0, 0 };
 
 
-const int stage_position[4][4][2] = { { { DISPLAY_WIDTH / 4, DISPLAY_HEIGHT / 4 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },   // when game_count 1, game_number 1, 2, 3, 4, (x, y)
-									  { {  0, DISPLAY_HEIGHT / 4 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 4 }, { -1,  -1 }, { -1, -1 } },   // when game_count 2
-									  { {  0, 0 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 4 }, { 0, DISPLAY_HEIGHT / 2 }, { -1, -1 } },   // when game_count 3
-									  { {  0, 0 }, { DISPLAY_WIDTH / 2, 0 }, { 0, DISPLAY_HEIGHT / 2 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } } };  // when game_count 4
-const int stage_size[2] = { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 };
+const int stage_position[4][4][2] = { { { 120, 68 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },   // when game_count 1, game_number 1, 2, 3, 4, (x, y)
+									  { {  0, 68 }, { 240, 68 }, { -1,  -1 }, { -1, -1 } },   // when game_count 2
+									  { {  0, 0 }, { 240, 68 }, { 0, 136 }, { -1, -1 } },   // when game_count 3
+									  { {  0, 0 }, { 240, 0 }, { 0, 136 }, { 240, 136 } } };  // when game_count 4
+const int stage_size[2] = {240, 136};
 
 const int platform_position[2] = { 40, 96 };
 const int platform_size[2] = { 160, 20 };

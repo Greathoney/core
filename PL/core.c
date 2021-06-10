@@ -68,10 +68,10 @@ const int stage_position[4][4][2] = { { { DISPLAY_WIDTH / 4, DISPLAY_HEIGHT / 4 
 									  { {  0, DISPLAY_HEIGHT / 4 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 4 }, { -1,  -1 }, { -1, -1 } },   // when game_count 2
 									  { {  0, 0 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 4 }, { 0, DISPLAY_HEIGHT / 2 }, { -1, -1 } },   // when game_count 3
 									  { {  0, 0 }, { DISPLAY_WIDTH / 2, 0 }, { 0, DISPLAY_HEIGHT / 2 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } } };  // when game_count 4
-const int stage_size[2] = { 240, 136 };
+const int stage_size[2] = { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 };
 
-const int stage_position[2] = { 40, 96 };
-const int stage_size[2] = { 160, 20 };
+const int platform_position[2] = { 40, 96 };
+const int platform_size[2] = { 160, 20 };s
 
 const int ball_position[2] = { 50, 86 };
 const int ball_size[2] = { 10, 10 };

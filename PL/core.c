@@ -410,46 +410,47 @@ void game_check(game_t *game){
 	is_spike_touched(game);
 	ball_jump_check(game);
 
-	change_ball_position(game);
-	if (!game->is_spike_exist){
-		generate_spike(game);
-	}
-	else {
-		remove_spike(game);
-	}
-
-	change_spike_position(game);
+	change_ball_position(game); //입력이 들어오면 공을 점프시킨다.
+	if (!game->is_spike_exist)	generate_spike(game); // 스파이크가 없으면 랜덤 확률로 스파이크를 생성한다.
+	change_spike_position(game); // 스파이크가 있으면 왼쪽으로 이동한다.
 }
 
 void ball_jump_check(game_t *game){
-	if (is_button_pushed[game->game_number] = 1 && game->is_ball_jumping == 0){
+	if ( (is_button_pushed[game->game_number] == 1) && (game->is_ball_jumping == 0) ){
 		game->is_ball_jumping = 1;
 		game->ball_y_speed = jump_ball_speed;
 	}
 }
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+//												테스트해봐야할 코드									  //
+////////////////////////////////////////////////////////////////////////////////////////////////////
 void is_spike_touched(game_t *game){
 	// TODO: 현재 선언한 변수로 논의된 로직으로 코드 작성 부탁드립니다.
 
+	int ball_x, ball_y;   // ball의 x,y 좌표 저장
+	int spike_x, spike_y; // spike의 x,y 좌표 저장
 
-	// game->ball_y_positon(은 옵션) 그리고 spike_x_position을 이용
-	// 조건: spike 기본 좌표 + game->spike_x_postion(음수) == ball_postion
-	// 가시 닿은 판정: ball position으로 트리거 걸기, 그리고 점프했는지 확인
+	ball_x = stage_position[game_count-1][game->game_number][0] + ball_position[0];
+	ball_y = stage_position[game_count-1][game->game_number][1] + ball_position[1] + (int)game->ball_y_position;
+	spike_x = stage_position[game_count-1][game->game_number][0] + spike_position[0] + (int)game->spike_x_position;
+	spike_y = stage_position[game_count-1][game->game_number][1] + spike_position[1];
 
-	// 게임오버면 game_modoe =2;
-
-	// if( ((game->stage_x_position + BALL_OFFSET - BALL_SIZE) <= game->spike_x_position < (game->stage_x_position + BALL_OFFSET + BALL_SIZE))
-	// 	&& (game->ball_y_position + BALL_SIZE) > (game->stage_y_position - SPIKE_SIZE)){
-	// 	game_mode = 2;
+	if( abs(ball_x - spike_x) <= ball_size[0] )
+	{
+		if( abs(ball_y - spike_y) <= ball_size[1] )
+		{
+			game_mode =2; //게임오버했으므로 game mode를 2로 바꾼다.
+		}
+	}
 }
 
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////테스트해봐야할 코드////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////
+//												테스트해봐야할 코드									  //
+////////////////////////////////////////////////////////////////////////////////////////////////////
 void change_ball_position(game_t *game){
 	if(game->is_ball_jumping){
-		double tmp = game->ball_y_position; //예전 ball의 y좌표를 저장한다. 예전 지역을 지우기위함
+		double tmp = game->ball_y_position; // redraw 함수를 통해 예전 이미지를 지우기 위해 예전 위치를 임시저장
 		game->ball_y_position += game->ball_y_speed;
 		if( abs( (int)tmp - (int)(game->ball_y_position) )== 1 ) // 예전 ball y 좌표와 현재 ball y 좌표를 비교해서 차이가 1만큼 나면 픽셀을 움직인다.
 		{
@@ -477,42 +478,59 @@ void change_ball_position(game_t *game){
 		}
 	}
 }
+////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+//												테스트해봐야할 코드									  //
+////////////////////////////////////////////////////////////////////////////////////////////////////
 void generate_spike(game_t *game){
 	// 가시는 랜덤하게 생성함
 	// 가시의 속도도 랜덤
-
 	if(rand()%spike_probability <= 10) // spike_probability = 300 , L109
 	{
 		game->is_spike_exist = 1;
 		game->spike_x_position = 0;
 		game->spike_x_speed = spike_speed; //L108
 	}
-
-
-	// 아래 조건문은 상위 함수에서 작성함 392L
-	// if(!game->is_spike_exist){
-	// 	game->is_spike_exist = ((rand()%2) == 1));
-	// 	game->spike_x_position = game->stage_x_position + STAGE_WIDTH - SPIKE_SIZE;
-	// 	game->spike_x_speed = 0.7;
-	// }
 }
+////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void remove_spike(game_t *game){
-	// spike_x_position은 계속해서 작아져서 spike_path_length(현재 150) 만큼 가게 되고 이 이후로는 가시가 사라지게 됩니다.
-	// TODO: 현재 선언된 변수를 이용하여 다시 작성부탁드립니다.
-	// if(game->spike_x_position < game->stage_x_position){
-	// 	game->is_spike_exist = 0;
-	// }
-}
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//												테스트해봐야할 코드									    //
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 void change_spike_position(game_t *game){
 	// spike_x_position은 0에서 시작하여 계속해서 작아집니다.
+	if(game->is_spike_exist)
+	{
+		double tmp = game->spike_x_position; // redraw함수를 통해 예전 이미지를 지우기 위해 예전 위치를 임시저장
+		game->spike_x_position -= game->spike_x_speed;
+		if( abs( (int)tmp - (int)(game->spike_x_position) ) == 1 ) // 예전 spike x좌표와 현재 x좌표의 차이가 1 나면 이미지를 다시 그린다. redraw함수 사용
+		{
+			redraw_square(
+					stage_position[game_count-1][game->game_number][0] + spike_position[0] +(int)(game->spike_x_position),
+					stage_position[game_count-1][game->game_number][1] + spike_position[1],
+					spike_size[0], spike_size[1], spike_color,
+					stage_position[game_count-1][game->game_number][0] + spike_position[0] +(int)(tmp),
+					stage_position[game_count-1][game->game_number][1] + spike_position[1],
+					spike_size[0], spike_size[1], game->game_background_color
+			);
+		}
 
-	game->spike_x_position -= game->spike_x_speed;
-	// 만일 spike position이 한 픽셀 움직이게 될 경우 해당 구역만 지우고 다시 그린다.
-	// TODO: 조건문과 입력 변수 채워 넣기
-	if (0) {
-		redraw_sqaure();
+		if( game->spike_x_position <= -150) // 만약 spike x좌표가 -150 이하로 떨어지게 되면 spike를 지운다.
+			{
+
+				draw_square(
+					stage_position[game_count-1][game->game_number][0] + spike_position[0] + (int)game->spike_x_position,
+					stage_position[game_count-1][game->game_number][1] + spike_position[1],
+					spike_size[0], spike_size[1], game->game_background_color
+					);
+				game->spike_x_position = 0;
+				game->spike_x_speed = spike_speed;
+				game->is_spike_exist = 0;
+			}
 	}
+
 }
+////////////////////////////////////////////////////////////////////////////////////////////////////////

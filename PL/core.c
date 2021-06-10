@@ -305,30 +305,6 @@ void game_mode_1(){
 	playtime = ( (playtime & 0x00000F00) >> 8 )*60 +( (playtime & 0x000000F0) >> 4 )*10 +(playtime & 0x0000000F);
 	//xil_printf("playtime : (16 radix)%xsec (10 radix)%dsec \r\n",playtime);
 
-	// switch (game_count){	// stage position for total game number
-	// 	case 1:
-	// 		games[0].stage_x_position = (DISPLAY_WIDTH - STAGE_WIDTH) / 2;
-	// 		games[0].stage_y_position = (DISPLAY_HEIGHT - STAGE_HEIGHT) / 2;
-	// 		break;
-	// 	case 2:
-	// 		games[0].stage_x_position = ((DISPLAY_WIDTH / 2) - STAGE_WIDTH)) / 2;
-	// 		games[1].stage_x_position = (DISPLAY_WIDTH - (DISPLAY_WIDTH / 4)) - (STAGE_WIDTH / 2);
-	// 		games[1].stage_y_position = (DISPLAY_HEIGHT - STAGE_HEIGHT) / 2;
-	// 		break;
-	// 	case 3:
-	// 		games[0].stage_y_position = (DISPLAY_HEIGHT / 4) - (STAGE_HEIGHT / 2);
-	// 		games[2].stage_x_position = (DISPLAY_WIDTH - STAGE_WIDTH) / 2;
-	// 		games[2].stage_y_position = (DISPLAY_HEIGHT - (DISPLAY_HEIGHT / 4)) - (STAGE_HEIGHT / 2);
-	// 		break;
-	// 	case 4:
-	// 		games[1].stage_y_position = (DISPLAY_HEIGHT / 4) - (STAGE_HEIGHT / 2);
-	// 		games[3].stage_x_position = (DISPLAY_WIDTH - (DISPLAY_WIDTH / 4)) - (STAGE_WIDTH / 2);
-	// 		games[3].stage_y_position = (DISPLAY_HEIGHT - (DISPLAY_HEIGHT / 4)) - (STAGE_HEIGHT / 2);
-	// 		break;
-	// 	default:
-	// 		break;
-	// }
-
 
 	// TODO: 시간이 다 되어 game_count가 변해야 하는지 체크, is_background_paint = 0으로 만들어주는 구문 작성
 	if(playtime == 30 && game_count == 1) // playtime이 30초가 되고 game_count가 1개면 2개로 만들어준다.
@@ -368,19 +344,14 @@ void game_mode_1(){
 			// Draw Background
 			draw_square(background_position[game_count-1][i][0][0], background_position[game_count-1][i][0][1],
 					    background_position[game_count-1][i][1][0], background_position[game_count-1][i][1][1], games[i].game_background_color);
-			xil_printf("Draw Background\r\n");
 			// Draw Ball
 			draw_square(stage_position[game_count-1][i][0] + ball_position[0], stage_position[game_count-1][i][1] + ball_position[1] + (int)games[i].ball_y_position, ball_size[0], ball_size[1], ball_color);
-//			xil_printf("stage_position (x) : %d, (y) : %d\r\n",stage_position[game_count-1][i][0] + ball_position[0],stage_position[game_count-1][i][1] + ball_position[1] + games[i].ball_y_position);
-			xil_printf("~~%d, %d, %d, %d\r\n",stage_position[game_count-1][i][0] + ball_position[0], stage_position[game_count-1][i][1] + ball_position[1] + (int)games[i].ball_y_position, ball_size[0], ball_size[1]);
-//			xil_printf("~~%d, %d, %d, %d", stage_position[0][0][1], stage_position[game_count][i][1], game_count, i);
 
 			// Draw Spike
 			draw_square(stage_position[game_count-1][i][0] + spike_position[0] + (int)games[i].spike_x_position, stage_position[game_count-1][i][1] + spike_position[1], spike_size[0], spike_size[1], spike_color);
 
 			// Draw Platform
 			draw_square(stage_position[game_count-1][i][0] + platform_position[0], stage_position[game_count-1][i][1] + platform_position[1], platform_size[0], platform_size[1], platform_color);
-			xil_printf("Draw platform\r\n");
 
 		}
 
@@ -404,8 +375,8 @@ void game_mode_2(){
 }
 
 void draw_square(int start_pos_X, int start_pos_Y, int length_X, int length_Y, rgb_t color){
-	for (int i = start_pos_Y; i < start_pos_Y + length_Y; i++) {
-		for (int j = start_pos_X; j < start_pos_X + length_X; j++) {
+	for (int i = 272 - start_pos_Y; i >= 272 - start_pos_Y - length_Y; i--) {
+		for (int j = 480 - start_pos_X; j >= 480 - start_pos_X - length_X; j--) {
 			Xil_Out32(XPAR_TFTLCD_0_S00_AXI_BASEADDR + (j + 480*i)*4, compile_rgb(color));
 		}
 	}

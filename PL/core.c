@@ -286,6 +286,8 @@ void game_mode_0(){
 		game_mode = 1;
 		is_background_paint = 0;
 		games[0].is_game_exist = 1;
+		game_count = 1;
+		return;
 	}
 
 	/* text lcd Display */
@@ -302,7 +304,7 @@ void game_mode_1(){
 	/* Game Logic */
 	playtime = TEXTLCD_2_mReadReg(XPAR_TEXTLCD_2_0_S00_AXI_BASEADDR, 4);
 	playtime = ( (playtime & 0x00000F00) >> 8 )*60 +( (playtime & 0x000000F0) >> 4 )*10 +(playtime & 0x0000000F);
-	xil_printf("playtime : (16 radix)%xsec (10 radix)%dsec \r\n",playtime);
+	//xil_printf("playtime : (16 radix)%xsec (10 radix)%dsec \r\n",playtime);
 
 	// switch (game_count){	// stage position for total game number
 	// 	case 1:
@@ -360,6 +362,7 @@ void game_mode_1(){
 
 	/* tft lcd Display */
 	if (is_background_paint == 0){
+		xil_printf("background code \r\n");
 		// game_mode 또는 game_count 가 바뀌어 완전히 새로 그리게 될 때 여기서 한번 전체적으로 그려주게 된다.
 		// TODO: 현재 선언된 변수와 함수로 그리기
 		for (int i = 0; i < game_count; i++){
@@ -368,13 +371,13 @@ void game_mode_1(){
 					    background_position[game_count][i][1][0], background_position[game_count][i][1][1], games[i].game_background_color);
 
 			// Draw Ball
-			draw_square(stage_position[game_count][i][0] + ball_position[0], stage_position[game_count][i][1] + ball_position[1] + games[i].ball_y_position, ball_size[0], ball_size[1], ball_color);
-			
+			//draw_square(stage_position[game_count][i][0] + ball_position[0], stage_position[game_count][i][1] + ball_position[1] + games[i].ball_y_position, ball_size[0], ball_size[1], ball_color);
+
 			// Draw Spike
-			draw_square(stage_position[game_count][i][0] + spike_position[0] + games[i].spike_x_position, stage_position[game_count][i][1] + spike_position[1], spike_size[0], spike_size[1], spike_color);
+			//draw_square(stage_position[game_count][i][0] + spike_position[0] + games[i].spike_x_position, stage_position[game_count][i][1] + spike_position[1], spike_size[0], spike_size[1], spike_color);
 
 			// Draw Platform
-			draw_square(stage_position[game_count][i][0] + platform_position[0], stage_position[game_count][i][1] + platform_position[1], platform_size[0], platform_size[1], platform_color);
+			//draw_square(stage_position[game_count][i][0] + platform_position[0], stage_position[game_count][i][1] + platform_position[1], platform_size[0], platform_size[1], platform_color);
 
 		}
 
@@ -390,9 +393,11 @@ void game_mode_2(){
 	/* Game Logic */
 
 	/* text lcd Display */
-
+	TEXTLCD_2_mWriteReg(XPAR_TEXTLCD_2_0_S00_AXI_BASEADDR, 0, 0x00000002); // text lcd 화면에 gmae over 표시되며 동시에 시간이 멈춘다.
+	xil_printf("game mode 2\r\n");
+	if(is_button_pushed[0] == 1)	TEXTLCD_2_mWriteReg(XPAR_TEXTLCD_2_0_S00_AXI_BASEADDR, 0, 0x00000000); // 첫번째 푸쉬버튼을 누르면 TEXT LCD 게임준비화면으로 돌아감
 	/* tft lcd Display */
-
+	if(is_button_pushed[0] == 1)	game_mode = 0; // 첫번째 푸쉬버튼을 게임준비화면으로 넘어감
 }
 
 void draw_square(int start_pos_X, int start_pos_Y, int length_X, int length_Y, rgb_t color){

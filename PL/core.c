@@ -366,7 +366,7 @@ void game_check(game_t *game){
 }
 
 void ball_jump_check(game_t *game){
-	if (is_button_pushed[game->game_number] = 1 && games[i]->is_ball_jumping == 0){
+	if (is_button_pushed[game->game_number] = 1 && game->is_ball_jumping == 0){
 		game->is_ball_jumping = 1;
 		game->ball_y_speed = jump_ball_speed;
 	}

@@ -331,6 +331,7 @@ void game_mode_0(){
 		}
 		game_mode = 1;
 		is_background_paint = 0;
+		games[0].is_game_exist = 1;
 	}
 
 	/* text lcd Display */
@@ -378,21 +379,25 @@ void game_mode_1(){
 	// 		break;
 	// }
 
+
 	// TODO: 시간이 다 되어 game_count가 변해야 하는지 체크, is_background_paint = 0으로 만들어주는 구문 작성
 	if(playtime == 30 && game_count == 1) // playtime이 30초가 되고 game_count가 1개면 2개로 만들어준다.
 	{
 		game_count = 2;
 		is_background_paint = 0;
+		games[1].is_game_exist = 1;
 	}
 	else if(playtime == 60 && game_count == 2)// playtime이 60초가 되고 game_count가 2개면 3개로 만들어준다.
 	{
 		game_count = 3;
 		is_background_paint = 0;
+		games[2].is_game_exist = 1;
 	}
 	else if(playtime == 90 && game_count == 3)// playtime이 90초가 되고 game_count가 3개면 4개로 만들어준다.
 	{
-		gmae_count = 4;
+		game_count = 4;
 		is_background_paint = 0;
+		games[3].is_game_exist = 1;
 	}
 
 
@@ -422,10 +427,6 @@ void game_mode_1(){
 			// Draw Platform
 			draw_square(stage_position[game_count][i][0] + platform_position[0], stage_position[game_count][i][1] + platform_position[1], platform_size[0], platform_size[1], platform_color);
 
-
-
-
-			// Draw Game
 		}
 
 		is_background_paint = 1;

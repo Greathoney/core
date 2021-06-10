@@ -48,8 +48,8 @@ typedef struct game{
 } game_t;
 
 /* Fixed Parameter */
-#define DISPLAY_WIDTH 480;
-#define DISPLAY_HEIGHT 272;
+#define DISPLAY_WIDTH 480
+#define DISPLAY_HEIGHT 272
 
 /* Customizable Parameter */
 const int fps_delay = 33000;  // unit: micro second
@@ -61,13 +61,13 @@ const int background_color_mode_0[3] = { 31, 63, 31 };
 const int background_color_mode_1[4][3] = { { 15,  0,  0 },  // game section 1 { R, G, B }
 										   {  0, 31,  0 },  // game section 2 { R, G, B }
 										   {  0,  0, 15 },	// ...
-										   {  0,  0,  0 } }
+										   {  0,  0,  0 } };
 const int background_color_mode_2[3] = { 0, 0, 0 };
 
 const int stage_position[4][4][2] = { { { DISPLAY_WIDTH / 4, DISPLAY_HEIGHT / 4 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },   // when game_count 1
 									  { {  0, DISPLAY_HEIGHT / 4 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 4 }, { -1,  -1 }, { -1, -1 } },   // when game_count 2
 									  { {  0, 0 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 4 }, { 0, DISPLAY_HEIGHT / 2 }, { -1, -1 } },   // when game_count 3
-									  { {  0, 0 }, { DISPLAY_WIDTH / 2, 0 }, { 0, DISPLAY_HEIGHT / 2 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } } }  // when game_count 4
+									  { {  0, 0 }, { DISPLAY_WIDTH / 2, 0 }, { 0, DISPLAY_HEIGHT / 2 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } } };  // when game_count 4
 const int stage_size[2] = { 240, 136 };
 
 const int stage_position[2] = { 40, 96 };
@@ -79,9 +79,9 @@ const int ball_size[2] = { 10, 10 };
 const int spike_position[2] = { 190, 86 };
 const int spike_size[2] = { 10, 10 };
 const int spike_path_length = 150;
- 
+
 double jump_ball_speed = 2;
-double ball_gravity = 0.1
+double ball_gravity = 0.1;
 
 /* Global Variables */
 int is_button_pushed[4] = { 0, 0, 0, 0 };
@@ -126,7 +126,7 @@ int main(void)
 
     /* Game Loop */
     while (1) {
-        if (game_mode == 0) {	
+        if (game_mode == 0) {
 			game_mode_0();
         }
         else if (game_mode == 1) {
@@ -293,7 +293,7 @@ void game_mode_1(){
 	// 		break;
 	// 	default:
 	// 		break;
-	// }			
+	// }
 
 	// TODO: 시간이 다 되어 game_count가 변해야 하는지 체크, is_background_paint = 0으로 만들어주는 구문 작성
 
@@ -338,8 +338,9 @@ void draw_square(int start_pos_X, int start_pos_Y, int length_X, int length_Y, r
 void redraw_square(int draw_start_pos_X, int draw_draw_start_pos_Y, int draw_length_X, int draw_length_Y, rgb_t draw_color,  // 새롭게 그릴 사각형
 				   int delete_start_pos_X, int delete_draw_start_pos_Y, int delete_length_X, int delete_length_Y, rgb_t background_color){  // 이미 그려져서 배경화면 색으로 덮을 사각형
 
-	draw_square(delete_start_pos_X, delete_draw_start_pos_Y, delete_length_X, delete_length_Y, rgb_t background_color);
-	draw_square(draw_start_pos_X, draw_draw_start_pos_Y, draw_length_X, draw_length_Y, rgb_t draw_color);
+	draw_square(delete_start_pos_X, delete_draw_start_pos_Y, delete_length_X, delete_length_Y, background_color);
+	draw_square(draw_start_pos_X, draw_draw_start_pos_Y, draw_length_X, draw_length_Y, draw_color);
+
 
 }
 
@@ -386,7 +387,7 @@ void change_ball_position(game_t *game){
 		}
 
 		else if(game->ball_y_position >= game->stage_y_position){
-			game->ball_y_position = game->stage_y_position
+			game->ball_y_position = game->stage_y_position;
 			game->is_ball_jumping = 0;
 		}
 	}
@@ -420,6 +421,6 @@ void change_spike_position(game_t *game){
 	// 만일 spike position이 한 픽셀 움직이게 될 경우 해당 구역만 지우고 다시 그린다.
 	// TODO: 조건문과 입력 변수 채워 넣기
 	if (0) {
-		redraw_sqaure()
+		redraw_sqaure();
 	}
 }

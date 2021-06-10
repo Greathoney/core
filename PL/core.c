@@ -32,16 +32,13 @@ typedef struct rgb{
 typedef struct game{
     int is_game_exist;
 
-	int stage_x_position;
-	int stage_y_position;
-
-    double ball_y_position;
+    double ball_y_position;  // 시작 좌표는 항상 0
     double ball_y_speed;
     int is_ball_jumping;
 
     int is_spike_exist;
-    double spike_x_position;
-    double spike_x_speed;
+    double spike_x_position;  // 시작 좌표는 항상 0
+    double spike_x_speed;  // 항상 음수
 
     int game_number;
     rgb_t game_background_color;
@@ -59,7 +56,7 @@ rgb_t background_color_mode_0 = { 31, 63, 31};
 rgb_t background_color_mode_1[4] = { {31, 0,0}, {0, 63, 0}, {0, 0, 31}, {0, 0, 0}};
 rgb_t background_color_mode_2 = {0, 0, 0};
 
-int background_position[4][4][2][2] = { { { { 0, 0 }, { 480, 272 } },
+const int background_position[4][4][2][2] = { { { { 0, 0 }, { 480, 272 } },
 												  { { -1, -1 }, { -1, -1 } },
 												  { { -1, -1 }, { -1, -1 } },
 												  { { -1, -1 }, { -1, -1 } } },
@@ -97,22 +94,22 @@ const int stage_position[4][4][2] = { { { 120, 68 }, { -1, -1 }, { -1, -1 }, { -
 									  { {  0, 68 }, { 240, 68 }, { -1,  -1 }, { -1, -1 } },   // when game_count 2
 									  { {  0, 0 }, { 240, 68 }, { 0, 136 }, { -1, -1 } },   // when game_count 3
 									  { {  0, 0 }, { 240, 0 }, { 0, 136 }, { 240, 136 } } };  // when game_count 4
-int stage_size[2] = {240, 136};
+const int stage_size[2] = {240, 136};
 
-int platform_position[2] = { 40, 96 };
-int platform_size[2] = { 160, 20 };
+const int platform_position[2] = { 40, 96 };
+const int platform_size[2] = { 160, 20 };
 
-int ball_position[2] = { 50, 86 };
-int ball_size[2] = { 10, 10 };
+const int ball_position[2] = { 50, 86 };
+const int ball_size[2] = { 10, 10 };
 
-int spike_position[2] = { 190, 86 };
-int spike_size[2] = { 10, 10 };
-int spike_path_length = 150;
-int spike_speed = 1; //function of generation spike
-int spike_probability = 300; // use function of generate_spike
+const int spike_position[2] = { 190, 86 };
+const int spike_size[2] = { 10, 10 };
+const int spike_path_length = 150;
+const int spike_speed = 1; //function of generation spike
+const int spike_probability = 300; // use function of generate_spike
 
-double jump_ball_speed = 2;
-double ball_gravity = 0.1;
+const double jump_ball_speed = 2;  // needs casting to integer
+const double ball_gravity = 0.1;
 
 /* Global Variables */
 int is_button_pushed[4] = { 0, 0, 0, 0 };
@@ -263,9 +260,6 @@ void game_mode_0(){
 
 		for (int i=0; i < 4; i++){
 			games[i].is_game_exist = 0;
-
-			games[i].stage_x_position = 0;
-			games[i].stage_y_position = 0;
 
 			games[i].ball_y_position = 0;
 			games[i].ball_y_speed = 0;
@@ -418,6 +412,13 @@ void ball_jump_check(game_t *game){
 
 void is_spike_touched(game_t *game){
 	// TODO: 현재 선언한 변수로 논의된 로직으로 코드 작성 부탁드립니다.
+
+	// game->ball_y_positon(은 옵션) 그리고 spike_x_position을 이용
+	// 조건: spike 기본 좌표 + game->spike_x_postion(음수) == ball_postion
+	// 가시 닿은 판정: ball position으로 트리거 걸기, 그리고 점프했는지 확인
+
+	// 게임오버면 game_modoe =2;
+
 	// if( ((game->stage_x_position + BALL_OFFSET - BALL_SIZE) <= game->spike_x_position < (game->stage_x_position + BALL_OFFSET + BALL_SIZE))
 	// 	&& (game->ball_y_position + BALL_SIZE) > (game->stage_y_position - SPIKE_SIZE)){
 	// 	game_mode = 2;
@@ -426,17 +427,25 @@ void is_spike_touched(game_t *game){
 void change_ball_position(game_t *game){
 	if(game->is_ball_jumping){
 		game->ball_y_position += game->ball_y_speed;
-		// 만일 ball position이 한 픽셀 움직이게 될 경우 해당 구역만 지우고 다시 그린다.
+
+		// 만일 ball position이 한 픽셀 움직이게 될 경우(1의 자리수가 바뀌게 되면) 해당 구역만 지우고 다시 그린다.
+		// redraw_square("새로 그릴 네모", "바탕화면색으로 덮일 네모")
+
+		// 주의! 절대 좌표
+		//  stage_position[game_count][game->game_number][x,y] + ball_position[x,y] + game->ball_x_postion
 		// TODO: 조건문과 입력 변수 채워 넣기
+
+
+
 		game->ball_y_speed -= ball_gravity;
 		if (0) {
 			redraw_sqaure();
 		}
 
-		else if(game->ball_y_position >= game->stage_y_position){
-			game->ball_y_position = game->stage_y_position;
-			game->is_ball_jumping = 0;
-		}
+		// else if(game->ball_y_position >= game->stage_y_position){
+		// 	game->ball_y_position = game->stage_y_position;
+		// 	game->is_ball_jumping = 0;
+		// }
 	}
 }
 

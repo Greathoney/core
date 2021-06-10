@@ -54,6 +54,16 @@ typedef struct game{
 /* Customizable Parameter */
 const int fps_delay = 33000;  // unit: micro second
 
+const int ball_color[3] = { 31, 63, 31 };  // { R(0~31), G(0~63), B(0~31)}
+const int stage_color[3] = { 31, 63, 31 };
+
+const int background_color_mode_0[3] = { 31, 63, 31 };
+const int background_color_mode_1[4][3] = { { 15,  0,  0 },  // game section 1 { R, G, B }
+										   {  0, 31,  0 },  // game section 2 { R, G, B }
+										   {  0,  0, 15 },	// ...
+										   {  0,  0,  0 } };
+const int background_color_mode_2[3] = { 0, 0, 0 };
+
 const int background_position[4][4][2][2] = { { { { 0, 0 }, { DISPLAY_WIDTH, DISPLAY_HEIGHT } },
 												  { { -1, -1 }, { -1, -1 } },
 												  { { -1, -1 }, { -1, -1 } },
@@ -65,18 +75,18 @@ const int background_position[4][4][2][2] = { { { { 0, 0 }, { DISPLAY_WIDTH, DIS
 											    { { -1, -1 }, { -1, -1 } } },
 
 											  { { { 0, 0 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } },
-											    { { DISPLAY_WIDTH / 2, 0 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT } }, 
-												{ { 0, DISPLAY_HEIGHT / 2 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } },  
+											    { { DISPLAY_WIDTH / 2, 0 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT } },
+												{ { 0, DISPLAY_HEIGHT / 2 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } },
 												{ { -1, -1 }, { -1, -1 } } },
 
 											  { { { 0, 0 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } },
-											    { { DISPLAY_WIDTH / 2, 0 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } }, 
-												{ { 0, DISPLAY_HEIGHT / 2 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } },  
+											    { { DISPLAY_WIDTH / 2, 0 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } },
+												{ { 0, DISPLAY_HEIGHT / 2 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } },
 												{ { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } } }
-											
+
+
 											};
 // game count, game number, (position, length), (x, y)
-
 // const int ball_color[3] = { 31, 63, 31 };  // { R(0~31), G(0~63), B(0~31)}
 // const int stage_color[3] = { 31, 63, 31 };
 
@@ -112,14 +122,13 @@ double ball_gravity = 0.1;
 /* Global Variables */
 int is_button_pushed[4] = { 0, 0, 0, 0 };
 
-int playtime;
+int playtime; // how much time play ( sec unit)
 int game_mode = 0;  // 0: game ready, 1: game playing 2: game over
 int game_count = 0;  // how many game
 
 int is_background_paint = 0;  // flag variable
 
 game_t games[4];
-
 /* color define */
 rgb_t ball_color;
 ball_color.R = 31;
@@ -318,7 +327,7 @@ void game_mode_0(){
 			// games[i].game_background_color.R = background_color_mode_1[i][0];
 			// games[i].game_background_color.G = background_color_mode_1[i][1];
 			// games[i].game_background_color.B = background_color_mode_1[i][2];
-			
+
 		}
 		game_mode = 1;
 		is_background_paint = 0;
@@ -370,6 +379,22 @@ void game_mode_1(){
 	// }
 
 	// TODO: 시간이 다 되어 game_count가 변해야 하는지 체크, is_background_paint = 0으로 만들어주는 구문 작성
+	if(playtime == 30 && game_count == 1) // playtime이 30초가 되고 game_count가 1개면 2개로 만들어준다.
+	{
+		game_count = 2;
+		is_background_paint = 0;
+	}
+	else if(playtime == 60 && game_count == 2)// playtime이 60초가 되고 game_count가 2개면 3개로 만들어준다.
+	{
+		game_count = 3;
+		is_background_paint = 0;
+	}
+	else if(playtime == 90 && game_count == 3)// playtime이 90초가 되고 game_count가 3개면 4개로 만들어준다.
+	{
+		gmae_count = 4;
+		is_background_paint = 0;
+	}
+
 
 	for (int i = 0; i < 4; i++){
 		if (games[i].is_game_exist) {
@@ -397,6 +422,10 @@ void game_mode_1(){
 			// Draw Platform
 			draw_square(stage_position[game_count][i][0] + platform_position[0], stage_position[game_count][i][1] + platform_position[1], platform_size[0], platform_size[1], platform_color);
 
+
+
+
+			// Draw Game
 		}
 
 		is_background_paint = 1;
@@ -483,7 +512,6 @@ void change_ball_position(game_t *game){
 }
 
 void generate_spike(game_t *game){
-	// TODO: 가시 생성 아래 주석을 참고하여 코드 작성 부탁드립니다.
 	// 가시는 랜덤하게 생성함
 	// 가시의 속도도 랜덤
 

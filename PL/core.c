@@ -29,6 +29,7 @@ typedef struct rgb{
     int B; // 0 ~ 31
 }rgb_t;
 
+
 typedef struct game{
     int is_game_exist;
 
@@ -109,12 +110,12 @@ const int spike_speed = 1; //function of generation spike
 const int spike_probability = 300; // use function of generate_spike
 
 const double jump_ball_speed = 2;  // needs casting to integer
-const double ball_gravity = 0.1;
+const double ball_gravity = 0.1;   // nees casting to integer
 
 /* Global Variables */
 int is_button_pushed[4] = { 0, 0, 0, 0 };
 
-int playtime; // how much time play ( sec unit)
+int playtime ; // how much time play ( sec unit)
 int game_mode = 0;  // 0: game ready, 1: game playing 2: game over
 int game_count = 0;  // how many game
 
@@ -336,16 +337,30 @@ void game_mode_1(){
 		// TODO: 현재 선언된 변수와 함수로 그리기
 		for (int i = 0; i < game_count; i++){
 			// Draw Background
-			draw_square(background_position[game_count-1][i][0][0], background_position[game_count-1][i][0][1],
-					    background_position[game_count-1][i][1][0], background_position[game_count-1][i][1][1], games[i].game_background_color);
+			draw_square(
+					background_position[game_count-1][i][0][0], background_position[game_count-1][i][0][1],
+					background_position[game_count-1][i][1][0], background_position[game_count-1][i][1][1], games[i].game_background_color
+					);
 			// Draw Ball
-			draw_square(stage_position[game_count-1][i][0] + ball_position[0], stage_position[game_count-1][i][1] + ball_position[1] + (int)games[i].ball_y_position, ball_size[0], ball_size[1], ball_color);
+			draw_square(
+					stage_position[game_count-1][i][0] + ball_position[0],
+					stage_position[game_count-1][i][1] + ball_position[1] + (int)games[i].ball_y_position,
+					ball_size[0], ball_size[1], ball_color
+					);
 
 			// Draw Spike
-			draw_square(stage_position[game_count-1][i][0] + spike_position[0] + (int)games[i].spike_x_position, stage_position[game_count-1][i][1] + spike_position[1], spike_size[0], spike_size[1], spike_color);
+			draw_square(
+					stage_position[game_count-1][i][0] + spike_position[0] + (int)games[i].spike_x_position,
+					stage_position[game_count-1][i][1] + spike_position[1],
+					spike_size[0], spike_size[1], spike_color
+					);
 
 			// Draw Platform
-			draw_square(stage_position[game_count-1][i][0] + platform_position[0], stage_position[game_count-1][i][1] + platform_position[1], platform_size[0], platform_size[1], platform_color);
+			draw_square(
+					stage_position[game_count-1][i][0] + platform_position[0],
+					stage_position[game_count-1][i][1] + platform_position[1],
+					platform_size[0], platform_size[1], platform_color
+					);
 
 		}
 
@@ -363,11 +378,13 @@ void game_mode_2(){
 	/* text lcd Display */
 	TEXTLCD_2_mWriteReg(XPAR_TEXTLCD_2_0_S00_AXI_BASEADDR, 0, 0x00000002); // text lcd 화면에 gmae over 표시되며 동시에 시간이 멈춘다.
 	xil_printf("game mode 2\r\n");
-	if(is_button_pushed[0] == 1)	TEXTLCD_2_mWriteReg(XPAR_TEXTLCD_2_0_S00_AXI_BASEADDR, 0, 0x00000000); // 첫번째 푸쉬버튼을 누르면 TEXT LCD 게임준비화면으로 돌아감
+	if(is_button_pushed[0] == 1)
+		TEXTLCD_2_mWriteReg(XPAR_TEXTLCD_2_0_S00_AXI_BASEADDR, 0, 0x00000000); // 첫번째 푸쉬버튼을 누르면 TEXT LCD 게임준비화면으로 돌아감
 	/* tft lcd Display */
 	if(is_button_pushed[0] == 1)	game_mode = 0; // 첫번째 푸쉬버튼을 게임준비화면으로 넘어감
 }
-
+//TFT LCD가 원점 비대칭이므로 i,j 범위를 다르게 했음
+//
 void draw_square(int start_pos_X, int start_pos_Y, int length_X, int length_Y, rgb_t color){
 	for (int i = 272 - start_pos_Y; i >= 272 - start_pos_Y - length_Y; i--) {
 		for (int j = 480 - start_pos_X; j >= 480 - start_pos_X - length_X; j--) {
@@ -392,6 +409,7 @@ int compile_rgb(rgb_t rgb_data){
 void game_check(game_t *game){
 	is_spike_touched(game);
 	ball_jump_check(game);
+
 	change_ball_position(game);
 	if (!game->is_spike_exist){
 		generate_spike(game);
@@ -413,6 +431,7 @@ void ball_jump_check(game_t *game){
 void is_spike_touched(game_t *game){
 	// TODO: 현재 선언한 변수로 논의된 로직으로 코드 작성 부탁드립니다.
 
+
 	// game->ball_y_positon(은 옵션) 그리고 spike_x_position을 이용
 	// 조건: spike 기본 좌표 + game->spike_x_postion(음수) == ball_postion
 	// 가시 닿은 판정: ball position으로 트리거 걸기, 그리고 점프했는지 확인
@@ -424,28 +443,38 @@ void is_spike_touched(game_t *game){
 	// 	game_mode = 2;
 }
 
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////테스트해봐야할 코드////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 void change_ball_position(game_t *game){
 	if(game->is_ball_jumping){
+		double tmp = game->ball_y_position; //예전 ball의 y좌표를 저장한다. 예전 지역을 지우기위함
 		game->ball_y_position += game->ball_y_speed;
+		if( abs( (int)tmp - (int)(game->ball_y_position) )== 1 ) // 예전 ball y 좌표와 현재 ball y 좌표를 비교해서 차이가 1만큼 나면 픽셀을 움직인다.
+		{
+			// redraw_square("새로 그릴 네모", "바탕화면색으로 덮일 네모")
 
-		// 만일 ball position이 한 픽셀 움직이게 될 경우(1의 자리수가 바뀌게 되면) 해당 구역만 지우고 다시 그린다.
-		// redraw_square("새로 그릴 네모", "바탕화면색으로 덮일 네모")
+			redraw_square(
+					stage_position[game_count-1][game->game_number][0]+ball_position[0],
+					stage_position[game_count-1][game->game_number][1]+ball_position[1]+ (int)(game->ball_y_position),
+					ball_size[0], ball_size[1], ball_color,
+					stage_position[game_count-1][game->game_number][0]+ball_position[0],
+					stage_position[game_count-1][game->game_number][1]+ball_position[1]+ (int)tmp,
+					ball_size[0], ball_size[1], game->game_background_color
+					);
+		}
 
 		// 주의! 절대 좌표
 		//  stage_position[game_count][game->game_number][x,y] + ball_position[x,y] + game->ball_x_postion
 		// TODO: 조건문과 입력 변수 채워 넣기
-
-
-
 		game->ball_y_speed -= ball_gravity;
-		if (0) {
-			redraw_sqaure();
+		if(game->ball_y_position <= 0)
+		{
+			game->ball_y_position = 0;
+			game->ball_y_speed = jump_ball_speed;
+			game->is_ball_jumping = 0;
 		}
-
-		// else if(game->ball_y_position >= game->stage_y_position){
-		// 	game->ball_y_position = game->stage_y_position;
-		// 	game->is_ball_jumping = 0;
-		// }
 	}
 }
 

@@ -65,7 +65,6 @@ const int background_position[4][4][2][2] = { { { { 0, 0 }, { DISPLAY_WIDTH, DIS
 											    { { -1, -1 }, { -1, -1 } } },
 
 											  { { { 0, 0 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } },
-<<<<<<< HEAD
 											    { { DISPLAY_WIDTH / 2, 0 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT } }, 
 												{ { 0, DISPLAY_HEIGHT / 2 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } },  
 												{ { -1, -1 }, { -1, -1 } } },
@@ -75,18 +74,6 @@ const int background_position[4][4][2][2] = { { { { 0, 0 }, { DISPLAY_WIDTH, DIS
 												{ { 0, DISPLAY_HEIGHT / 2 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } },  
 												{ { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } } }
 											
-=======
-											    { { DISPLAY_WIDTH / 2, 0 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT } },
-												{ { 0, DISPLAY_HEIGHT / 2 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } },
-												{ { -1, -1 }, { -1, -1 } } },
-
-											  { { { 0, 0 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } },
-											    { { DISPLAY_WIDTH / 2, 0 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } },
-												{ { 0, DISPLAY_HEIGHT / 2 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } },
-												{ { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } } }
-
-
->>>>>>> ab3548a2da20fe9810f1d79913470b589df0fd38
 											};
 // game count, game number, (position, length), (x, y)
 
@@ -328,18 +315,11 @@ void game_mode_0(){
 			games[i].spike_x_speed = 0;
 
 			games[i].game_number = i;
-<<<<<<< HEAD
 			games[i].game_background_color = background_color_mode_1[i];
 			// games[i].game_background_color.R = background_color_mode_1[i][0];
 			// games[i].game_background_color.G = background_color_mode_1[i][1];
 			// games[i].game_background_color.B = background_color_mode_1[i][2];
 			
-=======
-			games[i].game_background_color.R = background_color_mode_1[i][0];
-			games[i].game_background_color.G = background_color_mode_1[i][1];
-			games[i].game_background_color.B = background_color_mode_1[i][2];
-
->>>>>>> ab3548a2da20fe9810f1d79913470b589df0fd38
 		}
 		game_mode = 1;
 		is_background_paint = 0;
@@ -406,7 +386,6 @@ void game_mode_1(){
 		// TODO: 현재 선언된 변수와 함수로 그리기
 		for (int i = 0; i < game_count; i++){
 			// Draw Background
-<<<<<<< HEAD
 			draw_square(background_position[game_count][i][0][0], background_position[game_count][i][0][1],
 					    background_position[game_count][i][1][0], background_position[game_count][i][1][1], games[i].game_background_color);
 
@@ -415,9 +394,6 @@ void game_mode_1(){
 			
 			// Draw Spike
 			draw_square(stage_position[game_count][i][0] + spike_position[0] + games[i].spike_x_position, stage_position[game_count][i][1] + spike_position[1], spike_size[0], spike_size[1], spike_color);
-=======
-
->>>>>>> ab3548a2da20fe9810f1d79913470b589df0fd38
 
 			// Draw Platform
 			draw_square(stage_position[game_count][i][0] + platform_position[0], stage_position[game_count][i][1] + platform_position[1], platform_size[0], platform_size[1], platform_color);

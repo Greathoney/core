@@ -50,16 +50,16 @@ typedef struct game{
 /* Fixed Parameter */
 
 /* Customizable Parameter */
-const int fps_delay = 33000;  // unit: micro second
+int fps_delay = 33000;  // unit: micro second
 
-const rgb_t ball_color = {31, 63, 31};
-const rgb_t platform_color = {31, 63, 31};
-const rgb_t spike_color = {31, 63, 31};
-const rgb_t background_color_mode_0 = { 31, 63, 31};
-const rgb_t background_color_mode_1[4] = { {31, 0,0}, {0, 63, 0}, {0, 0, 31}, {0, 0, 0}};
-const rgb_t background_color_mode_2 = {0, 0, 0};
+rgb_t ball_color = {31, 63, 31};
+rgb_t platform_color = {31, 63, 31};
+rgb_t spike_color = {31, 63, 31};
+rgb_t background_color_mode_0 = { 31, 63, 31};
+rgb_t background_color_mode_1[4] = { {31, 0,0}, {0, 63, 0}, {0, 0, 31}, {0, 0, 0}};
+rgb_t background_color_mode_2 = {0, 0, 0};
 
-const int background_position[4][4][2][2] = { { { { 0, 0 }, { 480, 272 } },
+int background_position[4][4][2][2] = { { { { 0, 0 }, { 480, 272 } },
 												  { { -1, -1 }, { -1, -1 } },
 												  { { -1, -1 }, { -1, -1 } },
 												  { { -1, -1 }, { -1, -1 } } },
@@ -93,23 +93,23 @@ const int background_position[4][4][2][2] = { { { { 0, 0 }, { 480, 272 } },
 // const int background_color_mode_2[3] = { 0, 0, 0 };
 
 
-const int stage_position[4][4][2] = { { { 120, 68 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },   // when game_count 1, game_number 1, 2, 3, 4, (x, y)
+int stage_position[4][4][2] = { { { 120, 68 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },   // when game_count 1, game_number 1, 2, 3, 4, (x, y)
 									  { {  0, 68 }, { 240, 68 }, { -1,  -1 }, { -1, -1 } },   // when game_count 2
 									  { {  0, 0 }, { 240, 68 }, { 0, 136 }, { -1, -1 } },   // when game_count 3
 									  { {  0, 0 }, { 240, 0 }, { 0, 136 }, { 240, 136 } } };  // when game_count 4
-const int stage_size[2] = {240, 136};
+int stage_size[2] = {240, 136};
 
-const int platform_position[2] = { 40, 96 };
-const int platform_size[2] = { 160, 20 };
+int platform_position[2] = { 40, 96 };
+int platform_size[2] = { 160, 20 };
 
-const int ball_position[2] = { 50, 86 };
-const int ball_size[2] = { 10, 10 };
+int ball_position[2] = { 50, 86 };
+int ball_size[2] = { 10, 10 };
 
-const int spike_position[2] = { 190, 86 };
-const int spike_size[2] = { 10, 10 };
-const int spike_path_length = 150;
-const int spike_speed = 1; //function of generation spike
-const int spike_probability = 300; // use function of generate_spike
+int spike_position[2] = { 190, 86 };
+int spike_size[2] = { 10, 10 };
+int spike_path_length = 150;
+int spike_speed = 1; //function of generation spike
+int spike_probability = 300; // use function of generate_spike
 
 double jump_ball_speed = 2;
 double ball_gravity = 0.1;

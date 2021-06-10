@@ -11,16 +11,17 @@
 #include "textlcd_2.h"
 
 #include "sleep.h"
-
-
+//////////////////////////////////////////////////////////
+////////////////인터럽트를 위한 함수와 변수 ///////////////////////
 int GicConfigure(u16);
 void ServiceRoutine(void *);
-
-XScuGic InterruptController; 	     // Instance of the Interrupt Controller
-static XScuGic_Config *GicConfig;    // The configuration parameters of the controller
+XScuGic InterruptController;
+static XScuGic_Config *GicConfig;
 
 #define INTC_DEVICE_ID		XPAR_SCUGIC_0_DEVICE_ID
 #define INTC_DEVICE_INT_ID	31
+//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////
 
 /* data formats */
 typedef struct rgb{
@@ -47,8 +48,9 @@ typedef struct game{
 
 /* Fixed Parameter */
 
-/* Customizable Parameter */
+// 프레임간의 딜레이 시간
 int fps_delay = 33000;  // unit: micro second
+
 
 rgb_t ball_color = {0, 0, 31};
 rgb_t platform_color = {31, 63, 31};
@@ -57,6 +59,7 @@ rgb_t background_color_mode_0 = { 31, 63, 31};
 rgb_t background_color_mode_1[4] = { {31, 0,0}, {0, 63, 0}, {0, 0, 31}, {0, 0, 0}};
 rgb_t background_color_mode_2 = {0, 0, 0};
 
+// 배경 범위
 const int background_position[4][4][2][2] = { { { { 0, 0 }, { 480, 272 } },
 												  { { -1, -1 }, { -1, -1 } },
 												  { { -1, -1 }, { -1, -1 } },
@@ -90,7 +93,7 @@ const int background_position[4][4][2][2] = { { { { 0, 0 }, { 480, 272 } },
 // 										   {  0,  0,  0 } };
 // const int background_color_mode_2[3] = { 0, 0, 0 };
 
-
+// 각 stage의 set point
 const int stage_position[4][4][2] = { { { 120, 68 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },   // when game_count 1, game_number 1, 2, 3, 4, (x, y)
 									  { {  0, 68 }, { 240, 68 }, { -1,  -1 }, { -1, -1 } },   // when game_count 2
 									  { {  0, 0 }, { 240, 68 }, { 0, 136 }, { -1, -1 } },   // when game_count 3
@@ -135,7 +138,7 @@ void ball_jump_check(game_t *);
 void is_spike_touched(game_t *);
 void change_ball_position(game_t *);
 void generate_spike(game_t *);
-void remove_spike(game_t *);
+//void remove_spike(game_t *);
 void change_spike_position(game_t *);
 
 int main(void)

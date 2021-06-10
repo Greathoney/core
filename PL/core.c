@@ -360,22 +360,23 @@ void game_mode_1(){
 
 	/* tft lcd Display */
 	if (is_background_paint == 0){
-		xil_printf("background code \r\n");
+		xil_printf("background paint \r\n");
 		// game_mode 또는 game_count 가 바뀌어 완전히 새로 그리게 될 때 여기서 한번 전체적으로 그려주게 된다.
 		// TODO: 현재 선언된 변수와 함수로 그리기
 		for (int i = 0; i < game_count; i++){
 			// Draw Background
 			draw_square(background_position[game_count-1][i][0][0], background_position[game_count-1][i][0][1],
 					    background_position[game_count-1][i][1][0], background_position[game_count-1][i][1][1], games[i].game_background_color);
-
+			xil_printf("Draw Background\r\n");
 			// Draw Ball
 			draw_square(stage_position[game_count-1][i][0] + ball_position[0], stage_position[game_count-1][i][1] + ball_position[1] + games[i].ball_y_position, ball_size[0], ball_size[1], ball_color);
-
+			xil_printf("stage_position (x) : %d, (y) : %d\r\n",stage_position[game_count-1][i][0] + ball_position[0],stage_position[game_count-1][i][1] + ball_position[1] + games[i].ball_y_position);
 			// Draw Spike
 			draw_square(stage_position[game_count-1][i][0] + spike_position[0] + games[i].spike_x_position, stage_position[game_count-1][i][1] + spike_position[1], spike_size[0], spike_size[1], spike_color);
 
 			// Draw Platform
 			draw_square(stage_position[game_count-1][i][0] + platform_position[0], stage_position[game_count-1][i][1] + platform_position[1], platform_size[0], platform_size[1], platform_color);
+			xil_printf("Draw platform\r\n");
 
 		}
 

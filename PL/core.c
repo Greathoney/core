@@ -244,7 +244,10 @@ void game_mode_0(){
 			games[i].spike_x_speed = 0;
 
 			games[i].game_number = i;
-			games[i].game_background_color = background_color[i];
+			games[i].game_background_color.R = background_color_mode_1[i][0];
+			games[i].game_background_color.G = background_color_mode_1[i][1];
+			games[i].game_background_color.B = background_color_mode_1[i][2];
+			
 		}
 		game_mode = 1;
 		is_background_paint = 0;
@@ -364,8 +367,8 @@ void game_check(game_t *game){
 
 void ball_jump_check(game_t *game){
 	if (is_button_pushed[game->game_number] = 1 && games[i]->is_ball_jumping == 0){
-		games[i]->is_ball_jumping = 1;
-		games[i]->ball_y_speed = jump_ball_speed;
+		game->is_ball_jumping = 1;
+		game->ball_y_speed = jump_ball_speed;
 	}
 }
 

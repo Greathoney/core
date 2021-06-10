@@ -54,15 +54,12 @@ typedef struct game{
 /* Customizable Parameter */
 const int fps_delay = 33000;  // unit: micro second
 
-const int ball_color[3] = { 31, 63, 31 };  // { R(0~31), G(0~63), B(0~31)}
-const int stage_color[3] = { 31, 63, 31 };
-
-const int background_color_mode_0[3] = { 31, 63, 31 };
-const int background_color_mode_1[4][3] = { { 15,  0,  0 },  // game section 1 { R, G, B }
-										   {  0, 31,  0 },  // game section 2 { R, G, B }
-										   {  0,  0, 15 },	// ...
-										   {  0,  0,  0 } };
-const int background_color_mode_2[3] = { 0, 0, 0 };
+const rgb_t ball_color = {31, 63, 31};
+const rgb_t platform_color = {31, 63, 31};
+const rgb_t spike_color = {31, 63, 31};
+const rgb_t background_color_mode_0 = { 31, 63, 31};
+const rgb_t background_color_mode_1[4] = { {15, 0,0}, {0, 31, 0}, {0, 0, 15}, {0, 0, 0}};
+const rgb_t background_color_mode_2 = {0, 0, 0};
 
 const int background_position[4][4][2][2] = { { { { 0, 0 }, { DISPLAY_WIDTH, DISPLAY_HEIGHT } },
 												  { { -1, -1 }, { -1, -1 } },
@@ -129,49 +126,6 @@ int game_count = 0;  // how many game
 int is_background_paint = 0;  // flag variable
 
 game_t games[4];
-/* color define */
-rgb_t ball_color;
-ball_color.R = 31;
-ball_color.G = 63;
-ball_color.B = 31;
-
-rgb_t platform_color;
-platform_color.R = 31;
-platform_color.G = 63;
-platform_color.B = 31;
-
-rgb_t spike_color;
-spike_color.R = 31;
-spike_color.G = 63;
-spike_color.B = 31;
-
-
-rgb_t background_color_mode_0;
-background_color_mode_0.R = 31;
-background_color_mode_0.G = 63;
-background_color_mode_0.B = 31;
-
-rgb_t background_color_mode_1[4];
-background_color_mode_1[0].R = 15;
-background_color_mode_1[0].G = 0;
-background_color_mode_1[0].B = 0;
-
-background_color_mode_1[1].R = 0;
-background_color_mode_1[1].G = 31;
-background_color_mode_1[1].B = 0;
-
-background_color_mode_1[2].R = 0;
-background_color_mode_1[2].G = 0;
-background_color_mode_1[2].B = 15;
-
-background_color_mode_1[3].R = 0;
-background_color_mode_1[3].G = 0;
-background_color_mode_1[3].B = 0;
-
-rgb_t background_color_mode_2;
-background_color_mode_2.R = 0;
-background_color_mode_2.G = 0;
-background_color_mode_2.B = 0;
 
 /* Functions */
 void game_mode_0();
@@ -338,12 +292,7 @@ void game_mode_0(){
 
 	/* tft lcd Display */
 	if(is_background_paint == 0){
-		rgb_t background_color;
-		background_color.R = background_color_mode_0[0];
-		background_color.G = background_color_mode_0[1];
-		background_color.B = background_color_mode_0[2];
-
-		draw_square(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT, background_color);
+		draw_square(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT, background_color_mode_0);
 
 		is_background_paint = 1;
 	}

@@ -64,7 +64,33 @@ const int background_color_mode_1[4][3] = { { 15,  0,  0 },  // game section 1 {
 										   {  0,  0,  0 } };
 const int background_color_mode_2[3] = { 0, 0, 0 };
 
-const int stage_position[4][4][2] = { { { DISPLAY_WIDTH / 4, DISPLAY_HEIGHT / 4 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },   // when game_count 1
+const int background_position[4][4][2][2] = { { { { 0, 0 }, { DISPLAY_WIDTH, DISPLAY_HEIGHT } },
+												  { { -1, -1 }, { -1, -1 } },
+												  { { -1, -1 }, { -1, -1 } },
+												  { { -1, -1 }, { -1, -1 } } },
+
+										      { { { 0, 0 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT } },
+											    { { DISPLAY_WIDTH / 2, 0 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT } },
+											    { { -1, -1 }, { -1, -1 } },
+											    { { -1, -1 }, { -1, -1 } } },
+
+											  { { { 0, 0 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } },
+											    { { DISPLAY_WIDTH / 2, 0 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT } }, 
+												{ { 0, DISPLAY_HEIGHT / 2 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } },  
+												{ { -1, -1 }, { -1-, -1 } } },
+
+											  { { { 0, 0 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } },
+											    { { DISPLAY_WIDTH / 2, 0 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } }, 
+												{ { 0, DISPLAY_HEIGHT / 2 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } },  
+												{ { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } } },
+
+											
+											};
+// game count, game number, (position, length), (x, y)
+
+
+
+const int stage_position[4][4][2] = { { { DISPLAY_WIDTH / 4, DISPLAY_HEIGHT / 4 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },   // when game_count 1, game_number 1, 2, 3, 4, (x, y)
 									  { {  0, DISPLAY_HEIGHT / 4 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 4 }, { -1,  -1 }, { -1, -1 } },   // when game_count 2
 									  { {  0, 0 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 4 }, { 0, DISPLAY_HEIGHT / 2 }, { -1, -1 } },   // when game_count 3
 									  { {  0, 0 }, { DISPLAY_WIDTH / 2, 0 }, { 0, DISPLAY_HEIGHT / 2 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } } };  // when game_count 4
@@ -312,6 +338,13 @@ void game_mode_1(){
 	if (is_background_paint == 0){
 		// game_mode 또는 game_count 가 바뀌어 완전히 새로 그리게 될 때 여기서 한번 전체적으로 그려주게 된다.
 		// TODO: 현재 선언된 변수와 함수로 그리기
+		for (int i = 0; i < game_count; i++){
+			// Draw Background
+			
+
+
+			// Draw Game
+		}
 
 		is_background_paint = 1;
 	}
@@ -355,7 +388,7 @@ void game_check(game_t *game){
 	is_spike_touched(game);
 	ball_jump_check(game);
 	change_ball_position(game);
-	if (!game->is_game_exist){
+	if (!game->is_spike_exist){
 		generate_spike(game);
 	}
 	else {

@@ -58,7 +58,7 @@ const rgb_t ball_color = {31, 63, 31};
 const rgb_t platform_color = {31, 63, 31};
 const rgb_t spike_color = {31, 63, 31};
 const rgb_t background_color_mode_0 = { 31, 63, 31};
-const rgb_t background_color_mode_1[4] = { {15, 0,0}, {0, 31, 0}, {0, 0, 15}, {0, 0, 0}};
+const rgb_t background_color_mode_1[4] = { {31, 0,0}, {0, 63, 0}, {0, 0, 31}, {0, 0, 0}};
 const rgb_t background_color_mode_2 = {0, 0, 0};
 
 const int background_position[4][4][2][2] = { { { { 0, 0 }, { DISPLAY_WIDTH, DISPLAY_HEIGHT } },

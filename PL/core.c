@@ -54,16 +54,6 @@ typedef struct game{
 /* Customizable Parameter */
 const int fps_delay = 33000;  // unit: micro second
 
-const int ball_color[3] = { 31, 63, 31 };  // { R(0~31), G(0~63), B(0~31)}
-const int stage_color[3] = { 31, 63, 31 };
-
-const int background_color_mode_0[3] = { 31, 63, 31 };
-const int background_color_mode_1[4][3] = { { 15,  0,  0 },  // game section 1 { R, G, B }
-										   {  0, 31,  0 },  // game section 2 { R, G, B }
-										   {  0,  0, 15 },	// ...
-										   {  0,  0,  0 } };
-const int background_color_mode_2[3] = { 0, 0, 0 };
-
 const int background_position[4][4][2][2] = { { { { 0, 0 }, { DISPLAY_WIDTH, DISPLAY_HEIGHT } },
 												  { { -1, -1 }, { -1, -1 } },
 												  { { -1, -1 }, { -1, -1 } },
@@ -77,17 +67,69 @@ const int background_position[4][4][2][2] = { { { { 0, 0 }, { DISPLAY_WIDTH, DIS
 											  { { { 0, 0 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } },
 											    { { DISPLAY_WIDTH / 2, 0 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT } }, 
 												{ { 0, DISPLAY_HEIGHT / 2 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } },  
-												{ { -1, -1 }, { -1-, -1 } } },
+												{ { -1, -1 }, { -1, -1 } } },
 
 											  { { { 0, 0 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } },
 											    { { DISPLAY_WIDTH / 2, 0 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } }, 
 												{ { 0, DISPLAY_HEIGHT / 2 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } },  
-												{ { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } } },
-
+												{ { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } } }
 											
 											};
 // game count, game number, (position, length), (x, y)
 
+/* color defination */
+rgb_t ball_color;
+ball_color.R = 31;
+ball_color.G = 63;
+ball_color.B = 31;
+
+rgb_t platform_color;
+platform_color.R = 31;
+platform_color.G = 63;
+platform_color.B = 31;
+
+rgb_t spike_color;
+spike_color.R = 31;
+spike_color.G = 63;
+spike_color.B = 31;
+
+
+rgb_t background_color_mode_0;
+background_color_mode_0.R = 31;
+background_color_mode_0.G = 63;
+background_color_mode_0.B = 31;
+
+rgb_t background_color_mode_1[4];
+background_color_mode_1[0].R = 15;
+background_color_mode_1[0].G = 0;
+background_color_mode_1[0].B = 0;
+
+background_color_mode_1[1].R = 0;
+background_color_mode_1[1].G = 31;
+background_color_mode_1[1].B = 0;
+
+background_color_mode_1[2].R = 0;
+background_color_mode_1[2].G = 0;
+background_color_mode_1[2].B = 15;
+
+background_color_mode_1[3].R = 0;
+background_color_mode_1[3].G = 0;
+background_color_mode_1[3].B = 0;
+
+rgb_t background_color_mode_2;
+background_color_mode_2.R = 0;
+background_color_mode_2.G = 0;
+background_color_mode_2.B = 0;
+
+// const int ball_color[3] = { 31, 63, 31 };  // { R(0~31), G(0~63), B(0~31)}
+// const int stage_color[3] = { 31, 63, 31 };
+
+// const int background_color_mode_0[3] = { 31, 63, 31 };
+// const int background_color_mode_1[4][3] = { { 15,  0,  0 },  // game section 1 { R, G, B }
+// 										   {  0, 31,  0 },  // game section 2 { R, G, B }
+// 										   {  0,  0, 15 },	// ...
+// 										   {  0,  0,  0 } };
+// const int background_color_mode_2[3] = { 0, 0, 0 };
 
 
 const int stage_position[4][4][2] = { { { DISPLAY_WIDTH / 4, DISPLAY_HEIGHT / 4 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },   // when game_count 1, game_number 1, 2, 3, 4, (x, y)
@@ -119,6 +161,7 @@ int game_count = 0;  // how many game
 int is_background_paint = 0;  // flag variable
 
 game_t games[4];
+
 
 /* Functions */
 void game_mode_0();
@@ -270,9 +313,10 @@ void game_mode_0(){
 			games[i].spike_x_speed = 0;
 
 			games[i].game_number = i;
-			games[i].game_background_color.R = background_color_mode_1[i][0];
-			games[i].game_background_color.G = background_color_mode_1[i][1];
-			games[i].game_background_color.B = background_color_mode_1[i][2];
+			games[i].game_background_color = background_color_mode_1[i];
+			// games[i].game_background_color.R = background_color_mode_1[i][0];
+			// games[i].game_background_color.G = background_color_mode_1[i][1];
+			// games[i].game_background_color.B = background_color_mode_1[i][2];
 			
 		}
 		game_mode = 1;
@@ -340,10 +384,18 @@ void game_mode_1(){
 		// TODO: 현재 선언된 변수와 함수로 그리기
 		for (int i = 0; i < game_count; i++){
 			// Draw Background
+			draw_square(background_position[game_count][i][0][0], background_position[game_count][i][0][1],
+					    background_position[game_count][i][1][0], background_position[game_count][i][1][1], games[i].game_background_color);
+
+			// Draw Ball
+			draw_square(stage_position[game_count][i][0] + ball_position[0], stage_position[game_count][i][1] + ball_position[1] + games[i].ball_y_position, ball_size[0], ball_size[1], ball_color);
 			
+			// Draw Spike
+			draw_square(stage_position[game_count][i][0] + spike_position[0] + games[i].spike_x_position, stage_position[game_count][i][1] + spike_position[1], spike_size[0], spike_size[1], spike_color);
 
+			// Draw Platform
+			draw_square(stage_position[game_count][i][0] + platform_position[0], stage_position[game_count][i][1] + platform_position[1], platform_size[0], platform_size[1], platform_color);
 
-			// Draw Game
 		}
 
 		is_background_paint = 1;

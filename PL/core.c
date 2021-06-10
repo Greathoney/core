@@ -75,16 +75,16 @@ const int background_position[4][4][2][2] = { { { { 0, 0 }, { DISPLAY_WIDTH, DIS
 											    { { -1, -1 }, { -1, -1 } } },
 
 											  { { { 0, 0 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } },
-											    { { DISPLAY_WIDTH / 2, 0 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT } }, 
-												{ { 0, DISPLAY_HEIGHT / 2 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } },  
-												{ { -1, -1 }, { -1-, -1 } } },
+											    { { DISPLAY_WIDTH / 2, 0 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT } },
+												{ { 0, DISPLAY_HEIGHT / 2 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } },
+												{ { -1, -1 }, { -1, -1 } } },
 
 											  { { { 0, 0 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } },
-											    { { DISPLAY_WIDTH / 2, 0 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } }, 
-												{ { 0, DISPLAY_HEIGHT / 2 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } },  
-												{ { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } } },
+											    { { DISPLAY_WIDTH / 2, 0 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } },
+												{ { 0, DISPLAY_HEIGHT / 2 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } },
+												{ { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 }, { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 } } }
 
-											
+
 											};
 // game count, game number, (position, length), (x, y)
 
@@ -97,7 +97,7 @@ const int stage_position[4][4][2] = { { { DISPLAY_WIDTH / 4, DISPLAY_HEIGHT / 4 
 const int stage_size[2] = { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 };
 
 const int platform_position[2] = { 40, 96 };
-const int platform_size[2] = { 160, 20 };s
+const int platform_size[2] = { 160, 20 };
 
 const int ball_position[2] = { 50, 86 };
 const int ball_size[2] = { 10, 10 };
@@ -105,6 +105,8 @@ const int ball_size[2] = { 10, 10 };
 const int spike_position[2] = { 190, 86 };
 const int spike_size[2] = { 10, 10 };
 const int spike_path_length = 150;
+const int spike_speed = 1; //function of generation spike
+const int spike_probability = 300; // use function of generate_spike
 
 double jump_ball_speed = 2;
 double ball_gravity = 0.1;
@@ -273,7 +275,7 @@ void game_mode_0(){
 			games[i].game_background_color.R = background_color_mode_1[i][0];
 			games[i].game_background_color.G = background_color_mode_1[i][1];
 			games[i].game_background_color.B = background_color_mode_1[i][2];
-			
+
 		}
 		game_mode = 1;
 		is_background_paint = 0;
@@ -340,7 +342,7 @@ void game_mode_1(){
 		// TODO: 현재 선언된 변수와 함수로 그리기
 		for (int i = 0; i < game_count; i++){
 			// Draw Background
-			
+
 
 
 			// Draw Game
@@ -434,7 +436,15 @@ void generate_spike(game_t *game){
 	// 가시는 랜덤하게 생성함
 	// 가시의 속도도 랜덤
 
-	// 아래 조건문은 상위 함수에서 작성함
+	if(rand()%spike_probability <= 10) // spike_probability = 300 , L109
+	{
+		game->is_spike_exist = 1;
+		game->spike_x_position = 0;
+		game->spike_x_speed = spike_speed; //L108
+	}
+
+
+	// 아래 조건문은 상위 함수에서 작성함 392L
 	// if(!game->is_spike_exist){
 	// 	game->is_spike_exist = ((rand()%2) == 1));
 	// 	game->spike_x_position = game->stage_x_position + STAGE_WIDTH - SPIKE_SIZE;

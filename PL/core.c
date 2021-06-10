@@ -52,7 +52,7 @@ typedef struct game{
 /* Customizable Parameter */
 int fps_delay = 33000;  // unit: micro second
 
-rgb_t ball_color = {31, 63, 31};
+rgb_t ball_color = {0, 0, 31};
 rgb_t platform_color = {31, 63, 31};
 rgb_t spike_color = {31, 63, 31};
 rgb_t background_color_mode_0 = { 31, 63, 31};
@@ -93,7 +93,7 @@ int background_position[4][4][2][2] = { { { { 0, 0 }, { 480, 272 } },
 // const int background_color_mode_2[3] = { 0, 0, 0 };
 
 
-int stage_position[4][4][2] = { { { 120, 68 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },   // when game_count 1, game_number 1, 2, 3, 4, (x, y)
+const int stage_position[4][4][2] = { { { 120, 68 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },   // when game_count 1, game_number 1, 2, 3, 4, (x, y)
 									  { {  0, 68 }, { 240, 68 }, { -1,  -1 }, { -1, -1 } },   // when game_count 2
 									  { {  0, 0 }, { 240, 68 }, { 0, 136 }, { -1, -1 } },   // when game_count 3
 									  { {  0, 0 }, { 240, 0 }, { 0, 136 }, { 240, 136 } } };  // when game_count 4
@@ -156,6 +156,7 @@ int main(void)
     /* tft lcd initlization */
 
     /* Game Loop */
+
     while (1) {
         if (game_mode == 0) {
 			game_mode_0();
@@ -292,7 +293,7 @@ void game_mode_0(){
 
 	/* tft lcd Display */
 	if(is_background_paint == 0){
-		draw_square(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT, background_color_mode_0);
+		draw_square(0, 0, 480, 272, background_color_mode_0);
 
 		is_background_paint = 1;
 	}
@@ -369,10 +370,13 @@ void game_mode_1(){
 					    background_position[game_count-1][i][1][0], background_position[game_count-1][i][1][1], games[i].game_background_color);
 			xil_printf("Draw Background\r\n");
 			// Draw Ball
-			draw_square(stage_position[game_count-1][i][0] + ball_position[0], stage_position[game_count-1][i][1] + ball_position[1] + games[i].ball_y_position, ball_size[0], ball_size[1], ball_color);
-			xil_printf("stage_position (x) : %d, (y) : %d\r\n",stage_position[game_count-1][i][0] + ball_position[0],stage_position[game_count-1][i][1] + ball_position[1] + games[i].ball_y_position);
+			draw_square(stage_position[game_count-1][i][0] + ball_position[0], stage_position[game_count-1][i][1] + ball_position[1] + (int)games[i].ball_y_position, ball_size[0], ball_size[1], ball_color);
+//			xil_printf("stage_position (x) : %d, (y) : %d\r\n",stage_position[game_count-1][i][0] + ball_position[0],stage_position[game_count-1][i][1] + ball_position[1] + games[i].ball_y_position);
+			xil_printf("~~%d, %d, %d, %d\r\n",stage_position[game_count-1][i][0] + ball_position[0], stage_position[game_count-1][i][1] + ball_position[1] + (int)games[i].ball_y_position, ball_size[0], ball_size[1]);
+//			xil_printf("~~%d, %d, %d, %d", stage_position[0][0][1], stage_position[game_count][i][1], game_count, i);
+
 			// Draw Spike
-			draw_square(stage_position[game_count-1][i][0] + spike_position[0] + games[i].spike_x_position, stage_position[game_count-1][i][1] + spike_position[1], spike_size[0], spike_size[1], spike_color);
+			draw_square(stage_position[game_count-1][i][0] + spike_position[0] + (int)games[i].spike_x_position, stage_position[game_count-1][i][1] + spike_position[1], spike_size[0], spike_size[1], spike_color);
 
 			// Draw Platform
 			draw_square(stage_position[game_count-1][i][0] + platform_position[0], stage_position[game_count-1][i][1] + platform_position[1], platform_size[0], platform_size[1], platform_color);
@@ -400,8 +404,8 @@ void game_mode_2(){
 }
 
 void draw_square(int start_pos_X, int start_pos_Y, int length_X, int length_Y, rgb_t color){
-	for (int i = start_pos_Y; i < length_Y; i++) {
-		for (int j = start_pos_X; j < length_X; j++) {
+	for (int i = start_pos_Y; i < start_pos_Y + length_Y; i++) {
+		for (int j = start_pos_X; j < start_pos_X + length_X; j++) {
 			Xil_Out32(XPAR_TFTLCD_0_S00_AXI_BASEADDR + (j + 480*i)*4, compile_rgb(color));
 		}
 	}

@@ -371,7 +371,7 @@ void game_mode_2(){
 	}
 
 	/* Game Logic */
-	
+
 	if(is_button_pushed[0] == 1) {
 		TEXTLCD_2_mWriteReg(XPAR_TEXTLCD_2_0_S00_AXI_BASEADDR, 0, 0x00000000); // 첫번째 푸쉬버튼을 누르면 TEXT LCD 게임준비화면으로 돌아감
 		game_mode = 0; // 첫번째 푸쉬버튼을 게임준비화면으로 넘어감
@@ -402,10 +402,13 @@ void redraw_square(int draw_start_pos_X, int draw_draw_start_pos_Y, int draw_len
 }
 
 void draw_triangle(int start_pos_X, int start_pos_Y, int length_X, int length_Y, rgb_t color){
+	int x ,y; // 원점 대칭인 i,j를 다시 원점대칭함
 	for (int i = DISPLAY_HEIGHT - start_pos_Y - 1; i >= DISPLAY_HEIGHT - start_pos_Y - length_Y; i--) {
 		for (int j = DISPLAY_WIDTH - start_pos_X - 1; j >= DISPLAY_WIDTH - start_pos_X - length_X; j--) {
 			// if (0)  // 해당 픽셀에 색깔을 넣어야 하는지 판단, i, j, length_X, length_Y, start_pos_X, start_pos_Y, DISPLAY_HEIGHT, DISPLAY_WIDTH 을 이용하여 판별
-			if((i <= (length_Y/(length_X/2))*j) && (i <= 2*length_Y - (length_Y/(length_X/2))*j){
+			x = DISPLAY_WIDTH -j -1;
+			y = DISPLAY_WIDTH -i -1;
+			if((y <= (length_Y/(length_X/2))*x) && (y <= 2*length_Y - (length_Y/(length_X/2))*x)){
 				Xil_Out32(XPAR_TFTLCD_0_S00_AXI_BASEADDR + (j + DISPLAY_WIDTH*i)*4, compile_rgb(color));
 			}
 		}
@@ -421,10 +424,13 @@ void redraw_triangle(int draw_start_pos_X, int draw_draw_start_pos_Y, int draw_l
 
 
 void draw_circle(int start_pos_X, int start_pos_Y, int length_X, int length_Y, rgb_t color){
+	int x ,y; // 원점 대칭인 i,j를 다시 원점대칭함
 	for (int i = DISPLAY_HEIGHT - start_pos_Y - 1; i >= DISPLAY_HEIGHT - start_pos_Y - length_Y; i--) {
 		for (int j = DISPLAY_WIDTH - start_pos_X - 1; j >= DISPLAY_WIDTH - start_pos_X - length_X; j--) {
 			// if (0)  // 해당 픽셀에 색깔을 넣어야 하는지 판단, i, j, length_X, length_Y, start_pos_X, start_pos_Y, DISPLAY_HEIGHT, DISPLAY_WIDTH 을 이용하여 판별
-			if(((i - (length_X/2))*(i - (length_X/2)) + (j - (length_Y/2))*(j - (length_Y/2))) <= (length_X/2)*(length_X/2)){
+			x = DISPLAY_WIDTH -j -1;
+			y = DISPLAY_WIDTH -i -1;
+			if(((y - (length_X/2))*(y - (length_X/2)) + (x - (length_Y/2))*(x - (length_Y/2))) <= (length_X/2)*(length_X/2)){
 				Xil_Out32(XPAR_TFTLCD_0_S00_AXI_BASEADDR + (j + DISPLAY_WIDTH*i)*4, compile_rgb(color));
 			}
 		}
@@ -504,7 +510,7 @@ void change_ball_position(game_t *game){
 					stage_position[game_count-1][game->game_number][0]+ball_position[0],
 					stage_position[game_count-1][game->game_number][1]+ball_position[1]+ (int)(game->ball_y_position),
 					ball_size[0], ball_size[1], ball_color,
-					
+
 					stage_position[game_count-1][game->game_number][0]+ball_position[0],
 					stage_position[game_count-1][game->game_number][1]+ball_position[1]+ (int)tmp,
 					ball_size[0], ball_size[1], game->game_background_color

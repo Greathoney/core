@@ -405,7 +405,29 @@ void draw_triangle(int start_pos_X, int start_pos_Y, int length_X, int length_Y,
 	for (int i = DISPLAY_HEIGHT - start_pos_Y - 1; i >= DISPLAY_HEIGHT - start_pos_Y - length_Y; i--) {
 		for (int j = DISPLAY_WIDTH - start_pos_X - 1; j >= DISPLAY_WIDTH - start_pos_X - length_X; j--) {
 			// if (0)  // 해당 픽셀에 색깔을 넣어야 하는지 판단, i, j, length_X, length_Y, start_pos_X, start_pos_Y, DISPLAY_HEIGHT, DISPLAY_WIDTH 을 이용하여 판별
+			if((i >= DISPLAY_WIDTH - start_pos_Y - 2)){
+				if((j <= DISPLAY_WIDTH - start_pos_X - 5) && (j >= DISPLAY_WIDTH - start_pos_X - 6)){
+					Xil_Out32(XPAR_TFTLCD_0_S00_AXI_BASEADDR + (j + DISPLAY_WIDTH*i)*4, compile_rgb(color));
+				}
+			}
+			else if((i == DISPLAY_HEIGHT - start_pos_Y - 3) || (i == DISPLAY_HEIGHT - start_pos_Y - 4)){
+				if((j <= DISPLAY_WIDTH - start_pos_X - 4) && (j >= DISPLAY_WIDTH - start_pos_X - 7)){
+					Xil_Out32(XPAR_TFTLCD_0_S00_AXI_BASEADDR + (j + DISPLAY_WIDTH*i)*4, compile_rgb(color));
+				}
+			}
+			else if((i == DISPLAY_HEIGHT - start_pos_Y - 5) || (i == DISPLAY_HEIGHT - start_pos_Y - 6)){
+				if((j <= DISPLAY_WIDTH - start_pos_X - 3) && (j >= DISPLAY_WIDTH - start_pos_X - 8)){
+					Xil_Out32(XPAR_TFTLCD_0_S00_AXI_BASEADDR + (j + DISPLAY_WIDTH*i)*4, compile_rgb(color));
+				}
+			}
+			else if((i == DISPLAY_HEIGHT - start_pos_Y - 7) || (i == DISPLAY_HEIGHT - start_pos_Y - 8)){
+				if((j <= DISPLAY_WIDTH - start_pos_X - 2) && (j >= DISPLAY_WIDTH - start_pos_X - 9)){
+					Xil_Out32(XPAR_TFTLCD_0_S00_AXI_BASEADDR + (j + DISPLAY_WIDTH*i)*4, compile_rgb(color));
+				}
+			}
+			else if((i <= DISPLAY_HEIGHT - start_pos_Y - 9)){
 				Xil_Out32(XPAR_TFTLCD_0_S00_AXI_BASEADDR + (j + DISPLAY_WIDTH*i)*4, compile_rgb(color));
+			}
 		}
 	}
 }
@@ -422,7 +444,21 @@ void draw_circle(int start_pos_X, int start_pos_Y, int length_X, int length_Y, r
 	for (int i = DISPLAY_HEIGHT - start_pos_Y - 1; i >= DISPLAY_HEIGHT - start_pos_Y - length_Y; i--) {
 		for (int j = DISPLAY_WIDTH - start_pos_X - 1; j >= DISPLAY_WIDTH - start_pos_X - length_X; j--) {
 			// if (0)  // 해당 픽셀에 색깔을 넣어야 하는지 판단, i, j, length_X, length_Y, start_pos_X, start_pos_Y, DISPLAY_HEIGHT, DISPLAY_WIDTH 을 이용하여 판별
+			// 각 line 중앙 정렬로 4 8 8 10 10 10 10 8 8 4 에만 draw
+			if((i == DISPLAY_HEIGHT - start_pos_Y - 1 ) || (i == DISPLAY_WIDTH - start_pos_Y - length_Y)){
+				if((j <= DISPLAY_WIDTH - start_pos_X - 4) && (j >= DISPLAY_WIDTH - start_pos_X - 7)){
+					Xil_Out32(XPAR_TFTLCD_0_S00_AXI_BASEADDR + (j + DISPLAY_WIDTH*i)*4, compile_rgb(color));
+				}
+			}
+			else if(((i <= DISPLAY_HEIGHT - start_pos_Y - 2 ) && (i >= DISPLAY_HEIGHT - start_pos_Y - 3)) 
+					|| ((i <= DISPLAY_HEIGHT - start_pos_Y - 8) && (i >= DISPLAY_HEIGHT - start_pos_Y - 9))){
+				if((j <= DISPLAY_WIDTH - start_pos_X - 2) && (j >= DISPLAY_WIDTH - start_pos_X - 9)){
+					Xil_Out32(XPAR_TFTLCD_0_S00_AXI_BASEADDR + (j + DISPLAY_WIDTH*i)*4, compile_rgb(color));
+				}
+			}
+			else if((i <= DISPLAY_HEIGHT - start_pos_Y - 4) && (i >= DISPLAY_HEIGHT - start_pos_Y - 7)){
 				Xil_Out32(XPAR_TFTLCD_0_S00_AXI_BASEADDR + (j + DISPLAY_WIDTH*i)*4, compile_rgb(color));
+			}
 		}
 	}
 }

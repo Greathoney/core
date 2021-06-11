@@ -39,7 +39,7 @@ typedef struct game{
     int is_ball_jumping;
 
     int is_spike_exist;
-    double spike_x_position;  // 시작 좌표는 항상 0
+    double spike_x_position;  // 시작 좌표는 항상 0, 감소
     double spike_x_speed;  // 항상 음수
 
     int game_number;
@@ -47,58 +47,52 @@ typedef struct game{
 } game_t;
 
 /* Fixed Parameter */
+#define DISPLAY_WIDTH 480
+#define DISPLAY_HEIGHT 272
 
 // 프레임간의 딜레이 시간
-int fps_delay = 33000;  // unit: micro second
+const int fps_delay = 33000;  // unit: micro second
 
-
-rgb_t ball_color = {0, 0, 31};
-rgb_t platform_color = {31, 63, 31};
-rgb_t spike_color = {31, 63, 31};
-rgb_t background_color_mode_0 = { 31, 63, 31};
-rgb_t background_color_mode_1[4] = { {31, 0,0}, {0, 63, 0}, {0, 0, 31}, {0, 0, 0}};
-rgb_t background_color_mode_2 = {0, 0, 0};
+const rgb_t ball_color = { 0, 0, 31 };
+const rgb_t platform_color = { 31, 63, 31 };
+const rgb_t spike_color = {31, 63, 31 };
+const rgb_t background_color_mode_0 = { 31, 63, 31 };
+const rgb_t background_color_mode_1[4] = { { 31, 0, 0 }, { 0, 63, 0 }, { 0, 0, 31 }, { 0, 0, 0 } };
+const rgb_t background_color_mode_2 = { 0, 0, 0 };
 
 // 배경 범위
-const int background_position[4][4][2][2] = { { { { 0, 0 }, { 480, 272 } },
+const int background_position[4][4][2][2] = { { { { 0, 0 }, { DISPLAY_WIDTH, DISPLAY_HEIGHT } },
 												  { { -1, -1 }, { -1, -1 } },
 												  { { -1, -1 }, { -1, -1 } },
 												  { { -1, -1 }, { -1, -1 } } },
 
-										      { { { 0, 0 }, { 240, 272 } },
-											    { { 240, 0 }, { 240, 272 } },
+										      { { { 0, 0 }, { DISPLAY_WIDTH/2, DISPLAY_HEIGHT } },
+											    { { DISPLAY_WIDTH/2, 0 }, { DISPLAY_WIDTH/2, DISPLAY_HEIGHT } },
 											    { { -1, -1 }, { -1, -1 } },
 											    { { -1, -1 }, { -1, -1 } } },
 
-											  { { { 0, 0 }, { 240, 136 } },
-											    { { 240, 0 }, { 240, 272 } },
-												{ { 0, 136 }, { 240, 136 } },
+											  { { { 0, 0 }, { DISPLAY_WIDTH/2, DISPLAY_HEIGHT/2 } },
+											    { { DISPLAY_WIDTH/2, 0 }, { DISPLAY_WIDTH/2, DISPLAY_HEIGHT } },
+												{ { 0, DISPLAY_HEIGHT/2 }, { DISPLAY_WIDTH/2, DISPLAY_HEIGHT/2 } },
 												{ { -1, -1 }, { -1, -1 } } },
 
-											  { { { 0, 0 }, { 240, 136 } },
-											    { { 240, 0 }, { 240, 136 } },
-												{ { 0, 136 }, { 240, 136 } },
-												{ { 240, 136 }, { 240, 136 } } }
+											  { { { 0, 0 }, { DISPLAY_WIDTH/2, DISPLAY_HEIGHT/2 } },
+											    { { DISPLAY_WIDTH/2, 0 }, { DISPLAY_WIDTH/2, DISPLAY_HEIGHT/2 } },
+												{ { 0, DISPLAY_HEIGHT/2 }, { DISPLAY_WIDTH/2, DISPLAY_HEIGHT/2 } },
+												{ { DISPLAY_WIDTH/2, DISPLAY_HEIGHT/2 }, { DISPLAY_WIDTH/2, DISPLAY_HEIGHT/2 } } }
 
 
 											};
 // game count, game number, (position, length), (x, y)
-// const int ball_color[3] = { 31, 63, 31 };  // { R(0~31), G(0~63), B(0~31)}
-// const int stage_color[3] = { 31, 63, 31 };
-
-// const int background_color_mode_0[3] = { 31, 63, 31 };
-// const int background_color_mode_1[4][3] = { { 15,  0,  0 },  // game section 1 { R, G, B }
-// 										   {  0, 31,  0 },  // game section 2 { R, G, B }
-// 										   {  0,  0, 15 },	// ...
-// 										   {  0,  0,  0 } };
-// const int background_color_mode_2[3] = { 0, 0, 0 };
 
 // 각 stage의 set point
-const int stage_position[4][4][2] = { { { 120, 68 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },   // when game_count 1, game_number 1, 2, 3, 4, (x, y)
-									  { {  0, 68 }, { 240, 68 }, { -1,  -1 }, { -1, -1 } },   // when game_count 2
-									  { {  0, 0 }, { 240, 68 }, { 0, 136 }, { -1, -1 } },   // when game_count 3
-									  { {  0, 0 }, { 240, 0 }, { 0, 136 }, { 240, 136 } } };  // when game_count 4
-const int stage_size[2] = {240, 136};
+const int stage_position[4][4][2] = { { { DISPLAY_WIDTH/4, DISPLAY_HEIGHT/4 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },
+									  { { 0, DISPLAY_HEIGHT/4 }, { DISPLAY_WIDTH/2, DISPLAY_HEIGHT/4 }, { -1,  -1 }, { -1, -1 } },
+									  { { 0, 0 }, { DISPLAY_WIDTH/2, DISPLAY_HEIGHT/4 }, { 0, DISPLAY_HEIGHT/2 }, { -1, -1 } },
+									  { { 0, 0 }, { DISPLAY_WIDTH/2, 0 }, { 0, DISPLAY_HEIGHT/2 }, { DISPLAY_WIDTH/2, DISPLAY_HEIGHT/2 } } };
+// game count, game number, (x, y)
+
+const int stage_size[2] = { DISPLAY_WIDTH/2, DISPLAY_HEIGHT/2 };
 
 const int platform_position[2] = { 40, 96 };
 const int platform_size[2] = { 160, 20 };
@@ -108,9 +102,9 @@ const int ball_size[2] = { 10, 10 };
 
 const int spike_position[2] = { 190, 86 };
 const int spike_size[2] = { 10, 10 };
-const int spike_path_length = 150;
-const int spike_speed = 1; //function of generation spike
-const int spike_probability = 300; // use function of generate_spike
+const int spike_path_length = 150;  // 가시가 걸어다닐 총 길이
+const double spike_speed = 0.1;  // function of generation spike
+const int spike_probability = 300;  // use function of generate_spike
 
 const double jump_ball_speed = 2;  // needs casting to integer
 const double ball_gravity = 0.1;   // nees casting to integer
@@ -118,7 +112,7 @@ const double ball_gravity = 0.1;   // nees casting to integer
 /* Global Variables */
 int is_button_pushed[4] = { 0, 0, 0, 0 };
 
-int playtime ; // how much time play ( sec unit)
+int playtime; // how much time play ( sec unit)
 int game_mode = 0;  // 0: game ready, 1: game playing 2: game over
 int game_count = 0;  // how many game
 
@@ -275,10 +269,6 @@ void game_mode_0(){
 
 			games[i].game_number = i;
 			games[i].game_background_color = background_color_mode_1[i];
-			// games[i].game_background_color.R = background_color_mode_1[i][0];
-			// games[i].game_background_color.G = background_color_mode_1[i][1];
-			// games[i].game_background_color.B = background_color_mode_1[i][2];
-
 		}
 		game_mode = 1;
 		is_background_paint = 0;
@@ -291,7 +281,7 @@ void game_mode_0(){
 
 	/* tft lcd Display */
 	if(is_background_paint == 0){
-		draw_square(0, 0, 480, 272, background_color_mode_0);
+		draw_square(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT, background_color_mode_0);
 
 		is_background_paint = 1;
 	}
@@ -303,8 +293,6 @@ void game_mode_1(){
 	playtime = ( (playtime & 0x00000F00) >> 8 )*60 +( (playtime & 0x000000F0) >> 4 )*10 +(playtime & 0x0000000F);
 	//xil_printf("playtime : (16 radix)%xsec (10 radix)%dsec \r\n",playtime);
 
-
-	// TODO: 시간이 다 되어 game_count가 변해야 하는지 체크, is_background_paint = 0으로 만들어주는 구문 작성
 	if(playtime == 30 && game_count == 1) // playtime이 30초가 되고 game_count가 1개면 2개로 만들어준다.
 	{
 		game_count = 2;
@@ -337,7 +325,6 @@ void game_mode_1(){
 	if (is_background_paint == 0){
 		xil_printf("background paint \r\n");
 		// game_mode 또는 game_count 가 바뀌어 완전히 새로 그리게 될 때 여기서 한번 전체적으로 그려주게 된다.
-		// TODO: 현재 선언된 변수와 함수로 그리기
 		for (int i = 0; i < game_count; i++){
 			// Draw Background
 			draw_square(
@@ -352,11 +339,12 @@ void game_mode_1(){
 					);
 
 			// Draw Spike
-			draw_square(
-					stage_position[game_count-1][i][0] + spike_position[0] + (int)games[i].spike_x_position,
-					stage_position[game_count-1][i][1] + spike_position[1],
-					spike_size[0], spike_size[1], spike_color
-					);
+			if (games[i].is_spike_exist == 1)
+				draw_square(
+						stage_position[game_count-1][i][0] + spike_position[0] + (int)games[i].spike_x_position,
+						stage_position[game_count-1][i][1] + spike_position[1],
+						spike_size[0], spike_size[1], spike_color
+						);
 
 			// Draw Platform
 			draw_square(
@@ -375,23 +363,31 @@ void game_mode_2(){
 	// TODO: mode 2 구현하기
 	// 게임 화면은 그대로 멈추게 되고, txtlcd를 통해서 점수나 현재 상황을 표시합니다.
 	// 그리고 버튼을 누르면 game mode 0 로 돌아가게 됩니다.
+	if (is_background_paint == 0){
+		TEXTLCD_2_mWriteReg(XPAR_TEXTLCD_2_0_S00_AXI_BASEADDR, 0, 0x00000002); // text lcd 화면에 gmae over 표시되며 동시에 시간이 멈춘다.
+		xil_printf("game mode 2\r\n");
+
+		is_background_paint = 1;
+	}
 
 	/* Game Logic */
+	
+	if(is_button_pushed[0] == 1) {
+		TEXTLCD_2_mWriteReg(XPAR_TEXTLCD_2_0_S00_AXI_BASEADDR, 0, 0x00000000); // 첫번째 푸쉬버튼을 누르면 TEXT LCD 게임준비화면으로 돌아감
+		game_mode = 0; // 첫번째 푸쉬버튼을 게임준비화면으로 넘어감
+	}
+
 
 	/* text lcd Display */
-	TEXTLCD_2_mWriteReg(XPAR_TEXTLCD_2_0_S00_AXI_BASEADDR, 0, 0x00000002); // text lcd 화면에 gmae over 표시되며 동시에 시간이 멈춘다.
-	xil_printf("game mode 2\r\n");
-	if(is_button_pushed[0] == 1)
-		TEXTLCD_2_mWriteReg(XPAR_TEXTLCD_2_0_S00_AXI_BASEADDR, 0, 0x00000000); // 첫번째 푸쉬버튼을 누르면 TEXT LCD 게임준비화면으로 돌아감
+
 	/* tft lcd Display */
-	if(is_button_pushed[0] == 1)	game_mode = 0; // 첫번째 푸쉬버튼을 게임준비화면으로 넘어감
 }
 //TFT LCD가 원점 비대칭이므로 i,j 범위를 다르게 했음
 //
 void draw_square(int start_pos_X, int start_pos_Y, int length_X, int length_Y, rgb_t color){
-	for (int i = 272 - start_pos_Y; i >= 272 - start_pos_Y - length_Y; i--) {
-		for (int j = 480 - start_pos_X; j >= 480 - start_pos_X - length_X; j--) {
-			Xil_Out32(XPAR_TFTLCD_0_S00_AXI_BASEADDR + (j + 480*i)*4, compile_rgb(color));
+	for (int i = DISPLAY_HEIGHT - start_pos_Y - 1; i >= DISPLAY_HEIGHT - start_pos_Y - length_Y; i--) {
+		for (int j = DISPLAY_WIDTH - start_pos_X - 1; j >= DISPLAY_WIDTH - start_pos_X - length_X; j--) {
+			Xil_Out32(XPAR_TFTLCD_0_S00_AXI_BASEADDR + (j + DISPLAY_WIDTH*i)*4, compile_rgb(color));
 		}
 	}
 }
@@ -433,18 +429,25 @@ void is_spike_touched(game_t *game){
 	int ball_x, ball_y;   // ball의 x,y 좌표 저장
 	int spike_x, spike_y; // spike의 x,y 좌표 저장
 
-	ball_x = stage_position[game_count-1][game->game_number][0] + ball_position[0];
-	ball_y = stage_position[game_count-1][game->game_number][1] + ball_position[1] + (int)game->ball_y_position;
-	spike_x = stage_position[game_count-1][game->game_number][0] + spike_position[0] + (int)game->spike_x_position;
-	spike_y = stage_position[game_count-1][game->game_number][1] + spike_position[1];
+	// ball_x = stage_position[game_count-1][game->game_number][0] + ball_position[0];
+	// ball_y = stage_position[game_count-1][game->game_number][1] + ball_position[1] + (int)game->ball_y_position;
+	// spike_x = stage_position[game_count-1][game->game_number][0] + spike_position[0] + (int)game->spike_x_position;
+	// spike_y = stage_position[game_count-1][game->game_number][1] + spike_position[1];
+
+	// 상대 좌표만 이용하셔도 됩니다^^
+	ball_x = ball_position[0];
+	ball_y = ball_position[1] + (int)game->ball_y_position;
+	spike_x = spike_position[0] + (int)game->spike_x_position;
+	spike_y = spike_position[1];
 
 	if( abs(ball_x - spike_x) <= ball_size[0] )
 	{
 		if( abs(ball_y - spike_y) <= ball_size[1] )
 		{
-			game_mode =2; //게임오버했으므로 game mode를 2로 바꾼다.
+			game_mode = 2; //게임오버했으므로 game mode를 2로 바꾼다.
 		}
 	}
+
 }
 
 
@@ -455,7 +458,7 @@ void change_ball_position(game_t *game){
 	if(game->is_ball_jumping){
 		double tmp = game->ball_y_position; // redraw 함수를 통해 예전 이미지를 지우기 위해 예전 위치를 임시저장
 		game->ball_y_position += game->ball_y_speed;
-		if( abs( (int)tmp - (int)(game->ball_y_position) )== 1 ) // 예전 ball y 좌표와 현재 ball y 좌표를 비교해서 차이가 1만큼 나면 픽셀을 움직인다.
+		if( abs( (int)tmp - (int)(game->ball_y_position) ) >= 1 ) // 예전 ball y 좌표와 현재 ball y 좌표를 비교해서 차이가 1만큼 나면 픽셀을 움직인다.
 		{
 			// redraw_square("새로 그릴 네모", "바탕화면색으로 덮일 네모")
 
@@ -463,6 +466,7 @@ void change_ball_position(game_t *game){
 					stage_position[game_count-1][game->game_number][0]+ball_position[0],
 					stage_position[game_count-1][game->game_number][1]+ball_position[1]+ (int)(game->ball_y_position),
 					ball_size[0], ball_size[1], ball_color,
+					
 					stage_position[game_count-1][game->game_number][0]+ball_position[0],
 					stage_position[game_count-1][game->game_number][1]+ball_position[1]+ (int)tmp,
 					ball_size[0], ball_size[1], game->game_background_color
@@ -476,8 +480,15 @@ void change_ball_position(game_t *game){
 		if(game->ball_y_position <= 0)
 		{
 			game->ball_y_position = 0;
-			game->ball_y_speed = jump_ball_speed;
+			// game->ball_y_speed = jump_ball_speed;
+			// "떨어지는 공이 바닥에 닿았을 때"의 조건문이므로 바닥에 닿으면 스피드를 0으로 초기화해주어야 합니다.
+			game->ball_y_speed = 0;
 			game->is_ball_jumping = 0;
+		}
+
+		// 바닿에 닿았을 때 버튼 누르면 점프하는 코드
+		if (is_button_pushed[game->game_number] == 1 && game->is_ball_jumping == 0){
+			game->ball_y_speed = jump_ball_speed;
 		}
 	}
 }
@@ -509,19 +520,19 @@ void change_spike_position(game_t *game){
 	{
 		double tmp = game->spike_x_position; // redraw함수를 통해 예전 이미지를 지우기 위해 예전 위치를 임시저장
 		game->spike_x_position -= game->spike_x_speed;
-		if( abs( (int)tmp - (int)(game->spike_x_position) ) == 1 ) // 예전 spike x좌표와 현재 x좌표의 차이가 1 나면 이미지를 다시 그린다. redraw함수 사용
+		if( abs( (int)tmp - (int)(game->spike_x_position) ) >= 1 ) // 예전 spike x좌표와 현재 x좌표의 차이가 1 나면 이미지를 다시 그린다. redraw함수 사용
 		{
 			redraw_square(
-					stage_position[game_count-1][game->game_number][0] + spike_position[0] +(int)(game->spike_x_position),
+					stage_position[game_count-1][game->game_number][0] + spike_position[0] + (int)(game->spike_x_position),
 					stage_position[game_count-1][game->game_number][1] + spike_position[1],
 					spike_size[0], spike_size[1], spike_color,
-					stage_position[game_count-1][game->game_number][0] + spike_position[0] +(int)(tmp),
+					stage_position[game_count-1][game->game_number][0] + spike_position[0] + (int)(tmp),
 					stage_position[game_count-1][game->game_number][1] + spike_position[1],
 					spike_size[0], spike_size[1], game->game_background_color
 			);
 		}
 
-		if( game->spike_x_position <= -150) // 만약 spike x좌표가 -150 이하로 떨어지게 되면 spike를 지운다.
+		if( game->spike_x_position <= -1 * spike_path_length) // 만약 spike x좌표가 -150 이하로 떨어지게 되면 spike를 지운다.
 			{
 
 				draw_square(

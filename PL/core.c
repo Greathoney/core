@@ -405,6 +405,7 @@ void draw_triangle(int start_pos_X, int start_pos_Y, int length_X, int length_Y,
 	for (int i = DISPLAY_HEIGHT - start_pos_Y - 1; i >= DISPLAY_HEIGHT - start_pos_Y - length_Y; i--) {
 		for (int j = DISPLAY_WIDTH - start_pos_X - 1; j >= DISPLAY_WIDTH - start_pos_X - length_X; j--) {
 			// if (0)  // 해당 픽셀에 색깔을 넣어야 하는지 판단, i, j, length_X, length_Y, start_pos_X, start_pos_Y, DISPLAY_HEIGHT, DISPLAY_WIDTH 을 이용하여 판별
+			// 위에서 부터 2 line 씩 2 4 6 8 10
 			if((i >= DISPLAY_WIDTH - start_pos_Y - 2)){
 				if((j <= DISPLAY_WIDTH - start_pos_X - 5) && (j >= DISPLAY_WIDTH - start_pos_X - 6)){
 					Xil_Out32(XPAR_TFTLCD_0_S00_AXI_BASEADDR + (j + DISPLAY_WIDTH*i)*4, compile_rgb(color));

@@ -332,7 +332,7 @@ void game_mode_1(){
 					background_position[game_count-1][i][1][0], background_position[game_count-1][i][1][1], games[i].game_background_color
 					);
 			// Draw Ball
-			draw_square(
+			draw_circle(
 					stage_position[game_count-1][i][0] + ball_position[0],
 					stage_position[game_count-1][i][1] + ball_position[1] + (int)games[i].ball_y_position,
 					ball_size[0], ball_size[1], ball_color
@@ -340,7 +340,7 @@ void game_mode_1(){
 
 			// Draw Spike
 			if (games[i].is_spike_exist == 1)
-				draw_square(
+				draw_triangle(
 						stage_position[game_count-1][i][0] + spike_position[0] + (int)games[i].spike_x_position,
 						stage_position[game_count-1][i][1] + spike_position[1],
 						spike_size[0], spike_size[1], spike_color
@@ -532,8 +532,8 @@ void change_ball_position(game_t *game){
 		if( abs( (int)tmp - (int)(game->ball_y_position) ) >= 1 ) // 예전 ball y 좌표와 현재 ball y 좌표를 비교해서 차이가 1만큼 나면 픽셀을 움직인다.
 		{
 			// redraw_square("새로 그릴 네모", "바탕화면색으로 덮일 네모")
-
-			redraw_square(
+			// redraw_circle로 변경
+			redraw_circle(
 					stage_position[game_count-1][game->game_number][0]+ball_position[0],
 					stage_position[game_count-1][game->game_number][1]+ball_position[1]+ (int)(game->ball_y_position),
 					ball_size[0], ball_size[1], ball_color,
@@ -593,7 +593,7 @@ void change_spike_position(game_t *game){
 		game->spike_x_position -= game->spike_x_speed;
 		if( abs( (int)tmp - (int)(game->spike_x_position) ) >= 1 ) // 예전 spike x좌표와 현재 x좌표의 차이가 1 나면 이미지를 다시 그린다. redraw함수 사용
 		{
-			redraw_square(
+			redraw_triangle(
 					stage_position[game_count-1][game->game_number][0] + spike_position[0] + (int)(game->spike_x_position),
 					stage_position[game_count-1][game->game_number][1] + spike_position[1],
 					spike_size[0], spike_size[1], spike_color,
@@ -606,7 +606,7 @@ void change_spike_position(game_t *game){
 		if( game->spike_x_position <= -1 * spike_path_length) // 만약 spike x좌표가 -150 이하로 떨어지게 되면 spike를 지운다.
 			{
 
-				draw_square(
+				draw_triangle(
 					stage_position[game_count-1][game->game_number][0] + spike_position[0] + (int)game->spike_x_position,
 					stage_position[game_count-1][game->game_number][1] + spike_position[1],
 					spike_size[0], spike_size[1], game->game_background_color

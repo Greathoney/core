@@ -540,8 +540,9 @@ void change_spike_position(game_t *game){
 					stage_position[game_count-1][game->game_number][1] + spike_position[1],
 					spike_size[0], spike_size[1], game->game_background_color
 					);
-				game->spike_x_position = 0;
-				game->spike_x_speed = spike_speed;
+				// 없어도 될 것 같아요!
+				// game->spike_x_position = 0;
+				// game->spike_x_speed = spike_speed;
 				game->is_spike_exist = 0;
 			}
 	}

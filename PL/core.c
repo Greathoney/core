@@ -375,6 +375,8 @@ void game_mode_2(){
 	if(is_button_pushed[0] == 1) {
 		TEXTLCD_2_mWriteReg(XPAR_TEXTLCD_2_0_S00_AXI_BASEADDR, 0, 0x00000000); // 첫번째 푸쉬버튼을 누르면 TEXT LCD 게임준비화면으로 돌아감
 		game_mode = 0; // 첫번째 푸쉬버튼을 게임준비화면으로 넘어감
+		
+		is_background_paint = 0;
 	}
 
 

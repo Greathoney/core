@@ -126,14 +126,17 @@ void game_mode_1();
 void game_mode_2();
 void draw_square(int, int, int, int, rgb_t);
 void redraw_square(int, int, int, int, rgb_t, int, int, int, int, rgb_t);
+void draw_triangle(int, int, int, int, rgb_t);
+void redraw_triangle(int, int, int, int, rgb_t, int, int, int, int, rgb_t);
+void draw_circle(int, int, int, int, rgb_t);
+void redraw_circle(int, int, int, int, rgb_t, int, int, int, int, rgb_t);
 int compile_rgb(rgb_t);
 void game_check(game_t *);
-void ball_jump_check(game_t *);
-void is_spike_touched(game_t *);
 void change_ball_position(game_t *);
+void ball_jump_check(game_t *);
 void generate_spike(game_t *);
-//void remove_spike(game_t *);
 void change_spike_position(game_t *);
+void is_spike_touched(game_t *);
 
 int main(void)
 {
@@ -458,20 +461,82 @@ int compile_rgb(rgb_t rgb_data){
 }
 
 void game_check(game_t *game){
-	is_spike_touched(game);
-	ball_jump_check(game);
 
-	change_ball_position(game); //입력이 들어오면 공을 점프시킨다.
+	if(game->is_ball_jumping) change_ball_position(game); //입력이 들어오면 공을 점프시킨다.
+	else ball_jump_check(game);
+	
 	if (!game->is_spike_exist)	generate_spike(game); // 스파이크가 없으면 랜덤 확률로 스파이크를 생성한다.
-	change_spike_position(game); // 스파이크가 있으면 왼쪽으로 이동한다.
+	else {
+		is_spike_touched(game);
+		change_spike_position(game); // 스파이크가 있으면 왼쪽으로 이동한다.
+	}
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+//												테스트해봐야할 코드									  //
+////////////////////////////////////////////////////////////////////////////////////////////////////
+void change_ball_position(game_t *game){
+	double tmp = game->ball_y_position; // redraw 함수를 통해 예전 이미지를 지우기 위해 예전 위치를 임시저장
+	game->ball_y_position += game->ball_y_speed;
+	if( abs( (int)tmp - (int)(game->ball_y_position) ) >= 1 ) // 예전 ball y 좌표와 현재 ball y 좌표를 비교해서 차이가 1만큼 나면 픽셀을 움직인다.
+	{
+		// redraw_square("새로 그릴 네모", "바탕화면색으로 덮일 네모")
+		// redraw_circle로 변경
+		redraw_circle(
+				stage_position[game_count-1][game->game_number][0]+ball_position[0],
+				stage_position[game_count-1][game->game_number][1]+ball_position[1]+ (int)(game->ball_y_position),
+				ball_size[0], ball_size[1], ball_color,
+
+				stage_position[game_count-1][game->game_number][0]+ball_position[0],
+				stage_position[game_count-1][game->game_number][1]+ball_position[1]+ (int)tmp,
+				ball_size[0], ball_size[1], game->game_background_color
+				);
+	}
+
+	// 주의! 절대 좌표
+	//  stage_position[game_count][game->game_number][x,y] + ball_position[x,y] + game->ball_x_postion
+	// TODO: 조건문과 입력 변수 채워 넣기
+	game->ball_y_speed -= ball_gravity;
+	if(game->ball_y_position <= 0)
+	{
+		game->ball_y_position = 0;
+		// game->ball_y_speed = jump_ball_speed;
+		// "떨어지는 공이 바닥에 닿았을 때"의 조건문이므로 바닥에 닿으면 스피드를 0으로 초기화해주어야 합니다.
+		game->ball_y_speed = 0;
+		game->is_ball_jumping = 0;
+	}
+
+	// 바닿에 닿았을 때 버튼 누르면 점프하는 코드
+	if (is_button_pushed[game->game_number] == 1 && game->is_ball_jumping == 0){
+		game->ball_y_speed = jump_ball_speed;
+	
+	}
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void ball_jump_check(game_t *game){
-	if ( (is_button_pushed[game->game_number] == 1) && (game->is_ball_jumping == 0) ){
+	if ( (is_button_pushed[game->game_number] == 1){
 		game->is_ball_jumping = 1;
 		game->ball_y_speed = jump_ball_speed;
 	}
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+//												테스트해봐야할 코드									  //
+////////////////////////////////////////////////////////////////////////////////////////////////////
+void generate_spike(game_t *game){
+	// 가시는 랜덤하게 생성함
+	// 가시의 속도도 랜덤
+	if(rand()%spike_probability <= 10) // spike_probability = 300 , L109
+	{
+		game->is_spike_exist = 1;
+		game->spike_x_position = 0;
+		game->spike_x_speed = spike_speed; //L108
+	}
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //												테스트해봐야할 코드									  //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -500,68 +565,8 @@ void is_spike_touched(game_t *game){
 			is_background_paint = 0;
 		}
 	}
-
 }
 
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-//												테스트해봐야할 코드									  //
-////////////////////////////////////////////////////////////////////////////////////////////////////
-void change_ball_position(game_t *game){
-	if(game->is_ball_jumping){
-		double tmp = game->ball_y_position; // redraw 함수를 통해 예전 이미지를 지우기 위해 예전 위치를 임시저장
-		game->ball_y_position += game->ball_y_speed;
-		if( abs( (int)tmp - (int)(game->ball_y_position) ) >= 1 ) // 예전 ball y 좌표와 현재 ball y 좌표를 비교해서 차이가 1만큼 나면 픽셀을 움직인다.
-		{
-			// redraw_square("새로 그릴 네모", "바탕화면색으로 덮일 네모")
-			// redraw_circle로 변경
-			redraw_circle(
-					stage_position[game_count-1][game->game_number][0]+ball_position[0],
-					stage_position[game_count-1][game->game_number][1]+ball_position[1]+ (int)(game->ball_y_position),
-					ball_size[0], ball_size[1], ball_color,
-
-					stage_position[game_count-1][game->game_number][0]+ball_position[0],
-					stage_position[game_count-1][game->game_number][1]+ball_position[1]+ (int)tmp,
-					ball_size[0], ball_size[1], game->game_background_color
-					);
-		}
-
-		// 주의! 절대 좌표
-		//  stage_position[game_count][game->game_number][x,y] + ball_position[x,y] + game->ball_x_postion
-		// TODO: 조건문과 입력 변수 채워 넣기
-		game->ball_y_speed -= ball_gravity;
-		if(game->ball_y_position <= 0)
-		{
-			game->ball_y_position = 0;
-			// game->ball_y_speed = jump_ball_speed;
-			// "떨어지는 공이 바닥에 닿았을 때"의 조건문이므로 바닥에 닿으면 스피드를 0으로 초기화해주어야 합니다.
-			game->ball_y_speed = 0;
-			game->is_ball_jumping = 0;
-		}
-
-		// 바닿에 닿았을 때 버튼 누르면 점프하는 코드
-		if (is_button_pushed[game->game_number] == 1 && game->is_ball_jumping == 0){
-			game->ball_y_speed = jump_ball_speed;
-		}
-	}
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-//												테스트해봐야할 코드									  //
-////////////////////////////////////////////////////////////////////////////////////////////////////
-void generate_spike(game_t *game){
-	// 가시는 랜덤하게 생성함
-	// 가시의 속도도 랜덤
-	if(rand()%spike_probability <= 10) // spike_probability = 300 , L109
-	{
-		game->is_spike_exist = 1;
-		game->spike_x_position = 0;
-		game->spike_x_speed = spike_speed; //L108
-	}
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -569,35 +574,33 @@ void generate_spike(game_t *game){
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 void change_spike_position(game_t *game){
 	// spike_x_position은 0에서 시작하여 계속해서 작아집니다.
-	if(game->is_spike_exist)
+
+	double tmp = game->spike_x_position; // redraw함수를 통해 예전 이미지를 지우기 위해 예전 위치를 임시저장
+	game->spike_x_position -= game->spike_x_speed;
+	if( abs( (int)tmp - (int)(game->spike_x_position) ) >= 1 ) // 예전 spike x좌표와 현재 x좌표의 차이가 1 나면 이미지를 다시 그린다. redraw함수 사용
 	{
-		double tmp = game->spike_x_position; // redraw함수를 통해 예전 이미지를 지우기 위해 예전 위치를 임시저장
-		game->spike_x_position -= game->spike_x_speed;
-		if( abs( (int)tmp - (int)(game->spike_x_position) ) >= 1 ) // 예전 spike x좌표와 현재 x좌표의 차이가 1 나면 이미지를 다시 그린다. redraw함수 사용
-		{
-			redraw_triangle(
-					stage_position[game_count-1][game->game_number][0] + spike_position[0] + (int)(game->spike_x_position),
-					stage_position[game_count-1][game->game_number][1] + spike_position[1],
-					spike_size[0], spike_size[1], spike_color,
-					stage_position[game_count-1][game->game_number][0] + spike_position[0] + (int)(tmp),
-					stage_position[game_count-1][game->game_number][1] + spike_position[1],
-					spike_size[0], spike_size[1], game->game_background_color
+		redraw_triangle(
+				stage_position[game_count-1][game->game_number][0] + spike_position[0] + (int)(game->spike_x_position),
+				stage_position[game_count-1][game->game_number][1] + spike_position[1],
+				spike_size[0], spike_size[1], spike_color,
+				stage_position[game_count-1][game->game_number][0] + spike_position[0] + (int)(tmp),
+				stage_position[game_count-1][game->game_number][1] + spike_position[1],
+				spike_size[0], spike_size[1], game->game_background_color
+		);
+	}
+
+	if( game->spike_x_position <= -1 * spike_path_length) // 만약 spike x좌표가 -150 이하로 떨어지게 되면 spike를 지운다.
+	{
+
+		draw_triangle(
+			stage_position[game_count-1][game->game_number][0] + spike_position[0] + (int)game->spike_x_position,
+			stage_position[game_count-1][game->game_number][1] + spike_position[1],
+			spike_size[0], spike_size[1], game->game_background_color
 			);
-		}
-
-		if( game->spike_x_position <= -1 * spike_path_length) // 만약 spike x좌표가 -150 이하로 떨어지게 되면 spike를 지운다.
-			{
-
-				draw_triangle(
-					stage_position[game_count-1][game->game_number][0] + spike_position[0] + (int)game->spike_x_position,
-					stage_position[game_count-1][game->game_number][1] + spike_position[1],
-					spike_size[0], spike_size[1], game->game_background_color
-					);
-				// 없어도 될 것 같아요!
-				// game->spike_x_position = 0;
-				// game->spike_x_speed = spike_speed;
-				game->is_spike_exist = 0;
-			}
+		// 없어도 될 것 같아요!
+		// game->spike_x_position = 0;
+		// game->spike_x_speed = spike_speed;
+		game->is_spike_exist = 0;
 	}
 
 }

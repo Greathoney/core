@@ -412,7 +412,7 @@ void draw_triangle(int start_pos_X, int start_pos_Y, int length_X, int length_Y,
 			y = DISPLAY_HEIGHT - start_pos_Y - 1 - i;
 
 			// if((y <= (length_Y/(length_X/2))*x) && (y <= 2*length_Y - (length_Y/(length_X/2))*x)){   // 뒤집혀진 삼각형입니다
-			if((y >= (length_Y/(length_X/2))*x) && (y >= -2*length_Y - (length_Y/(length_X/2))*x)){
+			if((y >= length_Y - (length_Y/(length_X/2))*x) && (y >= - length_Y + (length_Y/(length_X/2))*x)){
 				Xil_Out32(XPAR_TFTLCD_0_S00_AXI_BASEADDR + (j + DISPLAY_WIDTH*i)*4, compile_rgb(color));
 			}
 		}

@@ -489,6 +489,7 @@ void is_spike_touched(game_t *game){
 		if( abs(ball_y - spike_y) <= ball_size[1] )
 		{
 			game_mode = 2; //게임오버했으므로 game mode를 2로 바꾼다.
+			is_background_paint = 0;
 		}
 	}
 

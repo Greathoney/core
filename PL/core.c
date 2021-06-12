@@ -408,9 +408,11 @@ void draw_triangle(int start_pos_X, int start_pos_Y, int length_X, int length_Y,
 	for (int i = DISPLAY_HEIGHT - start_pos_Y - 1; i >= DISPLAY_HEIGHT - start_pos_Y - length_Y; i--) {
 		for (int j = DISPLAY_WIDTH - start_pos_X - 1; j >= DISPLAY_WIDTH - start_pos_X - length_X; j--) {
 			// if (0)  // 해당 픽셀에 색깔을 넣어야 하는지 판단, i, j, length_X, length_Y, start_pos_X, start_pos_Y, DISPLAY_HEIGHT, DISPLAY_WIDTH 을 이용하여 판별
-			x = DISPLAY_WIDTH -j -1;
-			y = DISPLAY_WIDTH -i -1;
-			if((y <= (length_Y/(length_X/2))*x) && (y <= 2*length_Y - (length_Y/(length_X/2))*x)){
+			x = DISPLAY_WIDTH - start_pos_X - 1 - j;
+			y = DISPLAY_HEIGHT - start_pos_Y - 1 - i;
+
+			// if((y <= (length_Y/(length_X/2))*x) && (y <= 2*length_Y - (length_Y/(length_X/2))*x)){   // 뒤집혀진 삼각형입니다
+			if((y >= (length_Y/(length_X/2))*x) && (y >= -2*length_Y - (length_Y/(length_X/2))*x)){
 				Xil_Out32(XPAR_TFTLCD_0_S00_AXI_BASEADDR + (j + DISPLAY_WIDTH*i)*4, compile_rgb(color));
 			}
 		}
@@ -430,9 +432,13 @@ void draw_circle(int start_pos_X, int start_pos_Y, int length_X, int length_Y, r
 	for (int i = DISPLAY_HEIGHT - start_pos_Y - 1; i >= DISPLAY_HEIGHT - start_pos_Y - length_Y; i--) {
 		for (int j = DISPLAY_WIDTH - start_pos_X - 1; j >= DISPLAY_WIDTH - start_pos_X - length_X; j--) {
 			// if (0)  // 해당 픽셀에 색깔을 넣어야 하는지 판단, i, j, length_X, length_Y, start_pos_X, start_pos_Y, DISPLAY_HEIGHT, DISPLAY_WIDTH 을 이용하여 판별
-			x = DISPLAY_WIDTH -j -1;
-			y = DISPLAY_WIDTH -i -1;
-			if(((y - (length_X/2))*(y - (length_X/2)) + (x - (length_Y/2))*(x - (length_Y/2))) <= (length_X/2)*(length_X/2)){
+			x = DISPLAY_WIDTH - start_pos_X - 1 - j;
+			y = DISPLAY_HEIGHT - start_pos_Y - 1 - i;
+			// if(((y - (length_Y/2))*(y - (length_Y/2)) + (x - (length_X/2))*(x - (length_X/2))) <= (length_X/2)*(length_X/2)){ // 원의 방정식
+			if(((y-(length_Y/2)) * (y-(length_Y/2)) * (length_X/2) * (length_X/2) +
+			    (x-(length_X/2)) * (x-(length_X/2) * (length_Y/2) * (length_Y/2))) <= 
+				(length_X/2) * (length_X/2) * (length_Y/2) * (length_Y/2)){ // 타원의 방정식 
+
 				Xil_Out32(XPAR_TFTLCD_0_S00_AXI_BASEADDR + (j + DISPLAY_WIDTH*i)*4, compile_rgb(color));
 			}
 		}

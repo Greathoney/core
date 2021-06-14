@@ -497,7 +497,7 @@ void change_ball_position(game_t *game){
 	//  stage_position[game_count][game->game_number][x,y] + ball_position[x,y] + game->ball_x_postion
 	// TODO: 조건문과 입력 변수 채워 넣기
 	game->ball_y_speed -= ball_gravity;
-	if(game->ball_y_position <= 0)
+	if(game->ball_y_position >= 0)
 	{
 		game->ball_y_position = 0;
 		// game->ball_y_speed = jump_ball_speed;
@@ -542,7 +542,7 @@ void generate_spike(game_t *game){
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void is_spike_touched(game_t *game){
 	// TODO: 현재 선언한 변수로 논의된 로직으로 코드 작성 부탁드립니다.
-
+	int ball_left_corner_x, ball_left_corner_y, ball_right_corner_x, ball_right_corner_y;
 	int ball_x, ball_y;   // ball의 x,y 좌표 저장
 	int spike_x, spike_y; // spike의 x,y 좌표 저장
 
@@ -552,19 +552,42 @@ void is_spike_touched(game_t *game){
 	// spike_y = stage_position[game_count-1][game->game_number][1] + spike_position[1];
 
 	// 상대 좌표만 이용하셔도 됩니다^^
-	ball_x = ball_position[0];
-	ball_y = ball_position[1] + (int)game->ball_y_position;
-	spike_x = spike_position[0] + (int)game->spike_x_position;
+	ball_left_corner_x = 0;
+	ball_right_corner_x = ball_size[0];
+	ball_y = -(int)game->ball_y_position - ball_size[1];
+
+	// ball_x = ball_position[0];
+	// ball_y = ball_position[1] + (int)game->ball_y_position;
+	spike_x = spike_position[0] + (int)game->spike_x_position - ball_position[0];
 	spike_y = spike_position[1];
 
-	if( abs(ball_x - spike_x) <= ball_size[0] )
-	{
-		if( abs(ball_y - spike_y) <= ball_size[1] )
-		{
-			game_mode = 2; //게임오버했으므로 game mode를 2로 바꾼다.
+	if((spike_x <= ball_right_corner_x) && (spike_x >= ball_right_corner_x - ball_size[0]/2)){
+		if(ball_y <= 2*(ball_right_corner_x - spike_x)){
+			game_mode = 2;
 			is_background_paint = 0;
 		}
 	}
+	if((spike_x >= ball_left_corner_x) && (spike_x < ball_right_corner_x - ball_size[0]/2)){
+		if(ball_y >= spike_y){
+			game_mode = 2;
+			is_background_paint = 0;
+		}
+	}
+	if((spike_x >= ball_left_corner_x - ball_size[0]) && (spike_x < ball_left_corner_x - ball_size[0]/2)){
+		if(ball_y >= -2*(spike_x + ball_size[0])){
+			game_mode = 2;
+			is_background_paint = 0;
+		}
+	}
+
+	// if( abs(ball_x - spike_x) <= ball_size[0] )
+	// {
+	// 	if( abs(ball_y - spike_y) <= ball_size[1] )
+	// 	{
+	// 		game_mode = 2; //게임오버했으므로 game mode를 2로 바꾼다.
+	// 		is_background_paint = 0;
+	// 	}
+	// }
 }
 
 

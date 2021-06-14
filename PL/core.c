@@ -53,7 +53,7 @@ typedef struct game{
 // 프레임간의 딜레이 시간
 const int fps_delay = 33000;  // unit: micro second
 
-const rgb_t ball_color = { 0, 0, 0 };
+const rgb_t ball_color = { 31, 63, 0 };
 const rgb_t platform_color = { 31, 63, 31 };
 const rgb_t spike_color = {31, 63, 31 };
 const rgb_t background_color_mode_0 = { 31, 63, 31 };
@@ -544,52 +544,48 @@ void generate_spike(game_t *game){
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void is_spike_touched(game_t *game){
 	// TODO: 현재 선언한 변수로 논의된 로직으로 코드 작성 부탁드립니다.
-	int ball_left_corner_x, ball_left_corner_y, ball_right_corner_x, ball_right_corner_y;
+
 	int ball_x, ball_y;   // ball의 x,y 좌표 저장
 	int spike_x, spike_y; // spike의 x,y 좌표 저장
 
-	// ball_x = stage_position[game_count-1][game->game_number][0] + ball_position[0];
-	// ball_y = stage_position[game_count-1][game->game_number][1] + ball_position[1] + (int)game->ball_y_position;
-	// spike_x = stage_position[game_count-1][game->game_number][0] + spike_position[0] + (int)game->spike_x_position;
-	// spike_y = stage_position[game_count-1][game->game_number][1] + spike_position[1];
+//	 ball_x = stage_position[game_count-1][game->game_number][0] + ball_position[0];
+//	 ball_y = stage_position[game_count-1][game->game_number][1] + ball_position[1] + (int)game->ball_y_position;
+//	 spike_x = stage_position[game_count-1][game->game_number][0] + spike_position[0] + (int)game->spike_x_position;
+//	 spike_y = stage_position[game_count-1][game->game_number][1] + spike_position[1];
 
 	// 상대 좌표만 이용하셔도 됩니다^^
-	ball_left_corner_x = 0;
-	ball_right_corner_x = ball_size[0];
-	ball_y = -(int)game->ball_y_position;
-
-	// ball_x = ball_position[0];
-	// ball_y = ball_position[1] + (int)game->ball_y_position;
-	spike_x = spike_position[0] + (int)game->spike_x_position - ball_position[0];
+	ball_x = ball_position[0];
+	ball_y = ball_position[1] + (int)game->ball_y_position;
+	spike_x = spike_position[0] + (int)game->spike_x_position ;
 	spike_y = spike_position[1];
+//
+//	if((spike_x <= ball_right_corner_x) && (spike_x >= ball_right_corner_x - ball_size[0]/2)){
+//		if(ball_y <= 2*(ball_right_corner_x - spike_x)){
+//			game_mode = 2;
+//			is_background_paint = 0;
+//		}
+//	}
+//	if((spike_x >= ball_left_corner_x) && (spike_x < ball_right_corner_x - ball_size[0]/2)){
+//		if(ball_y <= spike_y){
+//			game_mode = 2;
+//			is_background_paint = 0;
+//		}
+//	}
+//	if((spike_x >= ball_left_corner_x - ball_size[0]) && (spike_x < ball_left_corner_x - ball_size[0]/2)){
+//		if(ball_y <= 2*(spike_x + ball_size[0])){
+//			game_mode = 2;
+//			is_background_paint = 0;
+//		}
+//	}
 
-	if((spike_x <= ball_right_corner_x) && (spike_x >= ball_right_corner_x - ball_size[0]/2)){
-		if(ball_y <= 2*(ball_right_corner_x - spike_x)){
-			game_mode = 2;
-			is_background_paint = 0;
-		}
-	}
-	if((spike_x >= ball_left_corner_x) && (spike_x < ball_right_corner_x - ball_size[0]/2)){
-		if(ball_y <= spike_y){
-			game_mode = 2;
-			is_background_paint = 0;
-		}
-	}
-	if((spike_x >= ball_left_corner_x - ball_size[0]) && (spike_x < ball_left_corner_x - ball_size[0]/2)){
-		if(ball_y <= 2*(spike_x + ball_size[0])){
-			game_mode = 2;
-			is_background_paint = 0;
-		}
-	}
-
-	// if( abs(ball_x - spike_x) <= ball_size[0] )
-	// {
-	// 	if( abs(ball_y - spike_y) <= ball_size[1] )
-	// 	{
-	// 		game_mode = 2; //게임오버했으므로 game mode를 2로 바꾼다.
-	// 		is_background_paint = 0;
-	// 	}
-	// }
+	 if( abs(ball_x - spike_x) <= ball_size[0] )
+	 {
+	 	if( abs(ball_y - spike_y) <= ball_size[1] )
+	 	{
+	 		game_mode = 2; //게임오버했으므로 game mode를 2로 바꾼다.
+	 		is_background_paint = 0;
+	 	}
+	 }
 }
 
 

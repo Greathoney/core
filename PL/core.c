@@ -141,6 +141,7 @@ void is_spike_touched(game_t *);
 
 int main(void)
 {
+	srand(time(NULL));
     /* buttion initlization */
     int Status;
 
@@ -531,7 +532,11 @@ void ball_jump_check(game_t *game){
 void generate_spike(game_t *game){
 	// 가시는 랜덤하게 생성함
 	// 가시의 속도도 랜덤
+<<<<<<< HEAD
 	if((rand())%spike_probability <= 3) // spike_probability = 300 , L109
+=======
+	if(rand())%spike_probability <= 10) // spike_probability = 300 , L109
+>>>>>>> 69a8f8425ee889d7dda2afd77191d33d69b5f765
 	{
 		game->is_spike_exist = 1;
 		game->spike_x_position = 0;

@@ -53,7 +53,7 @@ typedef struct game{
 // 프레임간의 딜레이 시간
 const int fps_delay = 33000;  // unit: micro second
 
-const rgb_t ball_color = { 0, 0, 31 };
+const rgb_t ball_color = { 0, 0, 0 };
 const rgb_t platform_color = { 31, 63, 31 };
 const rgb_t spike_color = {31, 63, 31 };
 const rgb_t background_color_mode_0 = { 31, 63, 31 };
@@ -103,7 +103,7 @@ const int ball_size[2] = { 10, 10 };
 const int spike_position[2] = { 190, 86 };
 const int spike_size[2] = { 10, 10 };
 const int spike_path_length = 150;  // 가시가 걸어다닐 총 길이
-const double spike_speed = 0.1;  // function of generation spike
+const double spike_speed = 1;  // function of generation spike
 const int spike_probability = 300;  // use function of generate_spike
 
 const double jump_ball_speed = 2;  // needs casting to integer
@@ -251,13 +251,16 @@ void ServiceRoutine(void *CallbackRef)
 
 void game_mode_0(){
 	/* Game Logic */
+
 	if (is_button_pushed[0] == 1){
 		/* Variable init */
-
+		TEXTLCD_2_mWriteReg(XPAR_TEXTLCD_2_0_S00_AXI_BASEADDR, 0, 0x00000005);
+		usleep(1000);
+		TEXTLCD_2_mWriteReg(XPAR_TEXTLCD_2_0_S00_AXI_BASEADDR, 0, 0x00000001);
 		//Text lcd game play
 		xil_printf("\r\nS1 Switch is pushed\r\n");
-		TEXTLCD_2_mWriteReg(XPAR_TEXTLCD_2_0_S00_AXI_BASEADDR, 0, 0x00000005);
-		TEXTLCD_2_mWriteReg(XPAR_TEXTLCD_2_0_S00_AXI_BASEADDR, 0, 0x00000001);
+		//playtime을 0인 상태로 유지
+
 
 		for (int i=0; i < 4; i++){
 			games[i].is_game_exist = 0;
@@ -296,19 +299,19 @@ void game_mode_1(){
 	playtime = ( (playtime & 0x00000F00) >> 8 )*60 +( (playtime & 0x000000F0) >> 4 )*10 +(playtime & 0x0000000F);
 	//xil_printf("playtime : (16 radix)%xsec (10 radix)%dsec \r\n",playtime);
 
-	if(playtime == 30 && game_count == 1) // playtime이 30초가 되고 game_count가 1개면 2개로 만들어준다.
+	if(playtime == 5 && game_count == 1) // playtime이 30초가 되고 game_count가 1개면 2개로 만들어준다.
 	{
 		game_count = 2;
 		is_background_paint = 0;
 		games[1].is_game_exist = 1;
 	}
-	else if(playtime == 60 && game_count == 2)// playtime이 60초가 되고 game_count가 2개면 3개로 만들어준다.
+	else if(playtime == 10 && game_count == 2)// playtime이 60초가 되고 game_count가 2개면 3개로 만들어준다.
 	{
 		game_count = 3;
 		is_background_paint = 0;
 		games[2].is_game_exist = 1;
 	}
-	else if(playtime == 90 && game_count == 3)// playtime이 90초가 되고 game_count가 3개면 4개로 만들어준다.
+	else if(playtime == 15 && game_count == 3)// playtime이 90초가 되고 game_count가 3개면 4개로 만들어준다.
 	{
 		game_count = 4;
 		is_background_paint = 0;
@@ -366,9 +369,9 @@ void game_mode_2(){
 	// TODO: mode 2 구현하기
 	// 게임 화면은 그대로 멈추게 되고, txtlcd를 통해서 점수나 현재 상황을 표시합니다.
 	// 그리고 버튼을 누르면 game mode 0 로 돌아가게 됩니다.
+	is_background_paint = 0;
 	if (is_background_paint == 0){
 		TEXTLCD_2_mWriteReg(XPAR_TEXTLCD_2_0_S00_AXI_BASEADDR, 0, 0x00000002); // text lcd 화면에 gmae over 표시되며 동시에 시간이 멈춘다.
-		xil_printf("game mode 2\r\n");
 
 		is_background_paint = 1;
 	}
@@ -378,7 +381,6 @@ void game_mode_2(){
 	if(is_button_pushed[0] == 1) {
 		TEXTLCD_2_mWriteReg(XPAR_TEXTLCD_2_0_S00_AXI_BASEADDR, 0, 0x00000000); // 첫번째 푸쉬버튼을 누르면 TEXT LCD 게임준비화면으로 돌아감
 		game_mode = 0; // 첫번째 푸쉬버튼을 게임준비화면으로 넘어감
-		
 		is_background_paint = 0;
 	}
 
@@ -437,10 +439,10 @@ void draw_circle(int start_pos_X, int start_pos_Y, int length_X, int length_Y, r
 			// if (0)  // 해당 픽셀에 색깔을 넣어야 하는지 판단, i, j, length_X, length_Y, start_pos_X, start_pos_Y, DISPLAY_HEIGHT, DISPLAY_WIDTH 을 이용하여 판별
 			x = DISPLAY_WIDTH - start_pos_X - 1 - j;
 			y = DISPLAY_HEIGHT - start_pos_Y - 1 - i;
-			// if(((y - (length_Y/2))*(y - (length_Y/2)) + (x - (length_X/2))*(x - (length_X/2))) <= (length_X/2)*(length_X/2)){ // 원의 방정식
-			if(((y-(length_Y/2)) * (y-(length_Y/2)) * (length_X/2) * (length_X/2) +
-			    (x-(length_X/2)) * (x-(length_X/2) * (length_Y/2) * (length_Y/2))) <= 
-				(length_X/2) * (length_X/2) * (length_Y/2) * (length_Y/2)){ // 타원의 방정식 
+			 if(((y - (length_Y/2))*(y - (length_Y/2)) + (x - (length_X/2))*(x - (length_X/2))) <= (length_X/2)*(length_X/2)){ // 원의 방정식
+//			if(((y-(length_Y/2)) * (y-(length_Y/2)) * (length_X/2) * (length_X/2) +
+//			    (x-(length_X/2)) * (x-(length_X/2) * (length_Y/2) * (length_Y/2))) <=
+//				(length_X/2) * (length_X/2) * (length_Y/2) * (length_Y/2)){ // 타원의 방정식
 
 				Xil_Out32(XPAR_TFTLCD_0_S00_AXI_BASEADDR + (j + DISPLAY_WIDTH*i)*4, compile_rgb(color));
 			}
@@ -464,7 +466,7 @@ void game_check(game_t *game){
 
 	if(game->is_ball_jumping) change_ball_position(game); //입력이 들어오면 공을 점프시킨다.
 	else ball_jump_check(game);
-	
+
 	if (!game->is_spike_exist)	generate_spike(game); // 스파이크가 없으면 랜덤 확률로 스파이크를 생성한다.
 	else {
 		is_spike_touched(game);
@@ -509,13 +511,13 @@ void change_ball_position(game_t *game){
 	// 바닿에 닿았을 때 버튼 누르면 점프하는 코드
 	if (is_button_pushed[game->game_number] == 1 && game->is_ball_jumping == 0){
 		game->ball_y_speed = jump_ball_speed;
-	
+
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void ball_jump_check(game_t *game){
-	if ( (is_button_pushed[game->game_number] == 1){
+	if ( (is_button_pushed[game->game_number] == 1) ){
 		game->is_ball_jumping = 1;
 		game->ball_y_speed = jump_ball_speed;
 	}
@@ -531,7 +533,7 @@ void generate_spike(game_t *game){
 	{
 		game->is_spike_exist = 1;
 		game->spike_x_position = 0;
-		game->spike_x_speed = spike_speed; //L108
+		game->spike_x_speed = spike_speed +0.1*(double)( rand()%9 ); // 0.5~ 1.5
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -556,7 +556,7 @@ void is_spike_touched(game_t *game){
 	// 상대 좌표만 이용하셔도 됩니다^^
 	ball_left_corner_x = 0;
 	ball_right_corner_x = ball_size[0];
-	ball_y = -(int)game->ball_y_position - ball_size[1];
+	ball_y = -(int)game->ball_y_position;
 
 	// ball_x = ball_position[0];
 	// ball_y = ball_position[1] + (int)game->ball_y_position;
@@ -564,19 +564,19 @@ void is_spike_touched(game_t *game){
 	spike_y = spike_position[1];
 
 	if((spike_x <= ball_right_corner_x) && (spike_x >= ball_right_corner_x - ball_size[0]/2)){
-		if(ball_y >= 2*(ball_right_corner_x - spike_x)){
+		if(ball_y <= 2*(ball_right_corner_x - spike_x)){
 			game_mode = 2;
 			is_background_paint = 0;
 		}
 	}
 	if((spike_x >= ball_left_corner_x) && (spike_x < ball_right_corner_x - ball_size[0]/2)){
-		if(ball_y >= spike_y){
+		if(ball_y <= spike_y){
 			game_mode = 2;
 			is_background_paint = 0;
 		}
 	}
 	if((spike_x >= ball_left_corner_x - ball_size[0]) && (spike_x < ball_left_corner_x - ball_size[0]/2)){
-		if(ball_y >= -2*(spike_x + ball_size[0])){
+		if(ball_y <= 2*(spike_x + ball_size[0])){
 			game_mode = 2;
 			is_background_paint = 0;
 		}

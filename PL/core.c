@@ -106,6 +106,9 @@ const int spike_size[2] = { 10, 10 };
 const int spike_path_length = 150;  // 가시가 걸어다닐 총 길이
 const double spike_speed = 1;  // function of generation spike
 const int spike_probability = 300;  // use function of generate_spike
+const int spike_ratio = 3;
+const int spike_speed_dev = 0.3;
+const int spike_speed_ratio = 9;
 
 const double jump_ball_speed = 3;  // needs casting to integer
 const double ball_gravity = 0.12;   // nees casting to integer
@@ -302,19 +305,19 @@ void game_mode_1(){
 	playtime = ( (playtime & 0x00000F00) >> 8 )*60 +( (playtime & 0x000000F0) >> 4 )*10 +(playtime & 0x0000000F);
 	//xil_printf("playtime : (16 radix)%xsec (10 radix)%dsec \r\n",playtime);
 
-	if(playtime == 10 && game_count == 1) // playtime이 30초가 되고 game_count가 1개면 2개로 만들어준다.
+	if(playtime == 30 && game_count == 1) // playtime이 30초가 되고 game_count가 1개면 2개로 만들어준다.
 	{
 		game_count = 2;
 		is_background_paint = 0;
 		games[1].is_game_exist = 1;
 	}
-	else if(playtime == 20 && game_count == 2)// playtime이 60초가 되고 game_count가 2개면 3개로 만들어준다.
+	else if(playtime == 60 && game_count == 2)// playtime이 60초가 되고 game_count가 2개면 3개로 만들어준다.
 	{
 		game_count = 3;
 		is_background_paint = 0;
 		games[2].is_game_exist = 1;
 	}
-	else if(playtime == 30 && game_count == 3)// playtime이 90초가 되고 game_count가 3개면 4개로 만들어준다.
+	else if(playtime == 90 && game_count == 3)// playtime이 90초가 되고 game_count가 3개면 4개로 만들어준다.
 	{
 		game_count = 4;
 		is_background_paint = 0;
@@ -532,15 +535,11 @@ void ball_jump_check(game_t *game){
 void generate_spike(game_t *game){
 	// 가시는 랜덤하게 생성함
 	// 가시의 속도도 랜덤
-<<<<<<< HEAD
-	if((rand())%spike_probability <= 3) // spike_probability = 300 , L109
-=======
-	if(rand())%spike_probability <= 10) // spike_probability = 300 , L109
->>>>>>> 69a8f8425ee889d7dda2afd77191d33d69b5f765
+	if((rand())%spike_probability <= spike_ratio) // spike_probability = 300 , L109
 	{
 		game->is_spike_exist = 1;
 		game->spike_x_position = 0;
-		game->spike_x_speed = spike_speed +0.3*(double)( rand()%9 ); // 1~3.7
+		game->spike_x_speed = spike_speed + spike_speed_dev*(double)( rand()%spike_speed_ratio); // 1~3.7
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////

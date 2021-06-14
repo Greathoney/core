@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #include "xil_printf.h"
 #include "xil_exception.h"
@@ -547,6 +548,7 @@ void is_spike_touched(game_t *game){
 
 	int ball_x, ball_y;   // ball의 x,y 좌표 저장
 	int spike_x, spike_y; // spike의 x,y 좌표 저장
+	int spike_centre;
 
 //	 ball_x = stage_position[game_count-1][game->game_number][0] + ball_position[0];
 //	 ball_y = stage_position[game_count-1][game->game_number][1] + ball_position[1] + (int)game->ball_y_position;
@@ -558,34 +560,24 @@ void is_spike_touched(game_t *game){
 	ball_y = ball_position[1] + (int)game->ball_y_position;
 	spike_x = spike_position[0] + (int)game->spike_x_position ;
 	spike_y = spike_position[1];
-//
-//	if((spike_x <= ball_right_corner_x) && (spike_x >= ball_right_corner_x - ball_size[0]/2)){
-//		if(ball_y <= 2*(ball_right_corner_x - spike_x)){
-//			game_mode = 2;
-//			is_background_paint = 0;
-//		}
-//	}
-//	if((spike_x >= ball_left_corner_x) && (spike_x < ball_right_corner_x - ball_size[0]/2)){
-//		if(ball_y <= spike_y){
-//			game_mode = 2;
-//			is_background_paint = 0;
-//		}
-//	}
-//	if((spike_x >= ball_left_corner_x - ball_size[0]) && (spike_x < ball_left_corner_x - ball_size[0]/2)){
-//		if(ball_y <= 2*(spike_x + ball_size[0])){
-//			game_mode = 2;
-//			is_background_paint = 0;
-//		}
-//	}
+	
+	spike_centre = spike_x + spike_size[0];
+	
+	if( (spike_centre >= ball_x) && ((spike_centre - ball_x) <= ball_size[0])){
+		if(ball_y + ball_size[1] >= spike_y){
+			game_mode = 2;
+			is_background_paint = 0;
+		}
+	}
 
-	 if( abs(ball_x - spike_x) <= ball_size[0] )
-	 {
-	 	if( abs(ball_y - spike_y) <= ball_size[1] )
-	 	{
-	 		game_mode = 2; //게임오버했으므로 game mode를 2로 바꾼다.
-	 		is_background_paint = 0;
-	 	}
-	 }
+	// if( abs(ball_x - spike_x) <= ball_size[0] )
+	// {
+	//  	if( abs(ball_y - spike_y) <= ball_size[1] )
+	//  	{
+	//  		game_mode = 2; //게임오버했으므로 game mode를 2로 바꾼다.
+	//  		is_background_paint = 0;
+	//  	}
+	// }
 }
 
 

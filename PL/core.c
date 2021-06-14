@@ -477,7 +477,7 @@ void game_check(game_t *game){
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void change_ball_position(game_t *game){
 	double tmp = game->ball_y_position; // redraw 함수를 통해 예전 이미지를 지우기 위해 예전 위치를 임시저장
-	game->ball_y_position += game->ball_y_speed;
+	game->ball_y_position -= game->ball_y_speed;
 	if( abs( (int)tmp - (int)(game->ball_y_position) ) >= 1 ) // 예전 ball y 좌표와 현재 ball y 좌표를 비교해서 차이가 1만큼 나면 픽셀을 움직인다.
 	{
 		// redraw_square("새로 그릴 네모", "바탕화면색으로 덮일 네모")

@@ -55,7 +55,7 @@ typedef struct game{
 const int fps_delay = 33000;  // unit: micro second
 
 const rgb_t ball_color = { 31, 63, 0 };
-const rgb_t platform_color = { 31, 63, 31 };
+const rgb_t platform_color = { 20, 40, 20 };
 const rgb_t spike_color = {31, 63, 31 };
 const rgb_t background_color_mode_0 = { 31, 63, 31 };
 const rgb_t background_color_mode_1[4] = { { 31, 0, 0 }, { 0, 63, 0 }, { 0, 0, 31 }, { 0, 0, 0 } };
@@ -107,8 +107,8 @@ const int spike_path_length = 150;  // 가시가 걸어다닐 총 길이
 const double spike_speed = 1;  // function of generation spike
 const int spike_probability = 300;  // use function of generate_spike
 
-const double jump_ball_speed = 2;  // needs casting to integer
-const double ball_gravity = 0.1;   // nees casting to integer
+const double jump_ball_speed = 3;  // needs casting to integer
+const double ball_gravity = 0.12;   // nees casting to integer
 
 /* Global Variables */
 int is_button_pushed[4] = { 0, 0, 0, 0 };
@@ -296,23 +296,24 @@ void game_mode_0(){
 
 void game_mode_1(){
 	/* Game Logic */
+	//srand(10);
 	playtime = TEXTLCD_2_mReadReg(XPAR_TEXTLCD_2_0_S00_AXI_BASEADDR, 4);
 	playtime = ( (playtime & 0x00000F00) >> 8 )*60 +( (playtime & 0x000000F0) >> 4 )*10 +(playtime & 0x0000000F);
 	//xil_printf("playtime : (16 radix)%xsec (10 radix)%dsec \r\n",playtime);
 
-	if(playtime == 5 && game_count == 1) // playtime이 30초가 되고 game_count가 1개면 2개로 만들어준다.
+	if(playtime == 10 && game_count == 1) // playtime이 30초가 되고 game_count가 1개면 2개로 만들어준다.
 	{
 		game_count = 2;
 		is_background_paint = 0;
 		games[1].is_game_exist = 1;
 	}
-	else if(playtime == 10 && game_count == 2)// playtime이 60초가 되고 game_count가 2개면 3개로 만들어준다.
+	else if(playtime == 20 && game_count == 2)// playtime이 60초가 되고 game_count가 2개면 3개로 만들어준다.
 	{
 		game_count = 3;
 		is_background_paint = 0;
 		games[2].is_game_exist = 1;
 	}
-	else if(playtime == 15 && game_count == 3)// playtime이 90초가 되고 game_count가 3개면 4개로 만들어준다.
+	else if(playtime == 30 && game_count == 3)// playtime이 90초가 되고 game_count가 3개면 4개로 만들어준다.
 	{
 		game_count = 4;
 		is_background_paint = 0;
@@ -530,11 +531,11 @@ void ball_jump_check(game_t *game){
 void generate_spike(game_t *game){
 	// 가시는 랜덤하게 생성함
 	// 가시의 속도도 랜덤
-	if(rand()%spike_probability <= 10) // spike_probability = 300 , L109
+	if((rand())%spike_probability <= 3) // spike_probability = 300 , L109
 	{
 		game->is_spike_exist = 1;
 		game->spike_x_position = 0;
-		game->spike_x_speed = spike_speed +0.1*(double)( rand()%9 ); // 0.5~ 1.5
+		game->spike_x_speed = spike_speed +0.3*(double)( rand()%9 ); // 1~3.7
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -560,9 +561,9 @@ void is_spike_touched(game_t *game){
 	ball_y = ball_position[1] + (int)game->ball_y_position;
 	spike_x = spike_position[0] + (int)game->spike_x_position ;
 	spike_y = spike_position[1];
-	
-	spike_centre = spike_x + spike_size[0];
-	
+
+	spike_centre = spike_x + spike_size[0]/2;
+
 	if( (spike_centre >= ball_x) && ((spike_centre - ball_x) <= ball_size[0])){
 		if(ball_y + ball_size[1] >= spike_y){
 			game_mode = 2;

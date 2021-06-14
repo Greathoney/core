@@ -107,8 +107,8 @@ const int spike_path_length = 150;  // 가시가 걸어다닐 총 길이
 const double spike_speed = 1;  // function of generation spike
 const int spike_probability = 300;  // use function of generate_spike
 
-const double jump_ball_speed = 2;  // needs casting to integer
-const double ball_gravity = 0.1;   // nees casting to integer
+const double jump_ball_speed = 3;  // needs casting to integer
+const double ball_gravity = 0.12;   // nees casting to integer
 
 /* Global Variables */
 int is_button_pushed[4] = { 0, 0, 0, 0 };
@@ -141,6 +141,7 @@ void is_spike_touched(game_t *);
 
 int main(void)
 {
+	srand(time(NULL));
     /* buttion initlization */
     int Status;
 
@@ -530,7 +531,7 @@ void ball_jump_check(game_t *game){
 void generate_spike(game_t *game){
 	// 가시는 랜덤하게 생성함
 	// 가시의 속도도 랜덤
-	if(rand()%spike_probability <= 10) // spike_probability = 300 , L109
+	if(rand())%spike_probability <= 10) // spike_probability = 300 , L109
 	{
 		game->is_spike_exist = 1;
 		game->spike_x_position = 0;
@@ -561,7 +562,7 @@ void is_spike_touched(game_t *game){
 	spike_x = spike_position[0] + (int)game->spike_x_position ;
 	spike_y = spike_position[1];
 	
-	spike_centre = spike_x + spike_size[0];
+	spike_centre = spike_x + spike_size[0]/2;
 	
 	if( (spike_centre >= ball_x) && ((spike_centre - ball_x) <= ball_size[0])){
 		if(ball_y + ball_size[1] >= spike_y){

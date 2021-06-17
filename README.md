@@ -34,11 +34,11 @@ Core를 실행해보려면 SDK path에서 ip_repo 폴더가 절대 경로라서,
 
 SDK에서 디버깅 버튼을 누르면 실행하게 되고 FPGA에 성공하면 TFT-LCD에 하얀 화면이 나오고 TXT-LCD에 Game Ready가 나온다.
 
-![image](images/game_ready.png)
+![image](images/game_ready.jpg)
 
 아래 사진 버튼에서 왼쪽으로 부터 1, 2, 3, 4번인데 1번을 누르면 게임이 시작하게 된다.
 
-![image](images/buttons.png)
+![image](images/buttons.jpg)
 
 ![image](images/1.gif)
 ![image](images/2.gif)

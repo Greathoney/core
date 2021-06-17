@@ -1,0 +1,567 @@
+!SESSION 2021-06-17 15:49:06.473 -----------------------------------------------
+eclipse.buildId=2019.1
+java.version=1.8.0_112
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=ko_KR
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -data C:/Users/honey/vivado/project/core2/core2.sdk
+
+This is a continuation of log file C:\Users\honey\vivado\project\core2\core2.sdk\.metadata\.bak_0.log
+Created Time: 2021-06-17 16:25:51.141
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:25:51.141
+!MESSAGE XSCT Command: [targets -set -filter {jtag_cable_name =~ "Platform Cable USB II 00000000000000" && level==0} -index 1], Thread: ModalContext
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:25:51.172
+!MESSAGE XSCT command with result: [targets -set -filter {jtag_cable_name =~ "Platform Cable USB II 00000000000000" && level==0} -index 1], Result: [null, ]. Thread: ModalContext
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:25:51.173
+!MESSAGE XSCT Command: [fpga -file C:/Users/honey/vivado/project/core2/core2.sdk/system_wrapper_hw_platform_0/system_wrapper.bit], Thread: ModalContext
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:26:02.813
+!MESSAGE XSCT command with result: [fpga -file C:/Users/honey/vivado/project/core2/core2.sdk/system_wrapper_hw_platform_0/system_wrapper.bit], Result: [null, ]. Thread: ModalContext
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:26:02.845
+!MESSAGE XSCT Command: [targets -set -nocase -filter {name =~"APU*" && jtag_cable_name =~ "Platform Cable USB II 00000000000000"} -index 0], Thread: Worker-16
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:26:02.867
+!MESSAGE XSCT command with result: [targets -set -nocase -filter {name =~"APU*" && jtag_cable_name =~ "Platform Cable USB II 00000000000000"} -index 0], Result: [null, ]. Thread: Worker-16
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:26:02.867
+!MESSAGE XSCT Command: [loadhw -hw C:/Users/honey/vivado/project/core2/core2.sdk/system_wrapper_hw_platform_0/system.hdf -mem-ranges [list {0x40000000 0xbfffffff}]], Thread: Worker-16
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:26:02.877
+!MESSAGE XSCT command with result: [loadhw -hw C:/Users/honey/vivado/project/core2/core2.sdk/system_wrapper_hw_platform_0/system.hdf -mem-ranges [list {0x40000000 0xbfffffff}]], Result: [null, system_wrapper_1]. Thread: Worker-16
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:26:02.878
+!MESSAGE XSCT Command: [configparams force-mem-access 1], Thread: Worker-16
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:26:02.879
+!MESSAGE XSCT command with result: [configparams force-mem-access 1], Result: [null, ]. Thread: Worker-16
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:26:02.880
+!MESSAGE XSCT Command: [targets -set -nocase -filter {name =~"APU*" && jtag_cable_name =~ "Platform Cable USB II 00000000000000"} -index 0], Thread: Worker-16
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:26:02.931
+!MESSAGE XSCT command with result: [targets -set -nocase -filter {name =~"APU*" && jtag_cable_name =~ "Platform Cable USB II 00000000000000"} -index 0], Result: [null, ]. Thread: Worker-16
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:26:02.932
+!MESSAGE XSCT Command: [ps7_init], Thread: Worker-16
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:26:03.309
+!MESSAGE XSCT command with result: [ps7_init], Result: [null, ]. Thread: Worker-16
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:26:03.310
+!MESSAGE XSCT Command: [ps7_post_config], Thread: Worker-16
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:26:03.321
+!MESSAGE XSCT command with result: [ps7_post_config], Result: [null, ]. Thread: Worker-16
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:26:03.322
+!MESSAGE XSCT Command: [targets -set -nocase -filter {name =~ "ARM*#0" && jtag_cable_name =~ "Platform Cable USB II 00000000000000"} -index 0], Thread: Worker-16
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:26:03.341
+!MESSAGE XSCT command with result: [targets -set -nocase -filter {name =~ "ARM*#0" && jtag_cable_name =~ "Platform Cable USB II 00000000000000"} -index 0], Result: [null, ]. Thread: Worker-16
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:26:03.342
+!MESSAGE XSCT Command: [dow C:/Users/honey/vivado/project/core2/core2.sdk/core/Debug/core.elf], Thread: Worker-16
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:26:04.301
+!MESSAGE XSCT command with result: [dow C:/Users/honey/vivado/project/core2/core2.sdk/core/Debug/core.elf], Result: [null, ]. Thread: Worker-16
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:26:04.302
+!MESSAGE XSCT Command: [configparams force-mem-access 0], Thread: Worker-16
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:26:04.304
+!MESSAGE XSCT command with result: [configparams force-mem-access 0], Result: [null, ]. Thread: Worker-16
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:26:04.394
+!MESSAGE XSCT Command: [targets -set -nocase -filter {name =~ "ARM*#0" && jtag_cable_name =~ "Platform Cable USB II 00000000000000"} -index 0], Thread: Worker-16
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:26:04.451
+!MESSAGE XSCT command with result: [targets -set -nocase -filter {name =~ "ARM*#0" && jtag_cable_name =~ "Platform Cable USB II 00000000000000"} -index 0], Result: [null, ]. Thread: Worker-16
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:26:04.451
+!MESSAGE XSCT Command: [con], Thread: Worker-16
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:26:04.598
+!MESSAGE XSCT command with result: [con], Result: [null, ]. Thread: Worker-16
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:09.308
+!MESSAGE XSCT Command: [disconnect tcfchan#18], Thread: Thread-1326
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:09.327
+!MESSAGE XSCT command with result: [disconnect tcfchan#18], Result: [null, ]. Thread: Thread-1326
+
+!ENTRY com.xilinx.sdk.utils 1 0 2021-06-17 16:28:10.313
+!MESSAGE Updating toolusage
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:10.314
+!MESSAGE XSCT Command: [connect -url tcp:127.0.0.1:3121], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:10.321
+!MESSAGE XSCT command with result: [connect -url tcp:127.0.0.1:3121], Result: [null, tcfchan#19]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:10.322
+!MESSAGE XSCT Command: [jtag targets -filter {level == 0}], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:10.334
+!MESSAGE XSCT command with result: [jtag targets -filter {level == 0}], Result: [null,   2* Platform Cable USB II 00000000000000]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:10.335
+!MESSAGE XSCT Command: [version -server], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:10.337
+!MESSAGE XSCT command with result: [version -server], Result: [null, 2019.1]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:10.337
+!MESSAGE XSCT Command: [version], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:10.338
+!MESSAGE XSCT command with result: [version], Result: [null, xsct 2019.1
+SW Build 2552052 on Fri May 24 14:49:42 MDT 2019
+Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:10.338
+!MESSAGE XSCT Command: [jtag targets -filter {level == 0}], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:10.344
+!MESSAGE XSCT command with result: [jtag targets -filter {level == 0}], Result: [null,   2* Platform Cable USB II 00000000000000]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:10.344
+!MESSAGE XSCT Command: [jtag targets -filter {jtag_cable_name =~ "Platform Cable USB II 00000000000000" && level==1}], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:10.362
+!MESSAGE XSCT command with result: [jtag targets -filter {jtag_cable_name =~ "Platform Cable USB II 00000000000000" && level==1}], Result: [null,      3  arm_dap (idcode 4ba00477 irlen 4)
+     4  xc7z020 (idcode 23727093 irlen 6 fpga)]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:10.362
+!MESSAGE XSCT Command: [jtag targets -filter {level == 0}], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:10.369
+!MESSAGE XSCT command with result: [jtag targets -filter {level == 0}], Result: [null,   2* Platform Cable USB II 00000000000000]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:10.370
+!MESSAGE XSCT Command: [jtag targets -filter {jtag_cable_name =~ "Platform Cable USB II 00000000000000" && level==1}], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:10.386
+!MESSAGE XSCT command with result: [jtag targets -filter {jtag_cable_name =~ "Platform Cable USB II 00000000000000" && level==1}], Result: [null,      3  arm_dap (idcode 4ba00477 irlen 4)
+     4  xc7z020 (idcode 23727093 irlen 6 fpga)]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:10.387
+!MESSAGE XSCT Command: [jtag targets -filter {level == 0}], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:10.395
+!MESSAGE XSCT command with result: [jtag targets -filter {level == 0}], Result: [null,   2* Platform Cable USB II 00000000000000]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:10.395
+!MESSAGE XSCT Command: [jtag targets -filter {jtag_cable_name =~ "Platform Cable USB II 00000000000000" && level==1}], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:10.415
+!MESSAGE XSCT command with result: [jtag targets -filter {jtag_cable_name =~ "Platform Cable USB II 00000000000000" && level==1}], Result: [null,      3  arm_dap (idcode 4ba00477 irlen 4)
+     4  xc7z020 (idcode 23727093 irlen 6 fpga)]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:10.415
+!MESSAGE XSCT Command: [jtag targets -filter {level == 0}], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:10.422
+!MESSAGE XSCT command with result: [jtag targets -filter {level == 0}], Result: [null,   2* Platform Cable USB II 00000000000000]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:10.422
+!MESSAGE XSCT Command: [jtag targets -filter {jtag_cable_name =~ "Platform Cable USB II 00000000000000" && level==1}], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:10.438
+!MESSAGE XSCT command with result: [jtag targets -filter {jtag_cable_name =~ "Platform Cable USB II 00000000000000" && level==1}], Result: [null,      3  arm_dap (idcode 4ba00477 irlen 4)
+     4  xc7z020 (idcode 23727093 irlen 6 fpga)]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:10.439
+!MESSAGE XSCT Command: [jtag targets -filter {level == 0}], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:10.445
+!MESSAGE XSCT command with result: [jtag targets -filter {level == 0}], Result: [null,   2* Platform Cable USB II 00000000000000]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:10.445
+!MESSAGE XSCT Command: [jtag targets -filter {jtag_cable_name =~ "Platform Cable USB II 00000000000000" && level==1}], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:10.462
+!MESSAGE XSCT command with result: [jtag targets -filter {jtag_cable_name =~ "Platform Cable USB II 00000000000000" && level==1}], Result: [null,      3  arm_dap (idcode 4ba00477 irlen 4)
+     4  xc7z020 (idcode 23727093 irlen 6 fpga)]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:10.462
+!MESSAGE XSCT Command: [jtag targets -filter {level == 0}], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:10.468
+!MESSAGE XSCT command with result: [jtag targets -filter {level == 0}], Result: [null,   2* Platform Cable USB II 00000000000000]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:10.469
+!MESSAGE XSCT Command: [jtag targets -filter {jtag_cable_name =~ "Platform Cable USB II 00000000000000" && level==1}], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:10.485
+!MESSAGE XSCT command with result: [jtag targets -filter {jtag_cable_name =~ "Platform Cable USB II 00000000000000" && level==1}], Result: [null,      3  arm_dap (idcode 4ba00477 irlen 4)
+     4  xc7z020 (idcode 23727093 irlen 6 fpga)]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:10.485
+!MESSAGE XSCT Command: [jtag targets -set -filter {name =~ "Platform Cable USB II 00000000000000" && level == 0}], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:10.501
+!MESSAGE XSCT command with result: [jtag targets -set -filter {name =~ "Platform Cable USB II 00000000000000" && level == 0}], Result: [null, ]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:10.502
+!MESSAGE XSCT Command: [jtag frequency], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:10.503
+!MESSAGE XSCT command with result: [jtag frequency], Result: [null, 6000000]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:10.503
+!MESSAGE XSCT Command: [source C:/Users/honey/vivado/project/core2/core2.sdk/system_wrapper_hw_platform_0/ps7_init.tcl], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:10.505
+!MESSAGE XSCT command with result: [source C:/Users/honey/vivado/project/core2/core2.sdk/system_wrapper_hw_platform_0/ps7_init.tcl], Result: [null, ]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:10.505
+!MESSAGE XSCT Command: [targets -set -nocase -filter {name =~"APU*" && jtag_cable_name =~ "Platform Cable USB II 00000000000000"} -index 0], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:10.527
+!MESSAGE XSCT command with result: [targets -set -nocase -filter {name =~"APU*" && jtag_cable_name =~ "Platform Cable USB II 00000000000000"} -index 0], Result: [null, ]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:10.528
+!MESSAGE XSCT Command: [rst -system], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:10.699
+!MESSAGE XSCT command with result: [rst -system], Result: [null, ]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:10.699
+!MESSAGE XSCT Command: [after 3000], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:13.716
+!MESSAGE XSCT command with result: [after 3000], Result: [null, ]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:13.731
+!MESSAGE XSCT Command: [jtag targets -filter {level == 0}], Thread: ModalContext
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:13.737
+!MESSAGE XSCT command with result: [jtag targets -filter {level == 0}], Result: [null,   2* Platform Cable USB II 00000000000000]. Thread: ModalContext
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:13.737
+!MESSAGE XSCT Command: [jtag targets -filter {jtag_cable_name =~ "Platform Cable USB II 00000000000000" && level==1}], Thread: ModalContext
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:13.753
+!MESSAGE XSCT command with result: [jtag targets -filter {jtag_cable_name =~ "Platform Cable USB II 00000000000000" && level==1}], Result: [null,      3  arm_dap (idcode 4ba00477 irlen 4)
+     4  xc7z020 (idcode 23727093 irlen 6 fpga)]. Thread: ModalContext
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:13.754
+!MESSAGE XSCT Command: [targets -set -filter {jtag_cable_name =~ "Platform Cable USB II 00000000000000" && level==0} -index 1], Thread: ModalContext
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:13.771
+!MESSAGE XSCT command with result: [targets -set -filter {jtag_cable_name =~ "Platform Cable USB II 00000000000000" && level==0} -index 1], Result: [null, ]. Thread: ModalContext
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:13.772
+!MESSAGE XSCT Command: [fpga -file C:/Users/honey/vivado/project/core2/core2.sdk/system_wrapper_hw_platform_0/system_wrapper.bit], Thread: ModalContext
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:25.393
+!MESSAGE XSCT command with result: [fpga -file C:/Users/honey/vivado/project/core2/core2.sdk/system_wrapper_hw_platform_0/system_wrapper.bit], Result: [null, ]. Thread: ModalContext
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:25.418
+!MESSAGE XSCT Command: [targets -set -nocase -filter {name =~"APU*" && jtag_cable_name =~ "Platform Cable USB II 00000000000000"} -index 0], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:25.440
+!MESSAGE XSCT command with result: [targets -set -nocase -filter {name =~"APU*" && jtag_cable_name =~ "Platform Cable USB II 00000000000000"} -index 0], Result: [null, ]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:25.440
+!MESSAGE XSCT Command: [loadhw -hw C:/Users/honey/vivado/project/core2/core2.sdk/system_wrapper_hw_platform_0/system.hdf -mem-ranges [list {0x40000000 0xbfffffff}]], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:25.450
+!MESSAGE XSCT command with result: [loadhw -hw C:/Users/honey/vivado/project/core2/core2.sdk/system_wrapper_hw_platform_0/system.hdf -mem-ranges [list {0x40000000 0xbfffffff}]], Result: [null, system_wrapper_1]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:25.451
+!MESSAGE XSCT Command: [configparams force-mem-access 1], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:25.452
+!MESSAGE XSCT command with result: [configparams force-mem-access 1], Result: [null, ]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:25.453
+!MESSAGE XSCT Command: [targets -set -nocase -filter {name =~"APU*" && jtag_cable_name =~ "Platform Cable USB II 00000000000000"} -index 0], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:25.482
+!MESSAGE XSCT command with result: [targets -set -nocase -filter {name =~"APU*" && jtag_cable_name =~ "Platform Cable USB II 00000000000000"} -index 0], Result: [null, ]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:25.483
+!MESSAGE XSCT Command: [ps7_init], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:25.954
+!MESSAGE XSCT command with result: [ps7_init], Result: [null, ]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:25.954
+!MESSAGE XSCT Command: [ps7_post_config], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:25.995
+!MESSAGE XSCT command with result: [ps7_post_config], Result: [null, ]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:25.996
+!MESSAGE XSCT Command: [targets -set -nocase -filter {name =~ "ARM*#0" && jtag_cable_name =~ "Platform Cable USB II 00000000000000"} -index 0], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:26.016
+!MESSAGE XSCT command with result: [targets -set -nocase -filter {name =~ "ARM*#0" && jtag_cable_name =~ "Platform Cable USB II 00000000000000"} -index 0], Result: [null, ]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:26.017
+!MESSAGE XSCT Command: [dow C:/Users/honey/vivado/project/core2/core2.sdk/core/Debug/core.elf], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:26.991
+!MESSAGE XSCT command with result: [dow C:/Users/honey/vivado/project/core2/core2.sdk/core/Debug/core.elf], Result: [null, ]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:26.992
+!MESSAGE XSCT Command: [configparams force-mem-access 0], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:27.008
+!MESSAGE XSCT command with result: [configparams force-mem-access 0], Result: [null, ]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:27.096
+!MESSAGE XSCT Command: [targets -set -nocase -filter {name =~ "ARM*#0" && jtag_cable_name =~ "Platform Cable USB II 00000000000000"} -index 0], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:27.152
+!MESSAGE XSCT command with result: [targets -set -nocase -filter {name =~ "ARM*#0" && jtag_cable_name =~ "Platform Cable USB II 00000000000000"} -index 0], Result: [null, ]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:27.152
+!MESSAGE XSCT Command: [con], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:28:27.182
+!MESSAGE XSCT command with result: [con], Result: [null, ]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:54.737
+!MESSAGE XSCT Command: [disconnect tcfchan#19], Thread: Thread-1385
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:54.750
+!MESSAGE XSCT command with result: [disconnect tcfchan#19], Result: [null, ]. Thread: Thread-1385
+
+!ENTRY com.xilinx.sdk.utils 1 0 2021-06-17 16:30:55.746
+!MESSAGE Updating toolusage
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:55.747
+!MESSAGE XSCT Command: [connect -url tcp:127.0.0.1:3121], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:55.752
+!MESSAGE XSCT command with result: [connect -url tcp:127.0.0.1:3121], Result: [null, tcfchan#20]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:55.753
+!MESSAGE XSCT Command: [jtag targets -filter {level == 0}], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:55.764
+!MESSAGE XSCT command with result: [jtag targets -filter {level == 0}], Result: [null,   2* Platform Cable USB II 00000000000000]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:55.764
+!MESSAGE XSCT Command: [version -server], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:55.766
+!MESSAGE XSCT command with result: [version -server], Result: [null, 2019.1]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:55.767
+!MESSAGE XSCT Command: [version], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:55.769
+!MESSAGE XSCT command with result: [version], Result: [null, xsct 2019.1
+SW Build 2552052 on Fri May 24 14:49:42 MDT 2019
+Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:55.769
+!MESSAGE XSCT Command: [jtag targets -filter {level == 0}], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:55.799
+!MESSAGE XSCT command with result: [jtag targets -filter {level == 0}], Result: [null,   2* Platform Cable USB II 00000000000000]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:55.800
+!MESSAGE XSCT Command: [jtag targets -filter {jtag_cable_name =~ "Platform Cable USB II 00000000000000" && level==1}], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:55.820
+!MESSAGE XSCT command with result: [jtag targets -filter {jtag_cable_name =~ "Platform Cable USB II 00000000000000" && level==1}], Result: [null,      3  arm_dap (idcode 4ba00477 irlen 4)
+     4  xc7z020 (idcode 23727093 irlen 6 fpga)]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:55.820
+!MESSAGE XSCT Command: [jtag targets -filter {level == 0}], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:55.826
+!MESSAGE XSCT command with result: [jtag targets -filter {level == 0}], Result: [null,   2* Platform Cable USB II 00000000000000]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:55.826
+!MESSAGE XSCT Command: [jtag targets -filter {jtag_cable_name =~ "Platform Cable USB II 00000000000000" && level==1}], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:55.842
+!MESSAGE XSCT command with result: [jtag targets -filter {jtag_cable_name =~ "Platform Cable USB II 00000000000000" && level==1}], Result: [null,      3  arm_dap (idcode 4ba00477 irlen 4)
+     4  xc7z020 (idcode 23727093 irlen 6 fpga)]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:55.842
+!MESSAGE XSCT Command: [jtag targets -filter {level == 0}], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:55.849
+!MESSAGE XSCT command with result: [jtag targets -filter {level == 0}], Result: [null,   2* Platform Cable USB II 00000000000000]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:55.849
+!MESSAGE XSCT Command: [jtag targets -filter {jtag_cable_name =~ "Platform Cable USB II 00000000000000" && level==1}], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:55.865
+!MESSAGE XSCT command with result: [jtag targets -filter {jtag_cable_name =~ "Platform Cable USB II 00000000000000" && level==1}], Result: [null,      3  arm_dap (idcode 4ba00477 irlen 4)
+     4  xc7z020 (idcode 23727093 irlen 6 fpga)]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:55.865
+!MESSAGE XSCT Command: [jtag targets -filter {level == 0}], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:55.871
+!MESSAGE XSCT command with result: [jtag targets -filter {level == 0}], Result: [null,   2* Platform Cable USB II 00000000000000]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:55.871
+!MESSAGE XSCT Command: [jtag targets -filter {jtag_cable_name =~ "Platform Cable USB II 00000000000000" && level==1}], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:55.888
+!MESSAGE XSCT command with result: [jtag targets -filter {jtag_cable_name =~ "Platform Cable USB II 00000000000000" && level==1}], Result: [null,      3  arm_dap (idcode 4ba00477 irlen 4)
+     4  xc7z020 (idcode 23727093 irlen 6 fpga)]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:55.888
+!MESSAGE XSCT Command: [jtag targets -filter {level == 0}], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:55.894
+!MESSAGE XSCT command with result: [jtag targets -filter {level == 0}], Result: [null,   2* Platform Cable USB II 00000000000000]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:55.895
+!MESSAGE XSCT Command: [jtag targets -filter {jtag_cable_name =~ "Platform Cable USB II 00000000000000" && level==1}], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:55.911
+!MESSAGE XSCT command with result: [jtag targets -filter {jtag_cable_name =~ "Platform Cable USB II 00000000000000" && level==1}], Result: [null,      3  arm_dap (idcode 4ba00477 irlen 4)
+     4  xc7z020 (idcode 23727093 irlen 6 fpga)]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:55.911
+!MESSAGE XSCT Command: [jtag targets -filter {level == 0}], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:55.917
+!MESSAGE XSCT command with result: [jtag targets -filter {level == 0}], Result: [null,   2* Platform Cable USB II 00000000000000]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:55.918
+!MESSAGE XSCT Command: [jtag targets -filter {jtag_cable_name =~ "Platform Cable USB II 00000000000000" && level==1}], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:55.934
+!MESSAGE XSCT command with result: [jtag targets -filter {jtag_cable_name =~ "Platform Cable USB II 00000000000000" && level==1}], Result: [null,      3  arm_dap (idcode 4ba00477 irlen 4)
+     4  xc7z020 (idcode 23727093 irlen 6 fpga)]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:55.935
+!MESSAGE XSCT Command: [jtag targets -set -filter {name =~ "Platform Cable USB II 00000000000000" && level == 0}], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:55.952
+!MESSAGE XSCT command with result: [jtag targets -set -filter {name =~ "Platform Cable USB II 00000000000000" && level == 0}], Result: [null, ]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:55.953
+!MESSAGE XSCT Command: [jtag frequency], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:55.954
+!MESSAGE XSCT command with result: [jtag frequency], Result: [null, 6000000]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:55.955
+!MESSAGE XSCT Command: [source C:/Users/honey/vivado/project/core2/core2.sdk/system_wrapper_hw_platform_0/ps7_init.tcl], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:55.957
+!MESSAGE XSCT command with result: [source C:/Users/honey/vivado/project/core2/core2.sdk/system_wrapper_hw_platform_0/ps7_init.tcl], Result: [null, ]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:55.958
+!MESSAGE XSCT Command: [targets -set -nocase -filter {name =~"APU*" && jtag_cable_name =~ "Platform Cable USB II 00000000000000"} -index 0], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:55.997
+!MESSAGE XSCT command with result: [targets -set -nocase -filter {name =~"APU*" && jtag_cable_name =~ "Platform Cable USB II 00000000000000"} -index 0], Result: [null, ]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:55.997
+!MESSAGE XSCT Command: [rst -system], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:56.137
+!MESSAGE XSCT command with result: [rst -system], Result: [null, ]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:56.137
+!MESSAGE XSCT Command: [after 3000], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:59.148
+!MESSAGE XSCT command with result: [after 3000], Result: [null, ]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:59.160
+!MESSAGE XSCT Command: [jtag targets -filter {level == 0}], Thread: ModalContext
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:59.165
+!MESSAGE XSCT command with result: [jtag targets -filter {level == 0}], Result: [null,   2* Platform Cable USB II 00000000000000]. Thread: ModalContext
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:59.166
+!MESSAGE XSCT Command: [jtag targets -filter {jtag_cable_name =~ "Platform Cable USB II 00000000000000" && level==1}], Thread: ModalContext
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:59.181
+!MESSAGE XSCT command with result: [jtag targets -filter {jtag_cable_name =~ "Platform Cable USB II 00000000000000" && level==1}], Result: [null,      3  arm_dap (idcode 4ba00477 irlen 4)
+     4  xc7z020 (idcode 23727093 irlen 6 fpga)]. Thread: ModalContext
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:59.181
+!MESSAGE XSCT Command: [targets -set -filter {jtag_cable_name =~ "Platform Cable USB II 00000000000000" && level==0} -index 1], Thread: ModalContext
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:59.200
+!MESSAGE XSCT command with result: [targets -set -filter {jtag_cable_name =~ "Platform Cable USB II 00000000000000" && level==0} -index 1], Result: [null, ]. Thread: ModalContext
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:30:59.200
+!MESSAGE XSCT Command: [fpga -file C:/Users/honey/vivado/project/core2/core2.sdk/system_wrapper_hw_platform_0/system_wrapper.bit], Thread: ModalContext
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:31:10.839
+!MESSAGE XSCT command with result: [fpga -file C:/Users/honey/vivado/project/core2/core2.sdk/system_wrapper_hw_platform_0/system_wrapper.bit], Result: [null, ]. Thread: ModalContext
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:31:10.854
+!MESSAGE XSCT Command: [targets -set -nocase -filter {name =~"APU*" && jtag_cable_name =~ "Platform Cable USB II 00000000000000"} -index 0], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:31:10.874
+!MESSAGE XSCT command with result: [targets -set -nocase -filter {name =~"APU*" && jtag_cable_name =~ "Platform Cable USB II 00000000000000"} -index 0], Result: [null, ]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:31:10.875
+!MESSAGE XSCT Command: [loadhw -hw C:/Users/honey/vivado/project/core2/core2.sdk/system_wrapper_hw_platform_0/system.hdf -mem-ranges [list {0x40000000 0xbfffffff}]], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:31:10.884
+!MESSAGE XSCT command with result: [loadhw -hw C:/Users/honey/vivado/project/core2/core2.sdk/system_wrapper_hw_platform_0/system.hdf -mem-ranges [list {0x40000000 0xbfffffff}]], Result: [null, system_wrapper_1]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:31:10.885
+!MESSAGE XSCT Command: [configparams force-mem-access 1], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:31:10.886
+!MESSAGE XSCT command with result: [configparams force-mem-access 1], Result: [null, ]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:31:10.887
+!MESSAGE XSCT Command: [targets -set -nocase -filter {name =~"APU*" && jtag_cable_name =~ "Platform Cable USB II 00000000000000"} -index 0], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:31:10.919
+!MESSAGE XSCT command with result: [targets -set -nocase -filter {name =~"APU*" && jtag_cable_name =~ "Platform Cable USB II 00000000000000"} -index 0], Result: [null, ]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:31:10.919
+!MESSAGE XSCT Command: [ps7_init], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:31:11.291
+!MESSAGE XSCT command with result: [ps7_init], Result: [null, ]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:31:11.291
+!MESSAGE XSCT Command: [ps7_post_config], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:31:11.300
+!MESSAGE XSCT command with result: [ps7_post_config], Result: [null, ]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:31:11.300
+!MESSAGE XSCT Command: [targets -set -nocase -filter {name =~ "ARM*#0" && jtag_cable_name =~ "Platform Cable USB II 00000000000000"} -index 0], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:31:11.323
+!MESSAGE XSCT command with result: [targets -set -nocase -filter {name =~ "ARM*#0" && jtag_cable_name =~ "Platform Cable USB II 00000000000000"} -index 0], Result: [null, ]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:31:11.324
+!MESSAGE XSCT Command: [dow C:/Users/honey/vivado/project/core2/core2.sdk/core/Debug/core.elf], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:31:12.270
+!MESSAGE XSCT command with result: [dow C:/Users/honey/vivado/project/core2/core2.sdk/core/Debug/core.elf], Result: [null, ]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:31:12.271
+!MESSAGE XSCT Command: [configparams force-mem-access 0], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:31:12.273
+!MESSAGE XSCT command with result: [configparams force-mem-access 0], Result: [null, ]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:31:12.371
+!MESSAGE XSCT Command: [targets -set -nocase -filter {name =~ "ARM*#0" && jtag_cable_name =~ "Platform Cable USB II 00000000000000"} -index 0], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:31:12.427
+!MESSAGE XSCT command with result: [targets -set -nocase -filter {name =~ "ARM*#0" && jtag_cable_name =~ "Platform Cable USB II 00000000000000"} -index 0], Result: [null, ]. Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:31:12.428
+!MESSAGE XSCT Command: [con], Thread: Worker-26
+
+!ENTRY com.xilinx.sdk.utils 0 0 2021-06-17 16:31:12.456
+!MESSAGE XSCT command with result: [con], Result: [null, ]. Thread: Worker-26

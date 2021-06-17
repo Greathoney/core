@@ -1,0 +1,62 @@
+#-----------------------------------------------------------
+# Vivado v2019.1 (64-bit)
+# SW Build 2552052 on Fri May 24 14:49:42 MDT 2019
+# IP Build 2548770 on Fri May 24 18:01:18 MDT 2019
+# Start of session at: Mon Jun 14 12:02:08 2021
+# Process ID: 10312
+# Current directory: C:/work/2016114869/core2
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent9020 C:\work\2016114869\core2\core2.xpr
+# Log file: C:/work/2016114869/core2/vivado.log
+# Journal file: C:/work/2016114869/core2\vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project C:/work/2016114869/core2/core2.xpr
+update_compile_order -fileset sources_1
+open_bd_design {C:/work/2016114869/core2/core2.srcs/sources_1/bd/system/system.bd}
+set_property -dict [list CONFIG.PCW_UIPARAM_DDR_DQS_TO_CLK_DELAY_0 {0.171} CONFIG.PCW_UIPARAM_DDR_DQS_TO_CLK_DELAY_1 {0.172} CONFIG.PCW_UIPARAM_DDR_DQS_TO_CLK_DELAY_2 {0.168} CONFIG.PCW_UIPARAM_DDR_DQS_TO_CLK_DELAY_3 {0.118} CONFIG.PCW_UIPARAM_DDR_BOARD_DELAY0 {0.333} CONFIG.PCW_UIPARAM_DDR_BOARD_DELAY1 {0.334} CONFIG.PCW_UIPARAM_DDR_BOARD_DELAY2 {0.346} CONFIG.PCW_UIPARAM_DDR_BOARD_DELAY3 {0.358} CONFIG.PCW_USE_FABRIC_INTERRUPT {1} CONFIG.PCW_CORE0_IRQ_INTR {1} CONFIG.PCW_PRESET_BANK1_VOLTAGE {LVCMOS 1.8V} CONFIG.PCW_UIPARAM_DDR_PARTNO {MT41J256M16 RE-125} CONFIG.PCW_UIPARAM_DDR_USE_INTERNAL_VREF {1} CONFIG.PCW_UART1_PERIPHERAL_ENABLE {1}] [get_bd_cells processing_system7_0]
+save_bd_design
+startgroup
+apply_bd_automation -rule xilinx.com:bd_rule:processing_system7 -config {make_external "FIXED_IO, DDR" Master "Disable" Slave "Disable" }  [get_bd_cells processing_system7_0]
+endgroup
+startgroup
+apply_bd_automation -rule xilinx.com:bd_rule:axi4 -config { Clk_master {Auto} Clk_slave {Auto} Clk_xbar {Auto} Master {/processing_system7_0/M_AXI_GP0} Slave {/textlcd_2_0/S00_AXI} intc_ip {New AXI Interconnect} master_apm {0}}  [get_bd_intf_pins textlcd_2_0/S00_AXI]
+apply_bd_automation -rule xilinx.com:bd_rule:axi4 -config { Clk_master {Auto} Clk_slave {Auto} Clk_xbar {Auto} Master {/processing_system7_0/M_AXI_GP0} Slave {/pushbutton_0/S00_AXI} intc_ip {New AXI Interconnect} master_apm {0}}  [get_bd_intf_pins pushbutton_0/S00_AXI]
+apply_bd_automation -rule xilinx.com:bd_rule:axi4 -config { Clk_master {Auto} Clk_slave {Auto} Clk_xbar {Auto} Master {/processing_system7_0/M_AXI_GP0} Slave {/tftlcd_0/S00_AXI} intc_ip {New AXI Interconnect} master_apm {0}}  [get_bd_intf_pins tftlcd_0/S00_AXI]
+endgroup
+regenerate_bd_layout
+startgroup
+make_bd_pins_external  [get_bd_cells textlcd_2_0]
+make_bd_intf_pins_external  [get_bd_cells textlcd_2_0]
+endgroup
+connect_bd_net [get_bd_pins pushbutton_0/intr] [get_bd_pins processing_system7_0/Core0_nIRQ]
+startgroup
+make_bd_pins_external  [get_bd_cells tftlcd_0]
+make_bd_intf_pins_external  [get_bd_cells tftlcd_0]
+endgroup
+startgroup
+make_bd_pins_external  [get_bd_cells pushbutton_0]
+make_bd_intf_pins_external  [get_bd_cells pushbutton_0]
+endgroup
+delete_bd_objs [get_bd_nets clk_1_1]
+delete_bd_objs [get_bd_ports clk_1]
+connect_bd_net [get_bd_ports clk_0] [get_bd_pins tftlcd_0/clk]
+save_bd_design
+set_property offset 0x43C90000 [get_bd_addr_segs {processing_system7_0/Data/SEG_pushbutton_0_S00_AXI_reg}]
+set_property offset 0x43C80000 [get_bd_addr_segs {processing_system7_0/Data/SEG_textlcd_2_0_S00_AXI_reg}]
+set_property offset 0x43C00000 [get_bd_addr_segs {processing_system7_0/Data/SEG_tftlcd_0_S00_AXI_reg}]
+set_property range 512K [get_bd_addr_segs {processing_system7_0/Data/SEG_tftlcd_0_S00_AXI_reg}]
+open_bd_design {C:/work/2016114869/core2/core2.srcs/sources_1/bd/system/system.bd}
+save_bd_design
+make_wrapper -files [get_files C:/work/2016114869/core2/core2.srcs/sources_1/bd/system/system.bd] -top
+import_files -force -norecurse C:/work/2016114869/core2/core2.srcs/sources_1/bd/system/hdl/system_wrapper.v
+add_files -fileset constrs_1 -norecurse C:/Users/Trigem/Desktop/top.xdc
+import_files -fileset constrs_1 C:/Users/Trigem/Desktop/top.xdc
+launch_runs impl_1 -to_step write_bitstream -jobs 12
+wait_on_run impl_1
+open_bd_design {C:/work/2016114869/core2/core2.srcs/sources_1/bd/system/system.bd}
+open_bd_design {C:/work/2016114869/core2/core2.srcs/sources_1/bd/system/system.bd}
+open_bd_design {C:/work/2016114869/core2/core2.srcs/sources_1/bd/system/system.bd}
+file mkdir C:/work/2016114869/core2/core2.sdk
+file copy -force C:/work/2016114869/core2/core2.runs/impl_1/system_wrapper.sysdef C:/work/2016114869/core2/core2.sdk/system_wrapper.hdf
+
+launch_sdk -workspace C:/work/2016114869/core2/core2.sdk -hwspec C:/work/2016114869/core2/core2.sdk/system_wrapper.hdf

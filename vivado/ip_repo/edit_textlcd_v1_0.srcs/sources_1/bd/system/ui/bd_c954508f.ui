@@ -1,0 +1,35 @@
+{
+   "ExpandedHierarchyInLayout":"",
+   "guistr":"# # String gsaved with Nlview 7.0.19  2019-03-26 bk=1.5019 VDI=41 GEI=35 GUI=JA:9.0 non-TLS
+#  -string -flagsOSRD
+preplace port FIXED_IO -pg 1 -lvl 4 -x 1030 -y 240 -defaultsOSRD
+preplace port resetn_0 -pg 1 -lvl 0 -x 0 -y 380 -defaultsOSRD
+preplace port lcd_en_0 -pg 1 -lvl 4 -x 1030 -y 410 -defaultsOSRD
+preplace port lcd_rs_0 -pg 1 -lvl 4 -x 1030 -y 370 -defaultsOSRD
+preplace port lcdclk_0 -pg 1 -lvl 0 -x 0 -y 580 -defaultsOSRD
+preplace port lcd_rw_0 -pg 1 -lvl 4 -x 1030 -y 390 -defaultsOSRD
+preplace portBus lcd_data_0 -pg 1 -lvl 4 -x 1030 -y 430 -defaultsOSRD
+preplace inst processing_system7_0 -pg 1 -lvl 1 -x 230 -y 270 -defaultsOSRD
+preplace inst textlcd_0 -pg 1 -lvl 3 -x 880 -y 400 -defaultsOSRD
+preplace inst ps7_0_axi_periph -pg 1 -lvl 2 -x 600 -y 120 -defaultsOSRD
+preplace inst rst_ps7_0_50M -pg 1 -lvl 1 -x 230 -y 480 -defaultsOSRD
+preplace netloc processing_system7_0_FCLK_CLK0 1 0 3 20 360 450 370 750
+preplace netloc processing_system7_0_FCLK_RESET0_N 1 0 2 30 370 430
+preplace netloc rst_ps7_0_50M_peripheral_aresetn 1 1 2 440 440 NJ
+preplace netloc resetn_0_1 1 0 3 NJ 380 NJ 380 NJ
+preplace netloc textlcd_0_lcd_data 1 3 1 NJ 430
+preplace netloc textlcd_0_lcd_en 1 3 1 NJ 410
+preplace netloc textlcd_0_lcd_rs 1 3 1 NJ 370
+preplace netloc lcdclk_0_1 1 0 3 NJ 580 450J 400 NJ
+preplace netloc textlcd_0_lcd_rw 1 3 1 NJ 390
+preplace netloc processing_system7_0_FIXED_IO 1 1 3 NJ 240 NJ 240 NJ
+preplace netloc processing_system7_0_M_AXI_GP0 1 1 1 430 60n
+preplace netloc ps7_0_axi_periph_M00_AXI 1 2 1 750 120n
+levelinfo -pg 1 0 230 600 880 1030
+pagesize -pg 1 -db -bbox -sgen -110 0 1180 600
+"
+}
+{
+   "da_axi4_cnt":"1",
+   "da_ps7_cnt":"1"
+}

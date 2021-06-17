@@ -13,7 +13,7 @@
 
 #include "sleep.h"
 //////////////////////////////////////////////////////////
-////////////////ÀÎÅÍ·´Æ®¸¦ À§ÇÑ ÇÔ¼ö¿Í º¯¼ö ///////////////////////
+////////////////ì¸í„°ëŸ½íŠ¸ë¥¼ ìœ„í•œ í•¨ìˆ˜ì™€ ë³€ìˆ˜ ///////////////////////
 int GicConfigure(u16);
 void ServiceRoutine(void *);
 XScuGic InterruptController;
@@ -35,13 +35,13 @@ typedef struct rgb{
 typedef struct game{
     int is_game_exist;
 
-    double ball_y_position;  // ½ÃÀÛ ÁÂÇ¥´Â Ç×»ó 0
+    double ball_y_position;  // ì‹œì‘ ì¢Œí‘œëŠ” í•­ìƒ 0
     double ball_y_speed;
     int is_ball_jumping;
 
     int is_spike_exist;
-    double spike_x_position;  // ½ÃÀÛ ÁÂÇ¥´Â Ç×»ó 0, °¨¼Ò
-    double spike_x_speed;  // Ç×»ó À½¼ö
+    double spike_x_position;  // ì‹œì‘ ì¢Œí‘œëŠ” í•­ìƒ 0, ê°ì†Œ
+    double spike_x_speed;  // í•­ìƒ ìŒìˆ˜
 
     int game_number;
     rgb_t game_background_color;
@@ -51,7 +51,7 @@ typedef struct game{
 #define DISPLAY_WIDTH 480
 #define DISPLAY_HEIGHT 272
 
-// ÇÁ·¹ÀÓ°£ÀÇ µô·¹ÀÌ ½Ã°£
+// í”„ë ˆì„ê°„ì˜ ë”œë ˆì´ ì‹œê°„
 const int fps_delay = 33000;  // unit: micro second
 
 const rgb_t ball_color = { 31, 63, 31 };
@@ -61,7 +61,7 @@ const rgb_t background_color_mode_0 = { 31, 63, 31 };
 const rgb_t background_color_mode_1[4] = { { 31, 0, 0 }, { 0, 63, 0 }, { 0, 0, 31 }, { 0, 0, 0 } };
 const rgb_t background_color_mode_2 = { 0, 0, 0 };
 
-// ¹è°æ ¹üÀ§
+// ë°°ê²½ ë²”ìœ„
 const int background_position[4][4][2][2] = { { { { 0, 0 }, { DISPLAY_WIDTH, DISPLAY_HEIGHT } },
 												  { { -1, -1 }, { -1, -1 } },
 												  { { -1, -1 }, { -1, -1 } },
@@ -86,7 +86,7 @@ const int background_position[4][4][2][2] = { { { { 0, 0 }, { DISPLAY_WIDTH, DIS
 											};
 // game count, game number, (position, length), (x, y)
 
-// °¢ stageÀÇ set point
+// ê° stageì˜ set point
 const int stage_position[4][4][2] = { { { DISPLAY_WIDTH/4, DISPLAY_HEIGHT/4 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },
 									  { { 0, DISPLAY_HEIGHT/4 }, { DISPLAY_WIDTH/2, DISPLAY_HEIGHT/4 }, { -1,  -1 }, { -1, -1 } },
 									  { { 0, 0 }, { DISPLAY_WIDTH/2, DISPLAY_HEIGHT/4 }, { 0, DISPLAY_HEIGHT/2 }, { -1, -1 } },
@@ -103,7 +103,7 @@ const int ball_size[2] = { 10, 10 };
 
 const int spike_position[2] = { 190, 86 };
 const int spike_size[2] = { 10, 10 };
-const int spike_path_length = 150;  // °¡½Ã°¡ °É¾î´Ù´Ò ÃÑ ±æÀÌ
+const int spike_path_length = 150;  // ê°€ì‹œê°€ ê±¸ì–´ë‹¤ë‹ ì´ ê¸¸ì´
 const double spike_speed = 1;  // function of generation spike
 const int spike_probability = 300;  // use function of generate_spike
 const int spike_ratio = 3;
@@ -269,7 +269,7 @@ void game_mode_0(){
 		TEXTLCD_2_mWriteReg(XPAR_TEXTLCD_2_0_S00_AXI_BASEADDR, 0, 0x00000001);
 		//Text lcd game play
 		xil_printf("\r\nS1 Switch is pushed\r\n");
-		//playtimeÀ» 0ÀÎ »óÅÂ·Î À¯Áö
+		//playtimeì„ 0ì¸ ìƒíƒœë¡œ ìœ ì§€
 
 
 		for (int i=0; i < 4; i++){
@@ -310,19 +310,19 @@ void game_mode_1(){
 	playtime = ( (playtime & 0x00000F00) >> 8 )*60 +( (playtime & 0x000000F0) >> 4 )*10 +(playtime & 0x0000000F);
 	//xil_printf("playtime : (16 radix)%xsec (10 radix)%dsec \r\n",playtime);
 
-	if(playtime == count_1 && game_count == 1) // playtimeÀÌ 30ÃÊ°¡ µÇ°í game_count°¡ 1°³¸é 2°³·Î ¸¸µé¾îÁØ´Ù.
+	if(playtime == count_1 && game_count == 1) // playtimeì´ 30ì´ˆê°€ ë˜ê³  game_countê°€ 1ê°œë©´ 2ê°œë¡œ ë§Œë“¤ì–´ì¤€ë‹¤.
 	{
 		game_count = 2;
 		is_background_paint = 0;
 		games[1].is_game_exist = 1;
 	}
-	else if(playtime == count_2 && game_count == 2)// playtimeÀÌ 60ÃÊ°¡ µÇ°í game_count°¡ 2°³¸é 3°³·Î ¸¸µé¾îÁØ´Ù.
+	else if(playtime == count_2 && game_count == 2)// playtimeì´ 60ì´ˆê°€ ë˜ê³  game_countê°€ 2ê°œë©´ 3ê°œë¡œ ë§Œë“¤ì–´ì¤€ë‹¤.
 	{
 		game_count = 3;
 		is_background_paint = 0;
 		games[2].is_game_exist = 1;
 	}
-	else if(playtime == count_3 && game_count == 3)// playtimeÀÌ 90ÃÊ°¡ µÇ°í game_count°¡ 3°³¸é 4°³·Î ¸¸µé¾îÁØ´Ù.
+	else if(playtime == count_3 && game_count == 3)// playtimeì´ 90ì´ˆê°€ ë˜ê³  game_countê°€ 3ê°œë©´ 4ê°œë¡œ ë§Œë“¤ì–´ì¤€ë‹¤.
 	{
 		game_count = 4;
 		is_background_paint = 0;
@@ -341,7 +341,7 @@ void game_mode_1(){
 	/* tft lcd Display */
 	if (is_background_paint == 0){
 		xil_printf("background paint \r\n");
-		// game_mode ¶Ç´Â game_count °¡ ¹Ù²î¾î ¿ÏÀüÈ÷ »õ·Î ±×¸®°Ô µÉ ¶§ ¿©±â¼­ ÇÑ¹ø ÀüÃ¼ÀûÀ¸·Î ±×·ÁÁÖ°Ô µÈ´Ù.
+		// game_mode ë˜ëŠ” game_count ê°€ ë°”ë€Œì–´ ì™„ì „íˆ ìƒˆë¡œ ê·¸ë¦¬ê²Œ ë  ë•Œ ì—¬ê¸°ì„œ í•œë²ˆ ì „ì²´ì ìœ¼ë¡œ ê·¸ë ¤ì£¼ê²Œ ëœë‹¤.
 		for (int i = 0; i < game_count; i++){
 			// Draw Background
 			draw_square(
@@ -377,12 +377,12 @@ void game_mode_1(){
 }
 
 void game_mode_2(){
-	// TODO: mode 2 ±¸ÇöÇÏ±â
-	// °ÔÀÓ È­¸éÀº ±×´ë·Î ¸ØÃß°Ô µÇ°í, txtlcd¸¦ ÅëÇØ¼­ Á¡¼ö³ª ÇöÀç »óÈ²À» Ç¥½ÃÇÕ´Ï´Ù.
-	// ±×¸®°í ¹öÆ°À» ´©¸£¸é game mode 0 ·Î µ¹¾Æ°¡°Ô µË´Ï´Ù.
+	// TODO: mode 2 êµ¬í˜„í•˜ê¸°
+	// ê²Œì„ í™”ë©´ì€ ê·¸ëŒ€ë¡œ ë©ˆì¶”ê²Œ ë˜ê³ , txtlcdë¥¼ í†µí•´ì„œ ì ìˆ˜ë‚˜ í˜„ì¬ ìƒí™©ì„ í‘œì‹œí•©ë‹ˆë‹¤.
+	// ê·¸ë¦¬ê³  ë²„íŠ¼ì„ ëˆ„ë¥´ë©´ game mode 0 ë¡œ ëŒì•„ê°€ê²Œ ë©ë‹ˆë‹¤.
 	is_background_paint = 0;
 	if (is_background_paint == 0){
-		TEXTLCD_2_mWriteReg(XPAR_TEXTLCD_2_0_S00_AXI_BASEADDR, 0, 0x00000002); // text lcd È­¸é¿¡ gmae over Ç¥½ÃµÇ¸ç µ¿½Ã¿¡ ½Ã°£ÀÌ ¸ØÃá´Ù.
+		TEXTLCD_2_mWriteReg(XPAR_TEXTLCD_2_0_S00_AXI_BASEADDR, 0, 0x00000002); // text lcd í™”ë©´ì— gmae over í‘œì‹œë˜ë©° ë™ì‹œì— ì‹œê°„ì´ ë©ˆì¶˜ë‹¤.
 
 		is_background_paint = 1;
 	}
@@ -390,8 +390,8 @@ void game_mode_2(){
 	/* Game Logic */
 
 	if(is_button_pushed[0] == 1) {
-		TEXTLCD_2_mWriteReg(XPAR_TEXTLCD_2_0_S00_AXI_BASEADDR, 0, 0x00000000); // Ã¹¹øÂ° Çª½¬¹öÆ°À» ´©¸£¸é TEXT LCD °ÔÀÓÁØºñÈ­¸éÀ¸·Î µ¹¾Æ°¨
-		game_mode = 0; // Ã¹¹øÂ° Çª½¬¹öÆ°À» °ÔÀÓÁØºñÈ­¸éÀ¸·Î ³Ñ¾î°¨
+		TEXTLCD_2_mWriteReg(XPAR_TEXTLCD_2_0_S00_AXI_BASEADDR, 0, 0x00000000); // ì²«ë²ˆì§¸ í‘¸ì‰¬ë²„íŠ¼ì„ ëˆ„ë¥´ë©´ TEXT LCD ê²Œì„ì¤€ë¹„í™”ë©´ìœ¼ë¡œ ëŒì•„ê°
+		game_mode = 0; // ì²«ë²ˆì§¸ í‘¸ì‰¬ë²„íŠ¼ì„ ê²Œì„ì¤€ë¹„í™”ë©´ìœ¼ë¡œ ë„˜ì–´ê°
 		is_background_paint = 0;
 	}
 
@@ -400,7 +400,7 @@ void game_mode_2(){
 
 	/* tft lcd Display */
 }
-//TFT LCD°¡ ¿øÁ¡ ºñ´ëÄªÀÌ¹Ç·Î i,j ¹üÀ§¸¦ ´Ù¸£°Ô ÇßÀ½
+//TFT LCDê°€ ì›ì  ë¹„ëŒ€ì¹­ì´ë¯€ë¡œ i,j ë²”ìœ„ë¥¼ ë‹¤ë¥´ê²Œ í–ˆìŒ
 //
 void draw_square(int start_pos_X, int start_pos_Y, int length_X, int length_Y, rgb_t color){
 	for (int i = DISPLAY_HEIGHT - start_pos_Y - 1; i >= DISPLAY_HEIGHT - start_pos_Y - length_Y; i--) {
@@ -410,8 +410,8 @@ void draw_square(int start_pos_X, int start_pos_Y, int length_X, int length_Y, r
 	}
 }
 
-void redraw_square(int draw_start_pos_X, int draw_draw_start_pos_Y, int draw_length_X, int draw_length_Y, rgb_t draw_color,  // »õ·Ó°Ô ±×¸± »ç°¢Çü
-				   int delete_start_pos_X, int delete_draw_start_pos_Y, int delete_length_X, int delete_length_Y, rgb_t background_color){  // ÀÌ¹Ì ±×·ÁÁ®¼­ ¹è°æÈ­¸é »öÀ¸·Î µ¤À» »ç°¢Çü
+void redraw_square(int draw_start_pos_X, int draw_draw_start_pos_Y, int draw_length_X, int draw_length_Y, rgb_t draw_color,  // ìƒˆë¡­ê²Œ ê·¸ë¦´ ì‚¬ê°í˜•
+				   int delete_start_pos_X, int delete_draw_start_pos_Y, int delete_length_X, int delete_length_Y, rgb_t background_color){  // ì´ë¯¸ ê·¸ë ¤ì ¸ì„œ ë°°ê²½í™”ë©´ ìƒ‰ìœ¼ë¡œ ë®ì„ ì‚¬ê°í˜•
 
 	draw_square(delete_start_pos_X, delete_draw_start_pos_Y, delete_length_X, delete_length_Y, background_color);
 	draw_square(draw_start_pos_X, draw_draw_start_pos_Y, draw_length_X, draw_length_Y, draw_color);
@@ -420,14 +420,14 @@ void redraw_square(int draw_start_pos_X, int draw_draw_start_pos_Y, int draw_len
 }
 
 void draw_triangle(int start_pos_X, int start_pos_Y, int length_X, int length_Y, rgb_t color){
-	int x ,y; // ¿øÁ¡ ´ëÄªÀÎ i,j¸¦ ´Ù½Ã ¿øÁ¡´ëÄªÇÔ
+	int x ,y; // ì›ì  ëŒ€ì¹­ì¸ i,jë¥¼ ë‹¤ì‹œ ì›ì ëŒ€ì¹­í•¨
 	for (int i = DISPLAY_HEIGHT - start_pos_Y - 1; i >= DISPLAY_HEIGHT - start_pos_Y - length_Y; i--) {
 		for (int j = DISPLAY_WIDTH - start_pos_X - 1; j >= DISPLAY_WIDTH - start_pos_X - length_X; j--) {
-			// if (0)  // ÇØ´ç ÇÈ¼¿¿¡ »ö±òÀ» ³Ö¾î¾ß ÇÏ´ÂÁö ÆÇ´Ü, i, j, length_X, length_Y, start_pos_X, start_pos_Y, DISPLAY_HEIGHT, DISPLAY_WIDTH À» ÀÌ¿ëÇÏ¿© ÆÇº°
+			// if (0)  // í•´ë‹¹ í”½ì…€ì— ìƒ‰ê¹”ì„ ë„£ì–´ì•¼ í•˜ëŠ”ì§€ íŒë‹¨, i, j, length_X, length_Y, start_pos_X, start_pos_Y, DISPLAY_HEIGHT, DISPLAY_WIDTH ì„ ì´ìš©í•˜ì—¬ íŒë³„
 			x = DISPLAY_WIDTH - start_pos_X - 1 - j;
 			y = DISPLAY_HEIGHT - start_pos_Y - 1 - i;
 
-			// if((y <= (length_Y/(length_X/2))*x) && (y <= 2*length_Y - (length_Y/(length_X/2))*x)){   // µÚÁıÇôÁø »ï°¢ÇüÀÔ´Ï´Ù
+			// if((y <= (length_Y/(length_X/2))*x) && (y <= 2*length_Y - (length_Y/(length_X/2))*x)){   // ë’¤ì§‘í˜€ì§„ ì‚¼ê°í˜•ì…ë‹ˆë‹¤
 			if((y >= length_Y - (length_Y/(length_X/2))*x) && (y >= - length_Y + (length_Y/(length_X/2))*x)){
 				Xil_Out32(XPAR_TFTLCD_0_S00_AXI_BASEADDR + (j + DISPLAY_WIDTH*i)*4, compile_rgb(color));
 			}
@@ -435,8 +435,8 @@ void draw_triangle(int start_pos_X, int start_pos_Y, int length_X, int length_Y,
 	}
 }
 
-void redraw_triangle(int draw_start_pos_X, int draw_draw_start_pos_Y, int draw_length_X, int draw_length_Y, rgb_t draw_color,  // »õ·Ó°Ô ±×¸± »ç°¢Çü
-				   int delete_start_pos_X, int delete_draw_start_pos_Y, int delete_length_X, int delete_length_Y, rgb_t background_color){  // ÀÌ¹Ì ±×·ÁÁ®¼­ ¹è°æÈ­¸é »öÀ¸·Î µ¤À» »ç°¢Çü
+void redraw_triangle(int draw_start_pos_X, int draw_draw_start_pos_Y, int draw_length_X, int draw_length_Y, rgb_t draw_color,  // ìƒˆë¡­ê²Œ ê·¸ë¦´ ì‚¬ê°í˜•
+				   int delete_start_pos_X, int delete_draw_start_pos_Y, int delete_length_X, int delete_length_Y, rgb_t background_color){  // ì´ë¯¸ ê·¸ë ¤ì ¸ì„œ ë°°ê²½í™”ë©´ ìƒ‰ìœ¼ë¡œ ë®ì„ ì‚¬ê°í˜•
 
 	draw_triangle(delete_start_pos_X, delete_draw_start_pos_Y, delete_length_X, delete_length_Y, background_color);
 	draw_triangle(draw_start_pos_X, draw_draw_start_pos_Y, draw_length_X, draw_length_Y, draw_color);
@@ -444,16 +444,16 @@ void redraw_triangle(int draw_start_pos_X, int draw_draw_start_pos_Y, int draw_l
 
 
 void draw_circle(int start_pos_X, int start_pos_Y, int length_X, int length_Y, rgb_t color){
-	double x ,y; // ¿øÁ¡ ´ëÄªÀÎ i,j¸¦ ´Ù½Ã ¿øÁ¡´ëÄªÇÔ
+	double x ,y; // ì›ì  ëŒ€ì¹­ì¸ i,jë¥¼ ë‹¤ì‹œ ì›ì ëŒ€ì¹­í•¨
 	for (int i = DISPLAY_HEIGHT - start_pos_Y - 1; i >= DISPLAY_HEIGHT - start_pos_Y - length_Y; i--) {
 		for (int j = DISPLAY_WIDTH - start_pos_X - 1; j >= DISPLAY_WIDTH - start_pos_X - length_X; j--) {
-			// if (0)  // ÇØ´ç ÇÈ¼¿¿¡ »ö±òÀ» ³Ö¾î¾ß ÇÏ´ÂÁö ÆÇ´Ü, i, j, length_X, length_Y, start_pos_X, start_pos_Y, DISPLAY_HEIGHT, DISPLAY_WIDTH À» ÀÌ¿ëÇÏ¿© ÆÇº°
+			// if (0)  // í•´ë‹¹ í”½ì…€ì— ìƒ‰ê¹”ì„ ë„£ì–´ì•¼ í•˜ëŠ”ì§€ íŒë‹¨, i, j, length_X, length_Y, start_pos_X, start_pos_Y, DISPLAY_HEIGHT, DISPLAY_WIDTH ì„ ì´ìš©í•˜ì—¬ íŒë³„
 			x = DISPLAY_WIDTH - start_pos_X - 1 - j;
 			y = DISPLAY_HEIGHT - start_pos_Y - 1 - i;
-			 if(((y - ((double)length_Y/2 - 0.5))*(y - ((double)length_Y/2 - 0.5)) + (x - ((double)length_X/2 - 0.5))*(x - ((double)length_X/2) - 0.5)) < ((double)length_X/2)*((double)length_X/2)){ // ¿øÀÇ ¹æÁ¤½Ä
+			 if(((y - ((double)length_Y/2 - 0.5))*(y - ((double)length_Y/2 - 0.5)) + (x - ((double)length_X/2 - 0.5))*(x - ((double)length_X/2) - 0.5)) < ((double)length_X/2)*((double)length_X/2)){ // ì›ì˜ ë°©ì •ì‹
 //			if(((y-(length_Y/2)) * (y-(length_Y/2)) * (length_X/2) * (length_X/2) +
 //			    (x-(length_X/2)) * (x-(length_X/2) * (length_Y/2) * (length_Y/2))) <=
-//				(length_X/2) * (length_X/2) * (length_Y/2) * (length_Y/2)){ // Å¸¿øÀÇ ¹æÁ¤½Ä
+//				(length_X/2) * (length_X/2) * (length_Y/2) * (length_Y/2)){ // íƒ€ì›ì˜ ë°©ì •ì‹
 
 				Xil_Out32(XPAR_TFTLCD_0_S00_AXI_BASEADDR + (j + DISPLAY_WIDTH*i)*4, compile_rgb(color));
 			}
@@ -461,8 +461,8 @@ void draw_circle(int start_pos_X, int start_pos_Y, int length_X, int length_Y, r
 	}
 }
 
-void redraw_circle(int draw_start_pos_X, int draw_draw_start_pos_Y, int draw_length_X, int draw_length_Y, rgb_t draw_color,  // »õ·Ó°Ô ±×¸± »ç°¢Çü
-				   int delete_start_pos_X, int delete_draw_start_pos_Y, int delete_length_X, int delete_length_Y, rgb_t background_color){  // ÀÌ¹Ì ±×·ÁÁ®¼­ ¹è°æÈ­¸é »öÀ¸·Î µ¤À» »ç°¢Çü
+void redraw_circle(int draw_start_pos_X, int draw_draw_start_pos_Y, int draw_length_X, int draw_length_Y, rgb_t draw_color,  // ìƒˆë¡­ê²Œ ê·¸ë¦´ ì‚¬ê°í˜•
+				   int delete_start_pos_X, int delete_draw_start_pos_Y, int delete_length_X, int delete_length_Y, rgb_t background_color){  // ì´ë¯¸ ê·¸ë ¤ì ¸ì„œ ë°°ê²½í™”ë©´ ìƒ‰ìœ¼ë¡œ ë®ì„ ì‚¬ê°í˜•
 
 	draw_circle(delete_start_pos_X, delete_draw_start_pos_Y, delete_length_X, delete_length_Y, background_color);
 	draw_circle(draw_start_pos_X, draw_draw_start_pos_Y, draw_length_X, draw_length_Y, draw_color);
@@ -475,26 +475,26 @@ int compile_rgb(rgb_t rgb_data){
 
 void game_check(game_t *game){
 
-	if(game->is_ball_jumping) change_ball_position(game); //ÀÔ·ÂÀÌ µé¾î¿À¸é °øÀ» Á¡ÇÁ½ÃÅ²´Ù.
+	if(game->is_ball_jumping) change_ball_position(game); //ì…ë ¥ì´ ë“¤ì–´ì˜¤ë©´ ê³µì„ ì í”„ì‹œí‚¨ë‹¤.
 	else ball_jump_check(game);
 
-	if (!game->is_spike_exist)	generate_spike(game); // ½ºÆÄÀÌÅ©°¡ ¾øÀ¸¸é ·£´ı È®·ü·Î ½ºÆÄÀÌÅ©¸¦ »ı¼ºÇÑ´Ù.
+	if (!game->is_spike_exist)	generate_spike(game); // ìŠ¤íŒŒì´í¬ê°€ ì—†ìœ¼ë©´ ëœë¤ í™•ë¥ ë¡œ ìŠ¤íŒŒì´í¬ë¥¼ ìƒì„±í•œë‹¤.
 	else {
 		is_spike_touched(game);
-		change_spike_position(game); // ½ºÆÄÀÌÅ©°¡ ÀÖÀ¸¸é ¿ŞÂÊÀ¸·Î ÀÌµ¿ÇÑ´Ù.
+		change_spike_position(game); // ìŠ¤íŒŒì´í¬ê°€ ìˆìœ¼ë©´ ì™¼ìª½ìœ¼ë¡œ ì´ë™í•œë‹¤.
 	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//												Å×½ºÆ®ÇØºÁ¾ßÇÒ ÄÚµå									  //
+//												í…ŒìŠ¤íŠ¸í•´ë´ì•¼í•  ì½”ë“œ									  //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void change_ball_position(game_t *game){
-	double tmp = game->ball_y_position; // redraw ÇÔ¼ö¸¦ ÅëÇØ ¿¹Àü ÀÌ¹ÌÁö¸¦ Áö¿ì±â À§ÇØ ¿¹Àü À§Ä¡¸¦ ÀÓ½ÃÀúÀå
+	double tmp = game->ball_y_position; // redraw í•¨ìˆ˜ë¥¼ í†µí•´ ì˜ˆì „ ì´ë¯¸ì§€ë¥¼ ì§€ìš°ê¸° ìœ„í•´ ì˜ˆì „ ìœ„ì¹˜ë¥¼ ì„ì‹œì €ì¥
 	game->ball_y_position -= game->ball_y_speed;
-	if( abs( (int)tmp - (int)(game->ball_y_position) ) >= 1 ) // ¿¹Àü ball y ÁÂÇ¥¿Í ÇöÀç ball y ÁÂÇ¥¸¦ ºñ±³ÇØ¼­ Â÷ÀÌ°¡ 1¸¸Å­ ³ª¸é ÇÈ¼¿À» ¿òÁ÷ÀÎ´Ù.
+	if( abs( (int)tmp - (int)(game->ball_y_position) ) >= 1 ) // ì˜ˆì „ ball y ì¢Œí‘œì™€ í˜„ì¬ ball y ì¢Œí‘œë¥¼ ë¹„êµí•´ì„œ ì°¨ì´ê°€ 1ë§Œí¼ ë‚˜ë©´ í”½ì…€ì„ ì›€ì§ì¸ë‹¤.
 	{
-		// redraw_square("»õ·Î ±×¸± ³×¸ğ", "¹ÙÅÁÈ­¸é»öÀ¸·Î µ¤ÀÏ ³×¸ğ")
-		// redraw_circle·Î º¯°æ
+		// redraw_square("ìƒˆë¡œ ê·¸ë¦´ ë„¤ëª¨", "ë°”íƒ•í™”ë©´ìƒ‰ìœ¼ë¡œ ë®ì¼ ë„¤ëª¨")
+		// redraw_circleë¡œ ë³€ê²½
 		redraw_circle(
 				stage_position[game_count-1][game->game_number][0]+ball_position[0],
 				stage_position[game_count-1][game->game_number][1]+ball_position[1]+ (int)(game->ball_y_position),
@@ -506,20 +506,20 @@ void change_ball_position(game_t *game){
 				);
 	}
 
-	// ÁÖÀÇ! Àı´ë ÁÂÇ¥
+	// ì£¼ì˜! ì ˆëŒ€ ì¢Œí‘œ
 	//  stage_position[game_count][game->game_number][x,y] + ball_position[x,y] + game->ball_x_postion
-	// TODO: Á¶°Ç¹®°ú ÀÔ·Â º¯¼ö Ã¤¿ö ³Ö±â
+	// TODO: ì¡°ê±´ë¬¸ê³¼ ì…ë ¥ ë³€ìˆ˜ ì±„ì›Œ ë„£ê¸°
 	game->ball_y_speed -= ball_gravity;
 	if(game->ball_y_position >= 0)
 	{
 		game->ball_y_position = 0;
 		// game->ball_y_speed = jump_ball_speed;
-		// "¶³¾îÁö´Â °øÀÌ ¹Ù´Ú¿¡ ´ê¾ÒÀ» ¶§"ÀÇ Á¶°Ç¹®ÀÌ¹Ç·Î ¹Ù´Ú¿¡ ´êÀ¸¸é ½ºÇÇµå¸¦ 0À¸·Î ÃÊ±âÈ­ÇØÁÖ¾î¾ß ÇÕ´Ï´Ù.
+		// "ë–¨ì–´ì§€ëŠ” ê³µì´ ë°”ë‹¥ì— ë‹¿ì•˜ì„ ë•Œ"ì˜ ì¡°ê±´ë¬¸ì´ë¯€ë¡œ ë°”ë‹¥ì— ë‹¿ìœ¼ë©´ ìŠ¤í”¼ë“œë¥¼ 0ìœ¼ë¡œ ì´ˆê¸°í™”í•´ì£¼ì–´ì•¼ í•©ë‹ˆë‹¤.
 		game->ball_y_speed = 0;
 		game->is_ball_jumping = 0;
 	}
 
-	// ¹Ù´ê¿¡ ´ê¾ÒÀ» ¶§ ¹öÆ° ´©¸£¸é Á¡ÇÁÇÏ´Â ÄÚµå
+	// ë°”ë‹¿ì— ë‹¿ì•˜ì„ ë•Œ ë²„íŠ¼ ëˆ„ë¥´ë©´ ì í”„í•˜ëŠ” ì½”ë“œ
 	if (is_button_pushed[game->game_number] == 1 && game->is_ball_jumping == 0){
 		game->ball_y_speed = jump_ball_speed;
 
@@ -535,11 +535,11 @@ void ball_jump_check(game_t *game){
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//												Å×½ºÆ®ÇØºÁ¾ßÇÒ ÄÚµå									  //
+//												í…ŒìŠ¤íŠ¸í•´ë´ì•¼í•  ì½”ë“œ									  //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void generate_spike(game_t *game){
-	// °¡½Ã´Â ·£´ıÇÏ°Ô »ı¼ºÇÔ
-	// °¡½ÃÀÇ ¼Óµµµµ ·£´ı
+	// ê°€ì‹œëŠ” ëœë¤í•˜ê²Œ ìƒì„±í•¨
+	// ê°€ì‹œì˜ ì†ë„ë„ ëœë¤
 	if((rand())%spike_probability <= spike_ratio) // spike_probability = 300 , L109
 	{
 		game->is_spike_exist = 1;
@@ -551,13 +551,13 @@ void generate_spike(game_t *game){
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//												Å×½ºÆ®ÇØºÁ¾ßÇÒ ÄÚµå									  //
+//												í…ŒìŠ¤íŠ¸í•´ë´ì•¼í•  ì½”ë“œ									  //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void is_spike_touched(game_t *game){
-	// TODO: ÇöÀç ¼±¾ğÇÑ º¯¼ö·Î ³íÀÇµÈ ·ÎÁ÷À¸·Î ÄÚµå ÀÛ¼º ºÎÅ¹µå¸³´Ï´Ù.
+	// TODO: í˜„ì¬ ì„ ì–¸í•œ ë³€ìˆ˜ë¡œ ë…¼ì˜ëœ ë¡œì§ìœ¼ë¡œ ì½”ë“œ ì‘ì„± ë¶€íƒë“œë¦½ë‹ˆë‹¤.
 
-	int ball_x, ball_y;   // ballÀÇ x,y ÁÂÇ¥ ÀúÀå
-	int spike_x, spike_y; // spikeÀÇ x,y ÁÂÇ¥ ÀúÀå
+	int ball_x, ball_y;   // ballì˜ x,y ì¢Œí‘œ ì €ì¥
+	int spike_x, spike_y; // spikeì˜ x,y ì¢Œí‘œ ì €ì¥
 	int spike_centre;
 
 //	 ball_x = stage_position[game_count-1][game->game_number][0] + ball_position[0];
@@ -565,7 +565,7 @@ void is_spike_touched(game_t *game){
 //	 spike_x = stage_position[game_count-1][game->game_number][0] + spike_position[0] + (int)game->spike_x_position;
 //	 spike_y = stage_position[game_count-1][game->game_number][1] + spike_position[1];
 
-	// »ó´ë ÁÂÇ¥¸¸ ÀÌ¿ëÇÏ¼Åµµ µË´Ï´Ù^^
+	// ìƒëŒ€ ì¢Œí‘œë§Œ ì´ìš©í•˜ì…”ë„ ë©ë‹ˆë‹¤^^
 	ball_x = ball_position[0];
 	ball_y = ball_position[1] + (int)game->ball_y_position;
 	spike_x = spike_position[0] + (int)game->spike_x_position ;
@@ -584,7 +584,7 @@ void is_spike_touched(game_t *game){
 	// {
 	//  	if( abs(ball_y - spike_y) <= ball_size[1] )
 	//  	{
-	//  		game_mode = 2; //°ÔÀÓ¿À¹öÇßÀ¸¹Ç·Î game mode¸¦ 2·Î ¹Ù²Û´Ù.
+	//  		game_mode = 2; //ê²Œì„ì˜¤ë²„í–ˆìœ¼ë¯€ë¡œ game modeë¥¼ 2ë¡œ ë°”ê¾¼ë‹¤.
 	//  		is_background_paint = 0;
 	//  	}
 	// }
@@ -593,14 +593,14 @@ void is_spike_touched(game_t *game){
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
-//												Å×½ºÆ®ÇØºÁ¾ßÇÒ ÄÚµå									    //
+//												í…ŒìŠ¤íŠ¸í•´ë´ì•¼í•  ì½”ë“œ									    //
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 void change_spike_position(game_t *game){
-	// spike_x_positionÀº 0¿¡¼­ ½ÃÀÛÇÏ¿© °è¼ÓÇØ¼­ ÀÛ¾ÆÁı´Ï´Ù.
+	// spike_x_positionì€ 0ì—ì„œ ì‹œì‘í•˜ì—¬ ê³„ì†í•´ì„œ ì‘ì•„ì§‘ë‹ˆë‹¤.
 
-	double tmp = game->spike_x_position; // redrawÇÔ¼ö¸¦ ÅëÇØ ¿¹Àü ÀÌ¹ÌÁö¸¦ Áö¿ì±â À§ÇØ ¿¹Àü À§Ä¡¸¦ ÀÓ½ÃÀúÀå
+	double tmp = game->spike_x_position; // redrawí•¨ìˆ˜ë¥¼ í†µí•´ ì˜ˆì „ ì´ë¯¸ì§€ë¥¼ ì§€ìš°ê¸° ìœ„í•´ ì˜ˆì „ ìœ„ì¹˜ë¥¼ ì„ì‹œì €ì¥
 	game->spike_x_position -= game->spike_x_speed;
-	if( abs( (int)tmp - (int)(game->spike_x_position) ) >= 1 ) // ¿¹Àü spike xÁÂÇ¥¿Í ÇöÀç xÁÂÇ¥ÀÇ Â÷ÀÌ°¡ 1 ³ª¸é ÀÌ¹ÌÁö¸¦ ´Ù½Ã ±×¸°´Ù. redrawÇÔ¼ö »ç¿ë
+	if( abs( (int)tmp - (int)(game->spike_x_position) ) >= 1 ) // ì˜ˆì „ spike xì¢Œí‘œì™€ í˜„ì¬ xì¢Œí‘œì˜ ì°¨ì´ê°€ 1 ë‚˜ë©´ ì´ë¯¸ì§€ë¥¼ ë‹¤ì‹œ ê·¸ë¦°ë‹¤. redrawí•¨ìˆ˜ ì‚¬ìš©
 	{
 		redraw_triangle(
 				stage_position[game_count-1][game->game_number][0] + spike_position[0] + (int)(game->spike_x_position),
@@ -612,7 +612,7 @@ void change_spike_position(game_t *game){
 		);
 	}
 
-	if( game->spike_x_position <= -1 * spike_path_length) // ¸¸¾à spike xÁÂÇ¥°¡ -150 ÀÌÇÏ·Î ¶³¾îÁö°Ô µÇ¸é spike¸¦ Áö¿î´Ù.
+	if( game->spike_x_position <= -1 * spike_path_length) // ë§Œì•½ spike xì¢Œí‘œê°€ -150 ì´í•˜ë¡œ ë–¨ì–´ì§€ê²Œ ë˜ë©´ spikeë¥¼ ì§€ìš´ë‹¤.
 	{
 
 		draw_triangle(
@@ -620,7 +620,7 @@ void change_spike_position(game_t *game){
 			stage_position[game_count-1][game->game_number][1] + spike_position[1],
 			spike_size[0], spike_size[1], game->game_background_color
 			);
-		// ¾ø¾îµµ µÉ °Í °°¾Æ¿ä!
+		// ì—†ì–´ë„ ë  ê²ƒ ê°™ì•„ìš”!
 		// game->spike_x_position = 0;
 		// game->spike_x_speed = spike_speed;
 		game->is_spike_exist = 0;

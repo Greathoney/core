@@ -107,7 +107,7 @@ const int spike_path_length = 150;  // 가시가 걸어다닐 총 길이
 const double spike_speed = 1;  // function of generation spike
 const int spike_probability = 300;  // use function of generate_spike
 const int spike_ratio = 3;
-const int spike_speed_dev = 0.3;
+const double spike_speed_dev = 0.3;
 const int spike_speed_ratio = 9;
 
 const double jump_ball_speed = 3;  // needs casting to integer

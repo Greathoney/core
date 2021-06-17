@@ -54,8 +54,8 @@ typedef struct game{
 // 프레임간의 딜레이 시간
 const int fps_delay = 33000;  // unit: micro second
 
-const rgb_t ball_color = { 31, 63, 0 };
-const rgb_t platform_color = { 20, 40, 20 };
+const rgb_t ball_color = { 31, 63, 31 };
+const rgb_t platform_color = { 0, 0, 0 };
 const rgb_t spike_color = {31, 63, 31 };
 const rgb_t background_color_mode_0 = { 31, 63, 31 };
 const rgb_t background_color_mode_1[4] = { { 31, 0, 0 }, { 0, 63, 0 }, { 0, 0, 31 }, { 0, 0, 0 } };
@@ -67,20 +67,20 @@ const int background_position[4][4][2][2] = { { { { 0, 0 }, { DISPLAY_WIDTH, DIS
 												  { { -1, -1 }, { -1, -1 } },
 												  { { -1, -1 }, { -1, -1 } } },
 
-										      { { { 0, 0 }, { DISPLAY_WIDTH/2, DISPLAY_HEIGHT } },
-											    { { DISPLAY_WIDTH/2, 0 }, { DISPLAY_WIDTH/2, DISPLAY_HEIGHT } },
+										      { { { 0, 0 }, { DISPLAY_WIDTH/2+1, DISPLAY_HEIGHT } },
+											    { { DISPLAY_WIDTH/2, 0 }, { DISPLAY_WIDTH/2-1, DISPLAY_HEIGHT } },
 											    { { -1, -1 }, { -1, -1 } },
 											    { { -1, -1 }, { -1, -1 } } },
 
-											  { { { 0, 0 }, { DISPLAY_WIDTH/2, DISPLAY_HEIGHT/2 } },
-											    { { DISPLAY_WIDTH/2, 0 }, { DISPLAY_WIDTH/2, DISPLAY_HEIGHT } },
-												{ { 0, DISPLAY_HEIGHT/2 }, { DISPLAY_WIDTH/2, DISPLAY_HEIGHT/2 } },
+											  { { { 0, 0 }, { DISPLAY_WIDTH/2+1, DISPLAY_HEIGHT/2 } },
+											    { { DISPLAY_WIDTH/2, 0 }, { DISPLAY_WIDTH/2-1, DISPLAY_HEIGHT } },
+												{ { -1, DISPLAY_HEIGHT/2 }, { DISPLAY_WIDTH/2+1, DISPLAY_HEIGHT/2 } },
 												{ { -1, -1 }, { -1, -1 } } },
 
-											  { { { 0, 0 }, { DISPLAY_WIDTH/2, DISPLAY_HEIGHT/2 } },
-											    { { DISPLAY_WIDTH/2, 0 }, { DISPLAY_WIDTH/2, DISPLAY_HEIGHT/2 } },
-												{ { 0, DISPLAY_HEIGHT/2 }, { DISPLAY_WIDTH/2, DISPLAY_HEIGHT/2 } },
-												{ { DISPLAY_WIDTH/2, DISPLAY_HEIGHT/2 }, { DISPLAY_WIDTH/2, DISPLAY_HEIGHT/2 } } }
+											  { { { 0, 0 }, { DISPLAY_WIDTH/2+1, DISPLAY_HEIGHT/2 } },
+											    { { DISPLAY_WIDTH/2, 0 }, { DISPLAY_WIDTH/2-1, DISPLAY_HEIGHT/2 } },
+												{ { -1, DISPLAY_HEIGHT/2 }, { DISPLAY_WIDTH/2+1, DISPLAY_HEIGHT/2 } },
+												{ { DISPLAY_WIDTH/2, DISPLAY_HEIGHT/2 }, { DISPLAY_WIDTH/2-1, DISPLAY_HEIGHT/2 } } }
 
 
 											};
@@ -113,6 +113,10 @@ const int spike_speed_ratio = 9;
 const double jump_ball_speed = 3;  // needs casting to integer
 const double ball_gravity = 0.12;   // nees casting to integer
 
+const int count_1 = 20;
+const int count_2 = 50;
+const int count_3 = 90;
+
 /* Global Variables */
 int is_button_pushed[4] = { 0, 0, 0, 0 };
 
@@ -121,6 +125,7 @@ int game_mode = 0;  // 0: game ready, 1: game playing 2: game over
 int game_count = 0;  // how many game
 
 int is_background_paint = 0;  // flag variable
+
 
 game_t games[4];
 
@@ -144,7 +149,7 @@ void is_spike_touched(game_t *);
 
 int main(void)
 {
-	srand(time(NULL));
+//	srand(time(NULL));
     /* buttion initlization */
     int Status;
 
@@ -305,19 +310,19 @@ void game_mode_1(){
 	playtime = ( (playtime & 0x00000F00) >> 8 )*60 +( (playtime & 0x000000F0) >> 4 )*10 +(playtime & 0x0000000F);
 	//xil_printf("playtime : (16 radix)%xsec (10 radix)%dsec \r\n",playtime);
 
-	if(playtime == 30 && game_count == 1) // playtime이 30초가 되고 game_count가 1개면 2개로 만들어준다.
+	if(playtime == count_1 && game_count == 1) // playtime이 30초가 되고 game_count가 1개면 2개로 만들어준다.
 	{
 		game_count = 2;
 		is_background_paint = 0;
 		games[1].is_game_exist = 1;
 	}
-	else if(playtime == 60 && game_count == 2)// playtime이 60초가 되고 game_count가 2개면 3개로 만들어준다.
+	else if(playtime == count_2 && game_count == 2)// playtime이 60초가 되고 game_count가 2개면 3개로 만들어준다.
 	{
 		game_count = 3;
 		is_background_paint = 0;
 		games[2].is_game_exist = 1;
 	}
-	else if(playtime == 90 && game_count == 3)// playtime이 90초가 되고 game_count가 3개면 4개로 만들어준다.
+	else if(playtime == count_3 && game_count == 3)// playtime이 90초가 되고 game_count가 3개면 4개로 만들어준다.
 	{
 		game_count = 4;
 		is_background_paint = 0;
@@ -439,13 +444,13 @@ void redraw_triangle(int draw_start_pos_X, int draw_draw_start_pos_Y, int draw_l
 
 
 void draw_circle(int start_pos_X, int start_pos_Y, int length_X, int length_Y, rgb_t color){
-	int x ,y; // 원점 대칭인 i,j를 다시 원점대칭함
+	double x ,y; // 원점 대칭인 i,j를 다시 원점대칭함
 	for (int i = DISPLAY_HEIGHT - start_pos_Y - 1; i >= DISPLAY_HEIGHT - start_pos_Y - length_Y; i--) {
 		for (int j = DISPLAY_WIDTH - start_pos_X - 1; j >= DISPLAY_WIDTH - start_pos_X - length_X; j--) {
 			// if (0)  // 해당 픽셀에 색깔을 넣어야 하는지 판단, i, j, length_X, length_Y, start_pos_X, start_pos_Y, DISPLAY_HEIGHT, DISPLAY_WIDTH 을 이용하여 판별
 			x = DISPLAY_WIDTH - start_pos_X - 1 - j;
 			y = DISPLAY_HEIGHT - start_pos_Y - 1 - i;
-			 if(((y - (length_Y/2))*(y - (length_Y/2)) + (x - (length_X/2))*(x - (length_X/2))) <= (length_X/2)*(length_X/2)){ // 원의 방정식
+			 if(((y - ((double)length_Y/2 - 0.5))*(y - ((double)length_Y/2 - 0.5)) + (x - ((double)length_X/2 - 0.5))*(x - ((double)length_X/2) - 0.5)) < ((double)length_X/2)*((double)length_X/2)){ // 원의 방정식
 //			if(((y-(length_Y/2)) * (y-(length_Y/2)) * (length_X/2) * (length_X/2) +
 //			    (x-(length_X/2)) * (x-(length_X/2) * (length_Y/2) * (length_Y/2))) <=
 //				(length_X/2) * (length_X/2) * (length_Y/2) * (length_Y/2)){ // 타원의 방정식

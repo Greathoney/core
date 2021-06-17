@@ -6,7 +6,7 @@
 |-------|--------|
 | 손원락 | [@dnjsfkr95](https://github.com/dnjsfkr95) |
 | 윤대헌 | [@Greathoney](https://github.com/Greathoney) |
-| 이승준 | [@dmssud002](hhttps://github.com/dmssud002) |
+| 이승준 | [@dmssud002](https://github.com/dmssud002) |
 
 
 ## Introduction

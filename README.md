@@ -22,10 +22,27 @@
 ## Game play
 [![Watch the video](https://img.youtube.com/vi/o95wV5epmZo/maxresdefault.jpg)](https://youtu.be/o95wV5epmZo)
 
+## Prerequisite
+
+Vivado 2019
+
 ## How to Play
 
-![main image](images/path.png)
+![image](images/path.png)
 
 Core를 실행해보려면 SDK path에서 ip_repo 폴더가 절대 경로라서, 업데이트 해 주어야 합니다.
 
-SDK에서 디버깅 버튼을 누르면 실행하게 되고 
+SDK에서 디버깅 버튼을 누르면 실행하게 되고 FPGA에 성공하면 TFT-LCD에 하얀 화면이 나오고 TXT-LCD에 Game Ready가 나온다.
+
+![image](images/game_ready.png)
+
+아래 사진 버튼에서 왼쪽으로 부터 1, 2, 3, 4번인데 1번을 누르면 게임이 시작하게 된다.
+
+![image](images/buttons.png)
+
+![image](images/1.gif)
+![image](images/2.gif)
+![image](images/3.gif)
+![image](images/4.gif)
+
+가시에 닿으면 게임오버가 되고, TXT-LCD에 게임 플레이한 시간(점수)가 출력된다.

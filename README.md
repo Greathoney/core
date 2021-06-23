@@ -51,4 +51,4 @@ SDK에서 디버깅 버튼을 누르면 실행하게 되고 FPGA에 성공하면
 
 ## Content
 
-![image](images/board.jpg)
+![image](images/board.png)

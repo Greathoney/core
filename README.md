@@ -48,3 +48,7 @@ SDK에서 디버깅 버튼을 누르면 실행하게 되고 FPGA에 성공하면
 가시에 닿으면 게임오버가 되고, TXT-LCD에 게임 플레이한 시간(점수)가 출력된다.
 
 ![image](images/game_over.jpg)
+
+## Content
+
+![image](images/board.jpg)
